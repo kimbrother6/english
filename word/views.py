@@ -4,7 +4,7 @@ from .forms import englishNoteForm
 from sqlalchemy import create_engine
 import pandas as pd
 
-engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite3")
+engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite3") #sqlite:////home/hjune/english/db.sqlite3
 
 
 def english_home_page(request):
