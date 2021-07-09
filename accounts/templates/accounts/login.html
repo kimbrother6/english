@@ -1,0 +1,28 @@
+{% extends 'english/base.html'%}
+{% load static%}
+
+{% block head %}
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'word/styles.css' %}">
+{% endblock head %}
+
+{% block content %}
+    <div class='container'>
+        <h1>Login</h1>
+
+        <form method='POST' action="{% url 'accounts:login' %}">{% csrf_token %}
+            Username:
+            <br>
+            <input name='username' type='text'>
+            <br>
+            
+            <br>
+            Password:
+            <br>
+            <input name='password' type='text'>
+            <br><br>
+            <input type='submit' class='btn btn-primary' value='login'>
+        </form>
+        <a href="{% url 'accounts:signup' %}">signup</a><br>
+    <a class="btn btn-outline-primary" href="{% url 'english:home-page' %}" role="button">취소</a>
+{% endblock content %}
