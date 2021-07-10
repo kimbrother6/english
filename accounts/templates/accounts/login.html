@@ -8,21 +8,21 @@
 
 {% block content %}
     <div class='container'>
-        <h1>Login</h1>
+        <h1>로그인</h1>
 
         <form method='POST' action="{% url 'accounts:login' %}">{% csrf_token %}
-            Username:
+            사용자 이름:
             <br>
             <input name='username' type='text'>
             <br>
             
             <br>
-            Password:
+            비밀번호:
             <br>
             <input name='password' type='text'>
             <br><br>
             <input type='submit' class='btn btn-primary' value='login'>
         </form>
-        <a href="{% url 'accounts:signup' %}">signup</a><br>
+        아직 회원가입을 하지 않으셨나요? <a href="{% url 'accounts:signup' %}">회원가입 하기</a><br>
     <a class="btn btn-outline-primary" href="{% url 'english:home-page' %}" role="button">취소</a>
 {% endblock content %}

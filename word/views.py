@@ -4,23 +4,28 @@ from .forms import englishNoteForm
 from sqlalchemy import create_engine
 import pandas as pd
 
+
 engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite3") #sqlite:////home/hjune/english/db.sqlite3
 
 
 def english_home_page(request):
-    word = Word.objects.all()
+    word = Word.objects.filter(user=request.user.username)
 
     with engine.connect() as conn, conn.begin():
         data = pd.read_sql_table("word_word", conn)
     class_list = data['Class'].unique()
-
-    return render(request, 'english/home.html', {'word': word, 'class_list': class_list})
+    print(request.user.username)
+    if len(word) == 0:
+        return render(request, 'english/no_data.html')
+    else:
+        return render(request, 'english/home.html', {'word': word, 'class_list': class_list})
 
 def create(request):
     if request.method == 'POST':
         post_form = englishNoteForm(request.POST)
         post_form = post_form.save(commit=False)
         post_form.memorize = '0'
+        post_form.user = request.user.username
         post_form.save()
 
         return redirect('english:home-page')

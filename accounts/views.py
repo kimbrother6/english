@@ -6,6 +6,7 @@ from django.contrib import auth
 def signup(request):
     if request.method == 'POST':
         if request.POST['password1'] == request.POST['password2']:
+            print(request.POST['username'], request.POST['password1'])
             user = User.objects.create_user(
                 username=request.POST['username'], password=request.POST['password1'])
             auth.login(request, user)
@@ -29,3 +30,6 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('english:home-page')
+
+def account(request):
+    return render(request, 'accounts/account.html')

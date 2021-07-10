@@ -1,0 +1,18 @@
+{% extends './base.html'%}
+{% load static%}
+
+{% block head %}
+    <title>English</title>
+    <link rel="stylesheet" href="{% static 'word/styles.css' %}">
+{% endblock head %}
+
+{% block content %}
+    {% if request.user.is_authenticated  %}
+        아무런 단어가 없습니다! 지금 바로 만드세요!<br>
+        <a href="{% url 'english:create' %}" class='btn btn-primary'>만들기</a>
+    {% else %}
+        이 서비스는 로그인을 하셔야 사용할 수 있습니다. 로그인을 진행 해 주세요.
+        <a href="{% url 'accounts:login' %}" class='btn btn-primary'>로그인</a>
+    {% endif %}
+
+{% endblock content %}

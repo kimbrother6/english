@@ -3,6 +3,7 @@ from django.db.models.fields import CharField
 
 # Create your models here.
 class Word(models.Model):
+    user = models.EmailField(null=True, blank=True)
     EN_word = models.TextField(null=True, blank=True)
     KO_word = models.TextField(null=True, blank=True)
     memorize = models.CharField(max_length=50, null=True, blank=True)

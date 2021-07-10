@@ -1,0 +1,12 @@
+{% extends 'english/base.html'%}
+{% load static%}
+
+{% block head %}
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'word/styles.css' %}">
+{% endblock head %}
+
+{% block content %}
+    사용자 이름: {{request.user.username}}<br>
+    <a class="btn btn-danger" href="{% url 'accounts:logout' %}" onclick="return confirm('정말 로그아웃 하시겠습니까?');">로그아웃</a>
+{% endblock content %}

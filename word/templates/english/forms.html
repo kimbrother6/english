@@ -8,7 +8,13 @@
 
 {% block content %}
     <form method="post">{% csrf_token %}
-        {{form.as_ul}}
+        <label>영어 단어</label>
+        {{form.EN_word}}
+        <label>한국어 단어</label>
+        {{form.KO_word}}
+        <label>분류</label>
+        {{form.Class}}
+
         <input type='submit' value='전송'>
     </form>
     <a class="btn btn-outline-primary" href="{% url 'english:home-page' %}" role="button">취소</a>
