@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .models import Word
 from .forms import englishNoteForm
@@ -9,16 +10,17 @@ engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite
 
 
 def english_home_page(request):
-    word = Word.objects.filter(user=request.user.username)
+    user=request.user.username
+    word = Word.objects.filter(user=user)
 
     with engine.connect() as conn, conn.begin():
         data = pd.read_sql_table("word_word", conn)
-    class_list = data['Class'].unique()
-    print(request.user.username)
+    user_data = data[data['user']==user]
+    user_class_list = user_data['Class'].unique()
     if len(word) == 0:
         return render(request, 'english/no_data.html')
     else:
-        return render(request, 'english/home.html', {'word': word, 'class_list': class_list})
+        return render(request, 'english/home.html', {'word': word, 'class_list': user_class_list})
 
 def create(request):
     if request.method == 'POST':
@@ -34,7 +36,7 @@ def create(request):
         return render(request, 'english/forms.html', {'form': form})
 
 def word_card(request, Class, memorize):
-    words = Word.objects.filter(Class=Class)
+    words = Word.objects.filter(Class=Class).filter(user = request.user.username)
 
     if memorize != 'none':
         words = words.filter(memorize=memorize)
