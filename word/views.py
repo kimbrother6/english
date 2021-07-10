@@ -47,6 +47,8 @@ def update(request, id):
     word = Word.objects.get(id=id)
     if request.method == 'POST':
         post_form = englishNoteForm(request.POST, instance=word)
+        post_form = post_form.save(commit=False)
+        post_form.user = request.user.username
         post_form.save()
 
         return redirect('english:home-page')

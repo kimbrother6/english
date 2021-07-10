@@ -26,12 +26,9 @@
                         <li><a class="dropdown-item" href="{% url 'english:home-page' %}">영어 단어노트</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'english:create' %}">영어 단어 작성</a></li>
-                        <li><a class="dropdown-item" href="#">영어 단어 외우기</a></li>
                     </ul>
                 </li>
 
-
-                
         </ul>
         <div class='navbar-text'>
             {% if request.user.is_authenticated  %}
