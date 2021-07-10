@@ -13,15 +13,15 @@
         <form method='POST' action="{% url 'accounts:signup' %}">{% csrf_token %}
             사용자 이름:
             <br>
-            <input name='username' type='text'>
+            <input autocomplete="off" name='username' type='text'>
             <br>
             비밀번호:
             <br>
-            <input name='password1' type='password'>
+            <input autocomplete="off" name='password1' type='password'>
             <br>
             비밀번호 확인:
             <br>
-            <input name='password2' type='password'>
+            <input autocomplete="off" name='password2' type='password'>
             <br><br>
             <input type='submit' class='btn btn-primary' value='signup'>
         </form>
