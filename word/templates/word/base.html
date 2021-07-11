@@ -11,7 +11,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'english:home-page' %}">노트</a>
+        <a class="navbar-brand" href="{% url 'word:home-page' %}">노트</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,9 +23,9 @@
                         영어
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'english:home-page' %}">영어 단어노트</a></li>
+                        <li><a class="dropdown-item" href="{% url 'word:home-page' %}">영어 단어노트</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'english:create' %}">영어 단어 작성</a></li>
+                        <li><a class="dropdown-item" href="{% url 'word:create' %}">영어 단어 작성</a></li>
                     </ul>
                 </li>
 

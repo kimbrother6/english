@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <title>English</title>
+    <title>word</title>
     <link rel="stylesheet" href="{% static 'word/styles.css' %}">
 {% endblock head %}
 
@@ -10,7 +10,7 @@
 <body>
     {% if check_content_exists == 'True' %}
         <p>아무런 단어가 포함되어 있지 않습니다.</p>
-        <a href="{% url 'english:home-page'%}" class="btn btn-outline-primary" href="#" role="button">돌아가기</a>
+        <a href="{% url 'word:home-page'%}" class="btn btn-outline-primary" href="#" role="button">돌아가기</a>
     {% else %}
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> <!--data-bs-interval="false" 은 자동회전 안하게 하는 코드-->
     
@@ -32,14 +32,14 @@
                                     <div class='word-card-text'>
                                         {{word.KO_word|linebreaks}}
                                     </div>
-                                    <a href="{% url 'english:update' word.id %}"><div class='button edit-btn'>수정</div></a>
+                                    <a href="{% url 'word:update' word.id %}"><div class='button edit-btn'>수정</div></a>
                                 </div>
                                 <div class="flip-card-back">
                                     <div class='helper'></div>
                                     <div class='word-card-text'>
                                         {{word.EN_word|linebreaks}}
                                     </div>
-                                    <a href="{% url 'english:update' word.id %}"><div class='button edit-btn'>수정</div></a>
+                                    <a href="{% url 'word:update' word.id %}"><div class='button edit-btn'>수정</div></a>
                                 </div>
                                 
                             </div>

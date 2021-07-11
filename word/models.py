@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.fields import CharField
+from django import forms
+from django.db.models import fields
 
 # Create your models here.
 class Word(models.Model):
@@ -11,3 +13,8 @@ class Word(models.Model):
 
     def __str__(self):
         return self.EN_word
+
+class WordForm(forms.ModelForm):
+    class Meta:
+        model = Word
+        fields = '__all__'
