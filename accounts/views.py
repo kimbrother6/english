@@ -10,7 +10,7 @@ def signup(request):
             user = User.objects.create_user(
                 username=request.POST['username'], password=request.POST['password1'])
             auth.login(request, user)
-            return redirect('english:home-page')
+            return redirect('word:home-page')
         return render(request, 'accounts/signup.html')
     return render(request, 'accounts/signup.html')
 
@@ -21,7 +21,7 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('english:home-page')
+            return redirect('word:home-page')
         else:
             return render(request, 'accounts/login.html', {'error': 'username or password is incorrect'})
     else:
@@ -29,7 +29,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('english:home-page')
+    return redirect('word:home-page')
 
 def account(request):
     return render(request, 'accounts/account.html')

@@ -1,4 +1,4 @@
-{% extends 'english/base.html'%}
+{% extends 'word/base.html'%}
 {% load static%}
 
 {% block head %}
@@ -25,5 +25,5 @@
             <br><br>
             <input type='submit' class='btn btn-primary' value='signup'>
         </form>
-    <a class="btn btn-outline-primary" href="{% url 'english:home-page' %}" role="button">취소</a>
+    <a class="btn btn-outline-primary" href="{% url 'word:home-page' %}" role="button">취소</a>
 {% endblock content %}

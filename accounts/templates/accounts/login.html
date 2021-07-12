@@ -1,4 +1,4 @@
-{% extends 'english/base.html'%}
+{% extends 'word/base.html'%}
 {% load static%}
 
 {% block head %}
@@ -24,5 +24,5 @@
             <input type='submit' class='btn btn-primary' value='login'>
         </form>
         아직 회원가입을 하지 않으셨나요? <a href="{% url 'accounts:signup' %}">회원가입 하기</a><br>
-    <a class="btn btn-outline-primary" href="{% url 'english:home-page' %}" role="button">취소</a>
+    <a class="btn btn-outline-primary" href="{% url 'word:home-page' %}" role="button">취소</a>
 {% endblock content %}
