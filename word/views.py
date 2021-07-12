@@ -65,17 +65,10 @@ def delete(request ,id):
     word.delete()
     return redirect('word:home-page')
 
-def write(request, Class):
-    word = Word.objects.filter(Class=Class)
-    if request.method == 'POST':
-        if request.POST['EN_answer'] == word[0].EN_word:
-            print('정답입니다.')
-            return redirect('word:home-page')
-        else: 
-            print('틀렸습니다.')
-            return redirect('word:home-page')
-    else:
-        return render(request, 'word/write.html', {'word': word})
+def write(request, Class, EN_word): #Class는 method가 GET방식 일 때는 Class이고, POST방식 일 때는 EN_word 이다.
+    words = Word.objects.filter(Class=Class)
+    words_len_0 = list_len(words, 0)
+    return render(request, 'word/write.html', {'words': words, 'words_len_0': words_len_0, 'Class': Class, 'EN_word': EN_word})
 
 def list_len(list, num):
     new_list = []

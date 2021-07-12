@@ -7,14 +7,58 @@
 {% endblock head %}
 
 {% block content %}
-    {% for word in word %}
-    {{word.KO_word}}
-        <form method="post" autocomplete="off" action="{% url 'word:T_F' %}">{% csrf_token %}
+    {% if request.method == "POST" %}
+        {% if request.POST.EN_answer == EN_word %}
+            <form method="GET" action="{% url 'word:write' Class None %}"> <!--EN_word가 필요하지않으니 None을 넘겨줌-->
+                정답입니다.
+                <input type='submit' value='확인'>
+            </form>
+        {% else %}
+            <form method="GET" action="{% url 'word:write' Class None %}"><!--EN_word가 필요하지않으니 None을 넘겨줌-->
+                틀렸습니다.
+                <input type='submit' value='확인'>
+            </form>
+        {% endif %}
+    {% else %}
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> <!--data-bs-interval="false" 은 자동회전 안하게 하는 코드-->
+        
+            <div class="carousel-indicators"> <!--밑에 버튼을 만들어주는 코드-->
+                {% for num in words_len_0 %} 
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{num}}" {% if num == '0' %}class="active"{% endif %}></button>
+                {% endfor %}
+            </div>
 
-            <input type="text" id="EN_answer" name="EN_answer" placeholder='영어로 정답을 입력하세요.'><br>
+            <div class="carousel-inner"> <!--한국어, 영어 카드 html-->
+                {% for word in words %} 
+                    <div class="carousel-item {% if word == words.0 %}active{% endif %}">
+                        <div class='card-word'>
+                            {{CLass}}
+                            <form method="post" autocomplete="off" action="{% url 'word:write' Class word.EN_word %}">{% csrf_token %}
+                                {{word.KO_word}}
+                                <input type="text" id="EN_answer" name="EN_answer" placeholder='영어로 정답을 입력하세요.'><br>
 
-            <input type='submit' value='전송'>
-        </form>
-    {% endfor %}
-    <a class="btn btn-outline-primary" href="{% url 'word:home-page' %}" role="button">글쓰기 취소</a>
+                                <input type='submit' value='정답'>
+                            </form>
+                        
+                        </div>
+                    </div>
+                {% endfor %}
+
+            <button class=" carousel-control-prev bs-button" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next bs-button" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            </div>
+            </div>
+        </div>
+
+        <a class="btn btn-outline-primary" href="{% url 'word:home-page' %}" role="button">돌아가기</a>
+    {% endif %}
+
+
+    
 {% endblock content %}
