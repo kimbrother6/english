@@ -35,9 +35,28 @@
     <h2 style='clear: left;'>그외</h2>
     {{listName}}
     <a href="{% url 'word:write' listName None %}" class='a'><!--EN_word가 필요하지않으니 None을 넘겨줌-->
-    <div class='note'>
-        <div class="helper"></div>
-        서술형
-    </div>
+      <div class='note'>
+          <div class="helper"></div>
+          서술형
+      </div>
     </a>
+
+    <div class="dropdown note">
+        <div class="helper"></div>
+        <button class="btn btn-secondary dropdown-toggle bs-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            망각 곡선
+        </button>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="{% url 'word:forgetting-curve' listName '1' %}">1일</a></li>
+            <li><a class="dropdown-item" href="{% url 'word:forgetting-curve' listName '2' %}">2일</a></li>
+            <li><a class="dropdown-item" href="{% url 'word:forgetting-curve' listName '3' %}">3일</a></li>
+            <li><a class="dropdown-item" href="{% url 'word:forgetting-curve' listName '7' %}">7일</a></li>
+            <li><a class="dropdown-item" href="{% url 'word:forgetting-curve' listName '15' %}">15일</a></li>
+            <li><a class="dropdown-item" href="{% url 'word:forgetting-curve' listName '30' %}">30일</a></li>
+
+        </ul>
+    </div>
+
+
 {% endblock content %}
