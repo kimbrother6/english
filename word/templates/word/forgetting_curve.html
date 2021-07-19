@@ -22,7 +22,7 @@
 
         <div class="carousel-inner"> <!--한국어, 영어 카드 html-->
             {% for word in some_day_post %} 
-                <div class="carousel-item {% if word == words.0 %}active{% endif %}">
+                <div class="carousel-item {% if word == some_day_post.0 %}active{% endif %}">
                     <div class='card-word'>
 
                         <div class="flip-card">

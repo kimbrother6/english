@@ -74,13 +74,12 @@ def write(request, Class, EN_word): #Class는 method가 GET방식 일 때는 Cla
 
 def forgetting_curve(request, Class, some_day):#some_day는 몇일 전의 단어를 볼 건지 넘겨주는 파라미터
     today =  datetime.now(timezone('Asia/Seoul')) #단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
-    some_day = today - timedelta(days=1)
+    some_day = today - timedelta(days=int(some_day))
     word = Word.objects.filter(Class=Class)
     some_day_post = word.filter(dt_created = some_day)# 특정 날짜가 지난 단어를 불러옴(?)
 
     words_len_0 = list_len(some_day_post, 0)
-
-    print(type(str(len(some_day_post)==0)))
+    print(some_day_post)
     return render(request, 'word/forgetting_curve.html', {'some_day_post':some_day_post, 'words_len_0': words_len_0, 'check_content_exists': str(len(some_day_post)==0)})
 
 

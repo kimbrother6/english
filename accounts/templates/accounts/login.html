@@ -4,6 +4,7 @@
 {% block head %}
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'word/styles.css' %}">
+    
 {% endblock head %}
 
 {% block content %}
@@ -13,16 +14,21 @@
         <form method='POST' action="{% url 'accounts:login' %}">{% csrf_token %}
             사용자 이름:
             <br>
-            <input autocomplete="off" name='username' type='text' auto>
+            <input autocomplete="off" name='username' id='username' type='text' auto>
             <br>
             
             <br>
             비밀번호:
             <br>
-            <input autocomplete="off" name='password' type='password'>
+            <input autocomplete="off" name='password' id='password' type='password'>
             <br><br>
-            <input type='submit' class='btn btn-primary' value='login'>
+            <p class='error'>{{error}}<p>
+            <input type='submit' id='submit' class="btn btn-primary" disabled="True" value='로그인'>
         </form>
         아직 회원가입을 하지 않으셨나요? <a href="{% url 'accounts:signup' %}">회원가입 하기</a><br>
     <a class="btn btn-outline-primary" href="{% url 'word:home-page' %}" role="button">취소</a>
+
+    
+
+    <script src="{% static 'accounts/js.js' %}"></script>
 {% endblock content %}

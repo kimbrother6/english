@@ -11,7 +11,8 @@ def signup(request):
                 username=request.POST['username'], password=request.POST['password1'])
             auth.login(request, user)
             return redirect('word:home-page')
-        return render(request, 'accounts/signup.html')
+        else: 
+          return render(request, 'accounts/signup.html', {'error': '비밀번호가 '})
     return render(request, 'accounts/signup.html')
 
 def login(request):
@@ -23,7 +24,7 @@ def login(request):
             auth.login(request, user)
             return redirect('word:home-page')
         else:
-            return render(request, 'accounts/login.html', {'error': 'username or password is incorrect'})
+            return render(request, 'accounts/login.html', {'error': '사용자 이름이나 비밀번호가 잘못되었습니다'})
     else:
         return render(request, 'accounts/login.html')
 
