@@ -7,12 +7,16 @@ from datetime import datetime, timedelta
 from pytz import timezone
 
 
-engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite3") #sqlite:////home/hjune/english/db.sqlite3
+engine = create_engine("sqlite:////home/hjune/english/db.sqlite3") #
 
 
 def word_home_page(request):
     user=request.user.username
     word = Word.objects.filter(user=user)
+
+
+    today =  datetime.now(timezone('Asia/Seoul')) #단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
+    today_day_post_len = len(word.filter(dt_created = today))
 
     with engine.connect() as conn, conn.begin():
         data = pd.read_sql_table("word_word", conn)
@@ -21,7 +25,7 @@ def word_home_page(request):
     if len(word) == 0:
         return render(request, 'word/no_data.html')
     else:
-        return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list})
+        return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_day_post_len': today_day_post_len})
 
 def create(request):
     if request.method == 'POST':

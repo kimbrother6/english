@@ -14,13 +14,13 @@
         <form method='POST' action="{% url 'accounts:login' %}">{% csrf_token %}
             사용자 이름:
             <br>
-            <input autocomplete="off" name='username' id='username' type='text' auto>
+            <input autocomplete="off" name='username' id='login-username' type='text' auto>
             <br>
             
             <br>
             비밀번호:
             <br>
-            <input autocomplete="off" name='password' id='password' type='password'>
+            <input autocomplete="off" name='password' id='login-password' type='password'>
             <br><br>
             <p class='error'>{{error}}<p>
             <input type='submit' id='submit' class="btn btn-primary" disabled="True" value='로그인'>
