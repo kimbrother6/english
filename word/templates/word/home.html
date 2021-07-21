@@ -1,3 +1,4 @@
+
 {% extends './base.html'%}
 {% load static%}
 
@@ -8,6 +9,14 @@
 
 {% block content %}
 <body>
+<div class="divider-top">
+  <span id="number-of-words-added">오늘추가된 단어 {{today_day_post_len}}개</span> 
+
+<a class="btn btn-outline-primary" href="{% url 'word:create' %}" id="btn-create-word">영어단어 추가</a>
+
+</div>
+
+<hr class="solid">
     <div class='list-box'>
 
         {% for Class in class_list%}
@@ -15,7 +24,7 @@
 
             <a class='list-title-a' href="{% url 'word:view-class' Class%}"> 
               <h3 class='list-title'>{{Class}}<br></h3>
-            </a><span id="number-of-words-added">-오늘추가된 단어 {{today_day_post_len}}개</span>
+            </a>
             <div class='word-list'>
                 {% for word in word %}
                     {% if word.Class == Class%}
@@ -34,6 +43,6 @@
         {% endfor %}
 
     </div>
-    <a class="btn btn-outline-primary" href="{% url 'word:create' %}">영어단어 추가</a>
+    
 </body>
 {% endblock content %}

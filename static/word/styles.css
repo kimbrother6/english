@@ -99,6 +99,11 @@
 .word .edit-btn {
     color: green;
 }
+
+#btn-create-word {
+  display: inline-block;
+  float: right;
+}
 /* 웹에서 받아온 카드 뒤집는 css*/
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {

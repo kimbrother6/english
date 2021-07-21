@@ -5,18 +5,22 @@
 }
 
 .navbar {
-    width: 1440px;
+    width: 1080px;
     margin-left: auto; 
     margin-right: auto;
 }
 
 .page-elem {
 
-    width: 1440px;
+    width: 1080px;
     margin-left: auto; 
     margin-right: auto;
 }
 
 .error {
   color: red;
+}
+
+.divider-top {
+  text-align: center;
 }
