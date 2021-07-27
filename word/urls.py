@@ -4,6 +4,7 @@ from . import views
 app_name = 'word'
 urlpatterns = [
     path('', views.word_home_page, name='home-page'),
+    path('today_post_len_ajax/', views.today_post_len_ajax, name='ajax'),
     path('create/', views.create, name='create'),
     path('<int:id>/edit/', views.update, name='update'),
     path('<int:id>/delete/', views.delete, name='delete'),

@@ -104,6 +104,43 @@
   display: inline-block;
   float: right;
 }
+
+.class-card {
+  background-color: rgb(30, 34, 48);
+}
+
+.class-card .card-body .card-title {
+  color: white;
+}
+
+.class-card .card-body .word-len {
+  color: rgb(126, 137, 162);
+}
+
+.class-card .card-body .word-user {
+  color: rgb(126, 137, 162);
+}
+
+#number-of-words-added {
+  color: white;
+}
+
+.class-card {
+  margin: 0 5px 10px 5px;
+}
+
+.w-350 {
+  width: 342px;
+}
+
+.word-len {
+  font-size: 12px;
+}
+
+.word-user {
+  font-size: 15px;
+}
+
 /* 웹에서 받아온 카드 뒤집는 css*/
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {

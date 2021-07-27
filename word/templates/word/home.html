@@ -10,7 +10,7 @@
 {% block content %}
 <body>
 <div class="divider-top">
-  <span id="number-of-words-added">오늘추가된 단어 {{today_day_post_len}}개</span> 
+  <span id="number-of-words-added">오늘 추가된 단어: 0개</span> 
 
 <a class="btn btn-outline-primary" href="{% url 'word:create' %}" id="btn-create-word">영어단어 추가</a>
 
@@ -20,7 +20,7 @@
     <div class='list-box'>
 
         {% for Class in class_list%}
-        <div class='class-list'>
+        {% comment %} <div class='class-list'>
 
             <a class='list-title-a' href="{% url 'word:view-class' Class%}"> 
               <h3 class='list-title'>{{Class}}<br></h3>
@@ -38,11 +38,31 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            
+        </div> {% endcomment %}
+        <div class="container col-12">
+          <a href="{% url 'word:view-class' Class%}">
+            <div class="card w-350 float-left class-card">
+              <div class="card-body">
+                <h5 class="card-title">{{Class}}</h5>
+                <p class="card-text word-len">00단어</p>
+                <p class="word-user">작성자</p>
+              </div>
+            </div>
+          </a>
         </div>
         {% endfor %}
 
     </div>
     
 </body>
+
+<!--이거 html코드에서 변수 정의를 하지 않고 장고에서 변수 가져오는 방법 알아야됨-->
+<script>
+    todayDayPostLen = "{{today_day_post_len}}"
+    word = "{{word}}"
+    word0 = "{{word.0}}"
+</script>
+
+
+<script src="{% static 'word/home.js' %}"></script>
 {% endblock content %}

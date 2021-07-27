@@ -1,19 +1,22 @@
 from django.contrib.auth.models import User
+from django.core import serializers
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Word, WordForm
 from sqlalchemy import create_engine
 import pandas as pd
 from datetime import datetime, timedelta
 from pytz import timezone
+import json
+from django.core.serializers import serialize
 
 #클래스별로 단어를 나누기위해 db.sqlit3를 불러옴
-# 
+#sqlite:////home/hjune/english/db.sqlite3
+
 engine = create_engine(
-    "sqlite:////home/hjune/english/db.sqlite3")
+    "sqlite:////Users/cubest_june/hj-django/english/db.sqlite3")
 
 #홈페이지
-
-
 def word_home_page(request):
     #상단에 사용자 이름을 나타내기위해 변수에 지정
     user = request.user.username
@@ -23,11 +26,10 @@ def word_home_page(request):
     # 단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
     today = datetime.now(timezone('Asia/Seoul'))
     #오늘 몇개의 단어를 추가했는지를 변수에 저장
-    today_day_post_len = len(word.filter(dt_created=today))
+    today_post_len = len(word.filter(dt_created=today))
 
     #user_class_list는 어떤 클래스가 있는지 리스트로 넘겨줌
-    with engine.connect() as conn, conn.begin():
-        data = pd.read_sql_table("word_word", conn)
+    data = load_DB_Data()
     user_data = data[data['user'] == user]
     user_class_list = user_data['Class'].unique()
 
@@ -35,13 +37,26 @@ def word_home_page(request):
     if len(word) == 0:
         return render(request, 'word/no_data.html')
     else:
-        return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_day_post_len': today_day_post_len})
+        return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_post_len': today_post_len})
+
+def today_post_len_ajax(request):
+      #상단에 사용자 이름을 나타내기위해 변수에 지정
+    user = request.user.username
+    #유저의 단어를 변수에 지정
+    word = Word.objects.filter(user=user)
+    today = datetime.now(timezone('Asia/Seoul'))
+    today_post_len = len(word.filter(dt_created=today))
+
+    return HttpResponse(today_post_len, content_type='application/json')
+
+#db.sqlite3의 word_word테이블을 리턴하는 함수
+def load_DB_Data():
+    with engine.connect() as conn, conn.begin():
+        data = pd.read_sql_table("word_word", conn)
+    return data
 
 #새로운 단어를 생성
-
-
 def create(request):
-
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
     if request.method == 'POST':
       #form에서 넘어온 값의 저장을 보류하고, memorize와 user를 추가한 후 저장한다.
@@ -57,7 +72,7 @@ def create(request):
         return render(request, 'word/forms.html', {'form': form})
 
 
-def word_card(request, Class, memorize):
+def word_card(request, Class, memorize, ):
     words = Word.objects.filter(user=request.user.username).filter(Class=Class)
 
     #memorize에 따라 디스플레이 해주는 것이라면 memorize에 따라 분류
