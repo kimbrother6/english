@@ -1,5 +1,6 @@
 
 {% extends './base.html'%}
+{% load space_to_underscore %}
 {% load static%}
 
 {% block head %}
@@ -44,8 +45,8 @@
             <div class="card w-350 float-left class-card">
               <div class="card-body">
                 <h5 class="card-title">{{Class}}</h5>
-                <p class="card-text word-len">00단어</p>
-                <p class="word-user">작성자</p>
+                <p class="card-text word-len" id="{{Class|space_to_underscore}}-len">00단어</p>
+                <p class="word-user" id="{{Class|space_to_underscore}}-user">작성자</p>
               </div>
             </div>
           </a>

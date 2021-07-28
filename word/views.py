@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.forms.utils import pretty_name
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Word, WordForm
@@ -8,7 +9,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from pytz import timezone
 import json
-from django.core.serializers import serialize
+from django.http import JsonResponse
 
 #클래스별로 단어를 나누기위해 db.sqlit3를 불러옴
 #sqlite:////home/hjune/english/db.sqlite3
@@ -40,14 +41,38 @@ def word_home_page(request):
         return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_post_len': today_post_len})
 
 def today_post_len_ajax(request):
-      #상단에 사용자 이름을 나타내기위해 변수에 지정
+    #상단에 사용자 이름을 나타내기위해 변수에 지정
     user = request.user.username
     #유저의 단어를 변수에 지정
     word = Word.objects.filter(user=user)
     today = datetime.now(timezone('Asia/Seoul'))
     today_post_len = len(word.filter(dt_created=today))
 
-    return HttpResponse(today_post_len, content_type='application/json')
+    
+    data = load_DB_Data()
+    user_data = data[data['user'] == user]
+    user_class_list = user_data['Class'].unique()
+
+    #클래스별 작성자, 클래스 단어의 수를 class_info에 넣어 js파일로 보내줌
+    class_info = {}
+
+    for Class in user_class_list:
+        class_data = word.filter(Class = Class)
+        class_user = class_data[0].user
+
+        class_info[Class] = {}
+        class_info[Class]['user'] = class_user
+
+        class_info[Class]['word_len'] = len(class_data)
+
+
+    content = {
+      'class_info': class_info,
+      'user_class_list': list(user_class_list),
+      'today_post_len': today_post_len,
+      }
+    
+    return HttpResponse(json.dumps(content, ensure_ascii = False), content_type='application/json')
 
 #db.sqlite3의 word_word테이블을 리턴하는 함수
 def load_DB_Data():
@@ -123,10 +148,6 @@ def forgetting_curve(request, Class, some_day):  # some_day는 몇일 전의 단
     some_day_post = word.filter(dt_created=some_day)  # 특정 날짜가 지난 단어를 불러옴(?)
 
     words_len_0 = list_len(some_day_post, 0)
-    print(today)
-    print(some_day)
-    print(word)
-    print(some_day_post)
     return render(request, 'word/forgetting_curve.html', {'some_day_post': some_day_post, 'words_len_0': words_len_0, 'check_content_exists': str(len(some_day_post) == 0)})
 
 
