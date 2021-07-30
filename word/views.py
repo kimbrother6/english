@@ -40,7 +40,7 @@ def word_home_page(request):
     else:
         return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_post_len': today_post_len})
 
-def today_post_len_ajax(request):
+def word_home_page_ajax(request):
     #상단에 사용자 이름을 나타내기위해 변수에 지정
     user = request.user.username
     #유저의 단어를 변수에 지정
@@ -73,6 +73,11 @@ def today_post_len_ajax(request):
       }
     
     return HttpResponse(json.dumps(content, ensure_ascii = False), content_type='application/json')
+
+def class_home(request, Class):
+    word = Word.objects.filter(user=request.user.username).filter(Class = Class)
+
+    return render(request, 'word/class_home.html', {'word': word, 'Class': Class})
 
 #db.sqlite3의 word_word테이블을 리턴하는 함수
 def load_DB_Data():

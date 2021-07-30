@@ -1,0 +1,72 @@
+.recent-learn-container .class-card-row .class-card .card-body .card-title {
+  height: 20.9px;
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.recent-learn-container .class-card-row .class-card .card-body .word-len  {
+  color: rgb(126, 137, 162);
+  width: 33px;
+  height: 16px;
+  font-family: AppleSDGothicNeo;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.recent-learn-container .class-card-row .class-card .card-body .word-user {
+  width: 71px;
+  height: 15px;
+  margin-top: 19px;
+  font-family: AppleSDGothicNeo;
+  font-size: 12px;
+  font-weight: 800;
+  }
+
+.recent-learn-container .class-card-row .class-card {
+  background-color: #292e3e;
+  border-radius:5px;
+  position:relative;
+  width: 392px;
+  height: 103.6px;
+}
+
+.class-card .card-body .class-user-url {
+  text-decoration: none;
+  color: rgb(126, 137, 162);;
+}
+
+.recent-learn-container .class-card-row .class-url {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.recent-learn-container .class-card-row .class-card:hover:after {
+  content: '';
+  border-bottom: 5px solid white;
+  border-radius: 0 0 5px 5px;
+  position: absolute;
+  height: 0px;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+}
+
+
+.recent-learn-container .guide-row .show-all {
+  color: #36b3b4;
+  text-decoration: none;
+}
+
+.recent-learn-container .guide-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recent-learn-container .class-card-row {
+  display: grid;
+  grid-column-gap: 11px;
+  grid-row-gap: 11px;
+  grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+}

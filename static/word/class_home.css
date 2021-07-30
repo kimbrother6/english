@@ -1,0 +1,46 @@
+.vertical-nav-title {
+  font-size: 10px;
+}
+
+#class-title {
+  margin-bottom: 40px;
+}
+
+.mode-name {
+  font-size: 20px;
+}
+
+.mode-block {
+  margin-bottom: 5px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.mode-block:hover {
+  background-color: rgb(256, 196, 26);
+}
+
+.icon {
+  width: 32;
+  height: 32;
+}
+
+.vertical-nav-title {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.mode-a-tag {
+  text-decoration: none;
+  color: white;
+}
+
+.mode-a-tag:hover {
+  width: 150px;
+  text-decoration: none;
+  color: white;
+}
+
+#vertical-nav {
+  width: 150px;
+}

@@ -9,7 +9,7 @@ function createWord(event) {
 
 
 $.ajax({
-  url: 'today_post_len_ajax/',
+  url: 'word_home_page_ajax/',
   dataType: 'json',
   success: function (data) {
     console.log(data.class_info)
@@ -34,11 +34,9 @@ function space_to_underscore(value) {
   
   for (let i = 0; i < split_value.length; i++) {
     new_str += split_value[i]
-
     if (i < split_value.length - 1) {
       new_str += '_'
     }
   }
-  
   return new_str
 }
