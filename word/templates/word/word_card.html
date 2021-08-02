@@ -14,15 +14,15 @@
         <a href="{% url 'word:home-page'%}" class="btn btn-outline-primary" href="#" role="button">돌아가기</a>
     {% else %}
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> <!--data-bs-interval="false" 은 자동회전 안하게 하는 코드-->
-    
+
         <div class="carousel-indicators"> <!--밑에 버튼을 만들어주는 코드-->
-            {% for num in words_len_0 %} 
+            {% for num in words_len_0 %}
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{num}}" {% if num == '0' %}class="active"{% endif %}></button>
             {% endfor %}
         </div>
 
         <div class="carousel-inner"> <!--한국어, 영어 카드 html-->
-            {% for word in words %} 
+            {% for word in words %}
                 <div class="carousel-item {% if word == words.0 %}active{% endif %}">
                     <div class='card-word'>
 
@@ -42,7 +42,7 @@
                                     </div>
                                     <a href="{% url 'word:update' word.id %}"><div class='button edit-btn'>수정</div></a>
                                 </div>
-                                
+
                             </div>
 
                         </div>

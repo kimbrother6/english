@@ -23,8 +23,10 @@
         <div class="card float-left class-card">
           <a href="{% url 'word:class-home' Class%}" class="class-url">
             <div class="card-body">
-              <h5 class="card-title">{{Class}}</h5>
-              <div class="word-len" id="{{Class|space_to_underscore}}-len">0단어</div>
+              <div class="card-top">
+                <div class="card-title">{{Class}}</div>
+                <div class="word-len" id="{{Class|space_to_underscore}}-len">0단어</div>
+              </div>
               <div class="word-user"><a href="#" id="{{Class|space_to_underscore}}-user" class="class-user-url">작성자</a></div>
             </div>
             </a>

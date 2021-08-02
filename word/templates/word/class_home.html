@@ -4,50 +4,16 @@
 {% block head %}
     <title>word</title>
     <link rel="stylesheet" href="{% static 'word/class_home.css' %}">
+    <link rel="stylesheet" href="{% static 'word/flip.css' %}">
 {% endblock head %}
 
 {% block content %}
-  <div id="class-name">
+
+  <div id="class-title-container">
     <h1 id="class-title">{{Class}}</h1>
   </div>
 
-  {% comment %} <nav aria-label="Study modes" class="SetPage-studyModes has-adz">
-    <div class="UIRow">
-      <div class="SetPageModes-group SetPageModes-group--study">
-        <div class="SetPageModes-groupLabel">
-          <div class="h1kva8ab">학습하기</div>
-        </div>
-        <span class="SetPageModes-buttonWrapper">
-          <a aria-label="낱말카드" class="SetPageModeButton is-highlighted" data-sourcename="mode-link-flashcards" data-testid="SetPageModeButton-mode-link-flashcards" href="/606818674/flashcards?funnelUUID=fed27708-61c5-4be8-9ac5-9cfefc51f5d9" rel="nofollow">
-              <span class="SetPageModeButton-modeName">낱말카드</span>
-          </a>
-
-        </span>
-
-        <span class="SetPageModes-buttonWrapper">
-          <a aria-label="학습하기" class="SetPageModeButton" data-sourcename="mode-link-learn" data-testid="SetPageModeButton-mode-link-learn" href="https://quizlet.com/606818674/study-path?funnelUUID=fed27708-61c5-4be8-9ac5-9cfefc51f5d9" rel="nofollow">
-            <span class="SetPageModeButton-modeName">학습하기</span>
-          </a>
-
-        </span>
-
-
-        <div class="h1kva8ab">게임</div>
-        </div>
-        <span class="SetPageModes-buttonWrapper">
-        <a aria-label="카드 맞추기" class="SetPageModeButton" data-sourcename="mode-link-match" data-testid="SetPageModeButton-mode-link-match" href="/606818674/match?funnelUUID=fed27708-61c5-4be8-9ac5-9cfefc51f5d9" rel="nofollow"><div class="SetPageModeButton-content">
-          <div class="SetPageModeButton-icon"><div class="UIModeIcon UIModeIcon--match UIModeIcon--large"><svg aria-label="카드 맞추기 모드" class="UIIcon UIIcon--mode-match-sober UIModeIcon-modeIcon" role="presentation"><noscript></noscript><use xlink:href="#mode-match-sober"></use>
-          <noscript></noscript></svg></div></div><span class="SetPageModeButton-description"><span class="SetPageModeButton-modeName">카드 맞추기</span></span></div></a>
-
-          </span>
-          <span class="SetPageModes-buttonWrapper"><a aria-label="그래비티" class="SetPageModeButton" data-sourcename="mode-link-gravity" data-testid="SetPageModeButton-mode-link-gravity" href="/606818674/gravity?funnelUUID=fed27708-61c5-4be8-9ac5-9cfefc51f5d9" rel="nofollow">
-          <div class="SetPageModeButton-content"><div class="SetPageModeButton-icon"><div class="UIModeIcon UIModeIcon--gravity UIModeIcon--large"><svg aria-label="그래비티 모드" class="UIIcon UIIcon--mode-gravity-sober UIModeIcon-modeIcon" role="presentation"><noscript></noscript>
-          <use xlink:href="#mode-gravity-sober"></use><noscript></noscript></svg></div></div><span class="SetPageModeButton-description"><span class="SetPageModeButton-modeName">그래비티</span></span></div></a>
-          </span>
-          <span class="SetPageModes-buttonWrapper is-Popover is-Tooltip UIOverlayTrigger-target"><section class="UISection SetPageModeButton is-disabled" role="contentinfo" aria-label="Live"><div class="SetPageModeButton-content"><div class="SetPageModeButton-icon">
-            <div class="UIModeIcon UIModeIcon--disabled UIModeIcon--live UIModeIcon--large"><svg aria-label="live 모드" class="UIIcon UIIcon--mode-live-sober UIModeIcon-modeIcon" role="presentation"><noscript></noscript><use xlink:href="#mode-live-sober"></use><noscript></noscript>
-        </svg></div></div><span class="SetPageModeButton-description"><span class="SetPageModeButton-modeName">Live</span></span></div></section></span></div></div>
-    </nav> {% endcomment %}
+  <div class="body-top">
 
     <nav id='vertical-nav'>
       <div class="learn">
@@ -61,7 +27,7 @@
             <span class="mode-name"> 낱말카드</span>
           </div>
         </a>
-        
+
         <a href="#" class="mode-a-tag">
           <div class="mode-block">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="currentColor" class="bi bi-shuffle" viewBox="0 0 16 16">
@@ -69,7 +35,7 @@
               <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"/>
             </svg>
             <span class="mode-name"> 학습하기</span>
-          </div>  
+          </div>
         </a>
 
         <a href="#" class="mode-a-tag">
@@ -100,7 +66,7 @@
           </div>
         </a>
       </div>
-      
+
 
       <div id='game'>
         <p class="vertical-nav-title">게임</p>
@@ -136,4 +102,129 @@
       </div>
     </nav>
 
+    <div class="body-top-right">
+      <div class="flip-card">
+
+          <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> <!--data-bs-interval="false" 은 자동회전 안하게 하는 코드-->
+
+              <div class="carousel-inner"> <!--한국어, 영어 카드 html-->
+                  {% for word in words %}
+                      <div class="carousel-item {% if word == words.0 %}active{% endif %}">
+                          <div class='card-word'>
+
+                            <div class="flip-container">
+                              <div class="flipper">
+                                  <div class="front">
+                                      <div class="helper"></div>
+                                      <div class="front-text">{{word.EN_word}}</div>
+                                  </div>
+                                  <div class="back">
+                                      <div class="helper"></div>
+                                      <div class="back-text">{{word.KO_word}}</div>
+                                  </div>
+                              </div>
+                            </div>
+
+                          </div>
+                      </div>
+                  {% endfor %}
+
+
+
+
+              </div>
+            </div>
+
+
+        </div>
+
+      <div class="flip-card-btn">
+        <div class="flip-card-order">
+          <span class="before">
+            <button class=" carousel-control-prev bs-button" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+          </span>
+          <span class="now">1/2</span>
+          <span class="after">
+            <button class="carousel-control-next bs-button" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </span>
+        </div>
+
+        <div class="shortcut-fullscreen">
+          <span class="shortcut">키보드</span>
+          <span class="fullscreen">전체화면</span>
+        </div>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="body-bottom">
+
+    <div class="profile">
+      만든 이
+      <a href=""><div class="user">{{words.0.user}}</div><a>
+      <div class="small-class-name">{{Class}}</div>
+    </div>
+
+    <div class="word-btn">
+      <span class="add">추가</span>
+      <span class="edit">수정</span>
+      <span class="upload">공유</span>
+      <span class="info">정보</span>
+      <span class="view-more">더보기</span>
+    </div>
+  </div>
+
 {% endblock content %}
+
+{% block word-edit %}
+  <div class="flex-space-between word-list-standard">
+    <div class="word-len">이 세트 단어(2)</div>
+    <div class="word-list-standard-dropdown">내 통계 ⬇️</div>
+  </div>
+
+  <div class="flex-space-between">
+    <div class="heading">
+      <h4>학습하지 않음 (2)</h4>
+      <div class="p">아직 이 단어들을 학습하지 않았어요!</div>
+    </div>
+
+    <a href="#">
+      <span class="select-all">★ 2개 선택</span>
+    </a>
+
+  </div>
+
+  <div class="word-card-list">
+    {% for word in words %}
+      <div class="word-card">
+        <div class="word-text">
+          <div class="EN_word" id="EN_word-{{word.id}}">{{word.EN_word}}</div>
+          <div class="KO_word" id="KO_word-{{word.id}}">{{word.KO_word}}</div>
+        </div>
+        <div class="word-btns">
+          <span class="star">별</span>
+          <span class="speak">스퍼커</span>
+          <button class="edit" id="word-id-{{word.id}}" onclick="wordEdit({{word.id}})">수정</button>
+        </div>
+      </div>
+    {% endfor %}
+    <div class="word-create-or-delete-container">
+        <a href="#" class="word-create-or-delete-a">
+          <span class="word-create-or-delete-btn">단어 추가 / 삭제</span>
+        </a>
+    </div>
+  </div>
+
+
+
+<script src="{% static 'word/flip.js' %}"></script>
+{% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> {% endcomment %}
+<script src="{% static 'word/class-home.js' %}"></script>
+{% endblock word-edit %}

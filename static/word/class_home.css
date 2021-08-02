@@ -1,5 +1,34 @@
+body .body-top {
+  display: flex;
+}
+
+.body-top .body-top-right .flip-card {
+  width: 800px;
+  height: 400px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.flip-card-front {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 50px;
+}
+
 .vertical-nav-title {
   font-size: 10px;
+  }
+.flip-card-btn {
+  margin-top: 20px;
+}
+
+.flip-card-btn .now {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.shortcut-fullscreen .shortcut {
+  margin-right: 20px;
 }
 
 #class-title {
@@ -41,6 +70,136 @@
   color: white;
 }
 
-#vertical-nav {
-  width: 150px;
+.flip-card-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flip-card-order {
+  position: relative;
+  left: 42.5%;
+}
+
+.body-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.body-bottom {
+  margin-top: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.body-bottom .profile {
+  font-size: 8px;
+}
+
+.body-bottom .profile .user {
+  font-size: 16px;
+  color: rgb(53, 198, 197);
+}
+
+.word-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.class-home-word-edit {
+  background-color: rgb(21, 22, 30);
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-space-between .word-len {
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.flex-space-between .heading h4 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #7b89c9;
+}
+
+.word-list-standard {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top: 40px;
+}
+
+.select-all {
+  color: #3ccfcf;
+  text-decoration: none;
+  background-color: #1a1d28;
+  width: 120px;
+  height: 48px;
+  padding: 10px 16px 10px 16px;
+  text-align: center;
+  border-radius: 3px;
+  border: 2px solid #282e3e;
+}
+
+.select-all:hover {
+  text-decoration: none;
+  color: #ffcd1f;
+}
+.word-card {
+  background-color: #303545;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.word-text {
+  width: 90%;
+  height: 29px;
+  font-size: 19px;
+}
+
+.EN_word {
+  width: 30%;
+  border-right: 2px solid black;
+  display: inline-block;
+}
+
+.small-class-name {
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.KO_word {
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.word-card-list {
+  margin-top: 30px;
+}
+
+.word-create-or-delete-a {
+  background-color: #3CCFCF;
+  padding: 24px 80px;
+  width: 300px;
+  height: 70px;
+  color: #282e3e;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.word-create-or-delete-a:hover {
+  background-color: #7dd;
+  color: #282e3e;
+}
+
+.word-create-or-delete-container {
+  margin-top: 62px;
+  height: 100px;
+  text-align: center;
 }

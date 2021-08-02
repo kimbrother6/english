@@ -9,7 +9,6 @@ import pandas as pd
 from datetime import datetime, timedelta
 from pytz import timezone
 import json
-from django.http import JsonResponse
 
 #클래스별로 단어를 나누기위해 db.sqlit3를 불러옴
 #sqlite:////home/hjune/english/db.sqlite3
@@ -48,7 +47,7 @@ def word_home_page_ajax(request):
     today = datetime.now(timezone('Asia/Seoul'))
     today_post_len = len(word.filter(dt_created=today))
 
-    
+
     data = load_DB_Data()
     user_data = data[data['user'] == user]
     user_class_list = user_data['Class'].unique()
@@ -71,13 +70,13 @@ def word_home_page_ajax(request):
       'user_class_list': list(user_class_list),
       'today_post_len': today_post_len,
       }
-    
+
     return HttpResponse(json.dumps(content, ensure_ascii = False), content_type='application/json')
 
 def class_home(request, Class):
-    word = Word.objects.filter(user=request.user.username).filter(Class = Class)
+    words = Word.objects.filter(user=request.user.username).filter(Class = Class)
 
-    return render(request, 'word/class_home.html', {'word': word, 'Class': Class})
+    return render(request, 'word/class_home.html', {'words': words, 'Class': Class})
 
 #db.sqlite3의 word_word테이블을 리턴하는 함수
 def load_DB_Data():
@@ -125,7 +124,12 @@ def update(request, id):
         return redirect('word:home-page')
     else:
         form = WordForm(instance=word)
-        return render(request, 'word/forms.html', {'form': form})
+        content = [
+          form,
+          ['a', 'a']
+        ]
+        content = json.dump(form)
+        return HttpResponse(content, content_type='application/json')
 
 
 def view_class(request, listName):

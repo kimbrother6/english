@@ -1,35 +1,10 @@
-.recent-learn-container .class-card-row .class-card .card-body .card-title {
-  height: 20.9px;
-  font-family: AppleSDGothicNeo;
-  font-size: 16px;
-  font-weight: 800;
-  color: #ffffff;
-}
 
-.recent-learn-container .class-card-row .class-card .card-body .word-len  {
-  color: rgb(126, 137, 162);
-  width: 33px;
-  height: 16px;
-  font-family: AppleSDGothicNeo;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.recent-learn-container .class-card-row .class-card .card-body .word-user {
-  width: 71px;
-  height: 15px;
-  margin-top: 19px;
-  font-family: AppleSDGothicNeo;
-  font-size: 12px;
-  font-weight: 800;
-  }
 
 .recent-learn-container .class-card-row .class-card {
   background-color: #292e3e;
   border-radius:5px;
-  position:relative;
   width: 392px;
-  height: 103.6px;
+  height: 156px;
 }
 
 .class-card .card-body .class-user-url {
@@ -69,4 +44,33 @@
   grid-column-gap: 11px;
   grid-row-gap: 11px;
   grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+}
+
+.recent-learn-container .class-card-row .class-card .card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-learn-container .class-card-row .class-card .card-body .word-user {
+  font-family: AppleSDGothicNeo;
+  font-size: 15px;
+  flex-basis: 40px;
+}
+
+.recent-learn-container .class-card-row .class-card .card-body .card-top .word-len  {
+  color: rgb(126, 137, 162);
+  font-family: AppleSDGothicNeo;
+  font-size: 12px;
+}
+
+.recent-learn-container .class-card-row .class-card .card-body .card-top .card-title {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.recent-learn-container .class-card-row .class-card .card-body .card-top  {
+  flex-basis: 50px;
+  margin-bottom: 60px;
 }
