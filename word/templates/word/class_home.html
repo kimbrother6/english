@@ -1,5 +1,6 @@
 {% extends './base.html'%}
 {% load static%}
+{% load space_to_underscore %}
 
 {% block head %}
     <title>word</title>
@@ -204,14 +205,14 @@
   <div class="word-card-list">
     {% for word in words %}
       <div class="word-card">
-        <div class="word-text">
-          <div class="EN_word" id="EN_word-{{word.id}}">{{word.EN_word}}</div>
-          <div class="KO_word" id="KO_word-{{word.id}}">{{word.KO_word}}</div>
+        <div class="word-text" id="word-{{word.id}}">
+          <div class="EN_word">{{word.EN_word}}</div>
+          <div class="KO_word">{{word.KO_word}}</div>
         </div>
         <div class="word-btns">
           <span class="star">별</span>
           <span class="speak">스퍼커</span>
-          <button class="edit" id="word-id-{{word.id}}" onclick="wordEdit({{word.id}})">수정</button>
+          <button class="edit" id="{{word.id}}">수정</button>
         </div>
       </div>
     {% endfor %}
@@ -225,6 +226,7 @@
 
 
 <script src="{% static 'word/flip.js' %}"></script>
-{% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> {% endcomment %}
-<script src="{% static 'word/class-home.js' %}"></script>
+<script src="{% static 'word/class-home.js' %}">
+</script>
+
 {% endblock word-edit %}

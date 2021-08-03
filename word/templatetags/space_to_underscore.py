@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 @register.filter
-def space_to_underscore(value):
+def space_to_underscore(value): 
     split_value = value.split(' ')
     new_str = ''
     

@@ -1,6 +1,4 @@
-from django.contrib.auth.models import User
 from django.core import serializers
-from django.forms.utils import pretty_name
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Word, WordForm
@@ -9,6 +7,9 @@ import pandas as pd
 from datetime import datetime, timedelta
 from pytz import timezone
 import json
+from django.http import HttpResponse
+from .models import Word
+
 
 #클래스별로 단어를 나누기위해 db.sqlit3를 불러옴
 #sqlite:////home/hjune/english/db.sqlite3
@@ -112,24 +113,21 @@ def word_card(request, Class, memorize, ):
 
     return render(request, 'word/word_card.html', {'words': words, 'words_len_0': words_len_0, 'check_content_exists': str(len(words) == 0)})
 
-
-def update(request, id):
-    word = Word.objects.get(id=id)
+#Class는 특별한 경우에만 있음 (urls.py에 설명되어 있음) 
+#이거 저장 되는거를 ajax로 처리해야됨.
+def update(request, Class, id):
     if request.method == 'POST':
+        word = Word.objects.get(id=id)
         post_form = WordForm(request.POST, instance=word)
         post_form = post_form.save(commit=False)
         post_form.user = request.user.username
         post_form.save()
 
-        return redirect('word:home-page')
+        return redirect('word:class-home', Class=Class)
     else:
-        form = WordForm(instance=word)
-        content = [
-          form,
-          ['a', 'a']
-        ]
-        content = json.dump(form)
-        return HttpResponse(content, content_type='application/json')
+        word_all = Word.objects.all()
+        word_all_json = serializers.serialize('json', word_all)
+        return HttpResponse(word_all_json, content_type='application/json')
 
 
 def view_class(request, listName):
@@ -159,7 +157,7 @@ def forgetting_curve(request, Class, some_day):  # some_day는 몇일 전의 단
     words_len_0 = list_len(some_day_post, 0)
     return render(request, 'word/forgetting_curve.html', {'some_day_post': some_day_post, 'words_len_0': words_len_0, 'check_content_exists': str(len(some_day_post) == 0)})
 
-
+#range함수를 list로 형변환 하면 될거 같은데
 def list_len(list, num):
     new_list = []
     if num == 0:
@@ -169,3 +167,19 @@ def list_len(list, num):
         for i in range(1, len(list) + 1):
             new_list.append(str(i))
     return new_list
+
+
+#특정 값을 특정 값으로 바꾸는 함수로 바꾸면 좋겠음.
+def underscore_to_space(value):
+    if value: 
+        split_value = value.split('_')
+        new_str = ''
+        
+        for i in range(len(split_value)):
+          new_str += split_value[i]
+          if i < len(split_value) - 1:
+              new_str += ' '
+
+        return new_str
+    else: 
+      return 'underscore_to_space error: vlaue is none'

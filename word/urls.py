@@ -7,7 +7,8 @@ urlpatterns = [
     path('word_home_page_ajax/', views.word_home_page_ajax, name='word_home_page_ajax'),
     path('<str:Class>/home/', views.class_home, name='class-home'),
     path('create/', views.create, name='create'),
-    path('<int:id>/edit/', views.update, name='update'),
+    #str:Class를 추가한 이유는 단어를 업데이트 하고 나서 redirect할 때 다시 그 class-home으로 보내기 위해서. 그래서 특별한 경우만 class를 넣어줌
+    path('<str:Class>/<int:id>/edit/', views.update, name='update'),
     path('<int:id>/delete/', views.delete, name='delete'),
     path('<str:Class>/write/<str:EN_word>', views.write, name='write'),
     path('<str:Class>/forgetting_curve/<str:some_day>', views.forgetting_curve, name='forgetting-curve'),
