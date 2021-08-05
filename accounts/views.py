@@ -12,7 +12,7 @@ def signup(request):
             auth.login(request, user)
             return redirect('word:home-page')
         else: 
-          return render(request, 'accounts/signup.html', {'error': '비밀번호가 '})
+            return render(request, 'accounts/signup.html', {'error': '비밀번호가 '})
     return render(request, 'accounts/signup.html')
 
 def login(request):

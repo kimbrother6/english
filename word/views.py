@@ -19,27 +19,132 @@ engine = create_engine(
 
 #홈페이지
 def word_home_page(request):
-    #상단에 사용자 이름을 나타내기위해 변수에 지정
-    user = request.user.username
-    #유저의 단어를 변수에 지정
-    word = Word.objects.filter(user=user)
+    #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
+    if request.method == 'POST':
+        #form에서 넘어온 값의 저장을 보류하고, memorize와 user를 추가한 후 저장한다.
+        post_form = WordForm(request.POST)
+        post_form = post_form.save(commit=False)
+        post_form.memorize = '0'
+        post_form.user = request.user.username
+        post_form.save()
 
-    # 단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
-    today = datetime.now(timezone('Asia/Seoul'))
-    #오늘 몇개의 단어를 추가했는지를 변수에 저장
-    today_post_len = len(word.filter(dt_created=today))
+        return redirect('word:home-page')
+    else: 
+        #상단에 사용자 이름을 나타내기위해 변수에 지정
+        user = request.user.username
+        #유저의 단어를 변수에 지정
+        word = Word.objects.filter(user=user)
 
-    #user_class_list는 어떤 클래스가 있는지 리스트로 넘겨줌
-    data = load_DB_Data()
-    user_data = data[data['user'] == user]
-    user_class_list = user_data['Class'].unique()
+        # 단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
+        today = datetime.now(timezone('Asia/Seoul'))
+        #오늘 몇개의 단어를 추가했는지를 변수에 저장
+        today_post_len = len(word.filter(dt_created=today))
 
-    #만약 아무런 단어가 없다면 단어추가를 추천하는 html랜더
-    if len(word) == 0:
-        return render(request, 'word/no_data.html')
+        #user_class_list는 어떤 클래스가 있는지 리스트로 넘겨줌
+        data = load_DB_Data()
+        user_data = data[data['user'] == user]
+        user_class_list = user_data['Class'].unique()
+
+        #만약 아무런 단어가 없다면 단어추가를 추천하는 html랜더
+        if len(word) == 0:
+            return render(request, 'word/no_data.html')
+        else:
+            return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_post_len': today_post_len})
+
+
+
+def class_home(request, Class):
+    words = Word.objects.filter(user=request.user.username).filter(Class = Class)
+
+    return render(request, 'word/class_home.html', {'words': words, 'Class': Class})
+
+#db.sqlite3의 word_word테이블을 리턴하는 함수
+def load_DB_Data():
+    with engine.connect() as conn, conn.begin():
+        data = pd.read_sql_table("word_word", conn)
+    return data
+
+
+
+def update(request, Class, id):
+    if request.method == 'POST':
+        word = Word.objects.get(id=id)
+        post_form = WordForm(request.POST, instance=word)
+        post_form = post_form.save(commit=False)
+        post_form.user = request.user.username
+        post_form.save()
+        return redirect('word:class-home', Class=Class)
+
+    elif request.method == "DELETE":
+        word = Word.objects.get(id=id)
+        word.delete()
+        return redirect('word:home-page')
+
     else:
-        return render(request, 'word/home.html', {'word': word, 'class_list': user_class_list, 'today_post_len': today_post_len})
+        word_all = Word.objects.all()
+        word_all_json = serializers.serialize('json', word_all)
+        return HttpResponse(word_all_json, content_type='application/json')
 
+#range함수를 list로 형변환 하면 될거 같은데
+def list_len(list, num):
+    new_list = []
+    if num == 0:
+        for i in range(len(list)):
+            new_list.append(str(i))
+    else:
+        for i in range(1, len(list) + 1):
+            new_list.append(str(i))
+    return new_list
+
+
+#특정 값을 특정 값으로 바꾸는 함수로 바꾸면 좋겠음.
+def underscore_to_space(value):
+    if value: 
+        split_value = value.split('_')
+        new_str = ''
+        
+        for i in range(len(split_value)):
+            new_str += split_value[i]
+            if i < len(split_value) - 1:
+                new_str += ' '
+
+        return new_str
+    else: 
+        return 'underscore_to_space error: vlaue is none'
+
+###삭제해야되는데 아직은 모르겠는 것
+
+# def forgetting_curve(request, Class, some_day):  # some_day는 몇일 전의 단어를 볼 건지 넘겨주는 파라미터
+#     # 단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
+#     today = datetime.now(timezone('Asia/Seoul'))
+#     some_day = today - timedelta(days=int(some_day))
+#     word = Word.objects.filter(Class=Class)
+#     some_day_post = word.filter(dt_created=some_day)  # 특정 날짜가 지난 단어를 불러옴(?)
+
+#     words_len_0 = list_len(some_day_post, 0)
+#     return render(request, 'word/forgetting_curve.html', {'some_day_post': some_day_post, 'words_len_0': words_len_0, 'check_content_exists': str(len(some_day_post) == 0)})
+
+# # Class는 method가 GET방식 일 때는 Class이고, POST방식 일 때는 EN_word 이다.
+# def write(request, Class, EN_word):
+#     words = Word.objects.filter(Class=Class)
+#     words_len_0 = list_len(words, 0)
+#     return render(request, 'word/write.html', {'words': words, 'words_len_0': words_len_0, 'Class': Class, 'EN_word': EN_word})
+
+# def view_class(request, listName):
+#     return render(request, 'word/view_class.html', {'listName': listName})
+
+# def word_card(request, Class, memorize, ):
+#     words = Word.objects.filter(user=request.user.username).filter(Class=Class)
+
+#     #memorize에 따라 디스플레이 해주는 것이라면 memorize에 따라 분류
+#     if memorize != 'none':
+#         words = words.filter(memorize=memorize)
+
+#     words_len_0 = list_len(words, 0)  # start 0
+
+#     return render(request, 'word/word_card.html', {'words': words, 'words_len_0': words_len_0, 'check_content_exists': str(len(words) == 0)})
+
+#####이건 모르겠다.
 def word_home_page_ajax(request):
     #상단에 사용자 이름을 나타내기위해 변수에 지정
     user = request.user.username
@@ -67,119 +172,11 @@ def word_home_page_ajax(request):
 
 
     content = {
-      'class_info': class_info,
-      'user_class_list': list(user_class_list),
-      'today_post_len': today_post_len,
-      }
+        'class_info': class_info,
+        'user_class_list': list(user_class_list),
+        'today_post_len': today_post_len,
+    }
 
     return HttpResponse(json.dumps(content, ensure_ascii = False), content_type='application/json')
 
-def class_home(request, Class):
-    words = Word.objects.filter(user=request.user.username).filter(Class = Class)
-
-    return render(request, 'word/class_home.html', {'words': words, 'Class': Class})
-
-#db.sqlite3의 word_word테이블을 리턴하는 함수
-def load_DB_Data():
-    with engine.connect() as conn, conn.begin():
-        data = pd.read_sql_table("word_word", conn)
-    return data
-
-#새로운 단어를 생성
-def create(request):
-    #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
-    if request.method == 'POST':
-      #form에서 넘어온 값의 저장을 보류하고, memorize와 user를 추가한 후 저장한다.
-        post_form = WordForm(request.POST)
-        post_form = post_form.save(commit=False)
-        post_form.memorize = '0'
-        post_form.user = request.user.username
-        post_form.save()
-
-        return redirect('word:home-page')
-    else:
-        form = WordForm
-        return render(request, 'word/forms.html', {'form': form})
-
-
-def word_card(request, Class, memorize, ):
-    words = Word.objects.filter(user=request.user.username).filter(Class=Class)
-
-    #memorize에 따라 디스플레이 해주는 것이라면 memorize에 따라 분류
-    if memorize != 'none':
-        words = words.filter(memorize=memorize)
-
-    words_len_0 = list_len(words, 0)  # start 0
-
-    return render(request, 'word/word_card.html', {'words': words, 'words_len_0': words_len_0, 'check_content_exists': str(len(words) == 0)})
-
-#Class는 특별한 경우에만 있음 (urls.py에 설명되어 있음) 
-#이거 저장 되는거를 ajax로 처리해야됨.
-def update(request, Class, id):
-    if request.method == 'POST':
-        word = Word.objects.get(id=id)
-        post_form = WordForm(request.POST, instance=word)
-        post_form = post_form.save(commit=False)
-        post_form.user = request.user.username
-        post_form.save()
-
-        return redirect('word:class-home', Class=Class)
-    else:
-        word_all = Word.objects.all()
-        word_all_json = serializers.serialize('json', word_all)
-        return HttpResponse(word_all_json, content_type='application/json')
-
-
-def view_class(request, listName):
-    return render(request, 'word/view_class.html', {'listName': listName})
-
-
-def delete(request, id):
-    word = Word.objects.get(id=id)
-    word.delete()
-    return redirect('word:home-page')
-
-
-# Class는 method가 GET방식 일 때는 Class이고, POST방식 일 때는 EN_word 이다.
-def write(request, Class, EN_word):
-    words = Word.objects.filter(Class=Class)
-    words_len_0 = list_len(words, 0)
-    return render(request, 'word/write.html', {'words': words, 'words_len_0': words_len_0, 'Class': Class, 'EN_word': EN_word})
-
-
-def forgetting_curve(request, Class, some_day):  # some_day는 몇일 전의 단어를 볼 건지 넘겨주는 파라미터
-    # 단어를 작성후 특정 날짜가 지난 단어의 날짜를 알려줌(?)
-    today = datetime.now(timezone('Asia/Seoul'))
-    some_day = today - timedelta(days=int(some_day))
-    word = Word.objects.filter(Class=Class)
-    some_day_post = word.filter(dt_created=some_day)  # 특정 날짜가 지난 단어를 불러옴(?)
-
-    words_len_0 = list_len(some_day_post, 0)
-    return render(request, 'word/forgetting_curve.html', {'some_day_post': some_day_post, 'words_len_0': words_len_0, 'check_content_exists': str(len(some_day_post) == 0)})
-
-#range함수를 list로 형변환 하면 될거 같은데
-def list_len(list, num):
-    new_list = []
-    if num == 0:
-        for i in range(len(list)):
-            new_list.append(str(i))
-    else:
-        for i in range(1, len(list) + 1):
-            new_list.append(str(i))
-    return new_list
-
-
-#특정 값을 특정 값으로 바꾸는 함수로 바꾸면 좋겠음.
-def underscore_to_space(value):
-    if value: 
-        split_value = value.split('_')
-        new_str = ''
-        
-        for i in range(len(split_value)):
-          new_str += split_value[i]
-          if i < len(split_value) - 1:
-              new_str += ' '
-
-        return new_str
-    else: 
-      return 'underscore_to_space error: vlaue is none'
+###
