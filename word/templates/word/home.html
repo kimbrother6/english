@@ -18,36 +18,18 @@
     </div>
 
     <div class="class-card-row col-12">
-      {% for Class in class_list%}
-      
-        <div class="card float-left class-card">
-          <a href="{% url 'word:class-home' Class%}" class="class-url">
-            <div class="card-body">
-              <div class="card-top">
-                <div class="card-title">{{Class}}</div>
-                <div class="word-len" id="{{Class|space_to_underscore}}-len">0단어</div>
-              </div>
-              <div class="word-user"><a href="#" id="{{Class|space_to_underscore}}-user" class="class-user-url">작성자</a></div>
-            </div>
-            </a>
-        </div>
-      
-      {% endfor %}
     </div>
-    
+
   </div>
 
-        
-    
 </body>
+{% endblock content %}
 
-<!--이거 html코드에서 변수 정의를 하지 않고 장고에서 변수 가져오는 방법 알아야됨-->
-<script>
+{% block script %}
+  <script>
     todayDayPostLen = "{{today_day_post_len}}"
     word = "{{word}}"
     word0 = "{{word.0}}"
-</script>
-
-
-<script src="{% static 'word/home.js' %}"></script>
-{% endblock content %}
+  </script>
+  <script src="{% static 'word/home.js' %}"></script>
+{% endblock script %}

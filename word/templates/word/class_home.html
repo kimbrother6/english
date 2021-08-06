@@ -108,7 +108,7 @@
 
           <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> <!--data-bs-interval="false" 은 자동회전 안하게 하는 코드-->
 
-              <div class="carousel-inner"> <!--한국어, 영어 카드 html-->
+              <div class="carousel-inner" id="carousel-inner"> <!--한국어, 영어 카드 html-->
                   {% for word in words %}
                       <div class="carousel-item {% if word == words.0 %}active{% endif %}">
                           <div class='card-word'>
@@ -129,9 +129,6 @@
                           </div>
                       </div>
                   {% endfor %}
-
-
-
 
               </div>
             </div>
@@ -222,11 +219,10 @@
         </a>
     </div>
   </div>
-
-
-
-<script src="{% static 'word/flip.js' %}"></script>
-<script src="{% static 'word/class-home.js' %}">
-</script>
-
 {% endblock word-edit %}
+
+{% block script %}
+  <script src="{% static 'word/flip.js' %}"></script>
+  <script src="{% static 'word/class-home.js' %}"></script>
+{% endblock script %}
+

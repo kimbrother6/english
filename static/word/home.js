@@ -8,25 +8,24 @@ function createWord(event) {
 }
 
 
-$.ajax({
-  url: 'word_home_page_ajax/',
-  dataType: 'json',
-  success: function (data) {
-    console.log(data.class_info)
-    $('#number-of-words-added').html(`오늘 추가된 단어: ${data.today_post_len}개`)
+fetch ('/data/')
+  .then((response) => response.json())
+  .then((result) => {
+    let classCardHtml = '';
+    let html = '';
 
-    for (Class of data.user_class_list) {
-      underscore_Class = space_to_underscore(Class)
-      $(`#${underscore_Class}-user`).html(data.class_info[Class].user)
-      console.log(data.class_info[Class].word_len)
-      $(`#${underscore_Class}-len`).html(`${data.class_info[Class].word_len}단어`)
+    for (Class of result.user_class_list) {
+      let class_user = result.class_info[Class].user
+      let word_len = result.class_info[Class].word_len
+
+      html += `<div class="card float-left class-card"><a href="/${Class}/" class="class-url"><div class="card-body"><div class="card-top"><div class="card-title">${Class}</div><div class="word-len" id="${space_to_underscore(Class)}-len">${word_len}단어</div></div><div class="word-user"><a href="#" id="${space_to_underscore(Class)}-user" class="class-user-url">${class_user}</a></div></div></a></div>`
     }
+    $('.class-card-row').html(html)
+    
+  })
 
-  },
-  error: function (request, status, error) {
-    console.log('통신실패 error:' + error)
-  }
-})
+
+
 
 function space_to_underscore(value) {
   split_value = value.split(' ')
