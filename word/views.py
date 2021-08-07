@@ -1,12 +1,9 @@
 from django.core import serializers
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Word, WordForm
 from sqlalchemy import create_engine
 import pandas as pd
-from datetime import datetime
-from pytz import timezone
-import json
 from django.http import HttpResponse
 from .models import Word
 
@@ -45,7 +42,7 @@ def home_page_data(request):
         'user_class_list': class_list,
     }
 
-    return HttpResponse(json.dumps(content, ensure_ascii = False), content_type='application/json')
+    return JsonResponse(content)
 
 
 def class_home_data(request, Class):
@@ -59,7 +56,7 @@ def class_home_data(request, Class):
         'class_info': class_info,
     }
 
-    return HttpResponse(json.dumps(content, ensure_ascii = False), content_type='application/json')
+    return JsonResponse(content)
 
 
 

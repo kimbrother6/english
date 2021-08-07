@@ -49,9 +49,60 @@ body .body-top {
   background-color: rgb(256, 196, 26);
 }
 
-.icon {
+.vertical-nav-icon {
   width: 32;
   height: 32;
+}
+
+.bi-keyboard {
+  width: 30;
+  height: 30;
+}
+
+.star_btn:hover {
+  color: #ffcd1f;
+}
+
+.speaker_btn:hover {
+  color: #ffcd1f;
+}
+
+.bi-arrows-fullscreen {
+  width: 25;
+  height: 25;
+}
+
+.bi-volume-up-fill {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.edit-btn {
+  padding: 0;
+  background-color: #303545;
+  border-style: none;
+  color: white;
+}
+
+.edit-btn:hover {
+  border-style: none;
+  color: #ffcd1f;
+}
+
+.word-btn-icon {
+  width: 20;
+  height: 20;
+  margin-right: 5px;
+}
+
+.bi-plus {
+  width: 32;
+  height: 32;
+}
+
+.bi-info {
+  width: 30;
+  height: 30;
 }
 
 .vertical-nav-title {
