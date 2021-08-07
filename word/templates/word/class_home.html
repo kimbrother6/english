@@ -6,6 +6,7 @@
     <title>word</title>
     <link rel="stylesheet" href="{% static 'word/class_home.css' %}">
     <link rel="stylesheet" href="{% static 'word/flip.css' %}">
+    <script defer src="{% static 'word/class-home.js' %}"></script>
 {% endblock head %}
 
 {% block content %}
@@ -109,7 +110,7 @@
           <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> <!--data-bs-interval="false" 은 자동회전 안하게 하는 코드-->
 
               <div class="carousel-inner" id="carousel-inner"> <!--한국어, 영어 카드 html-->
-                  {% for word in words %}
+
                       <div class="carousel-item {% if word == words.0 %}active{% endif %}">
                           <div class='card-word'>
 
@@ -128,7 +129,6 @@
 
                           </div>
                       </div>
-                  {% endfor %}
 
               </div>
             </div>
@@ -182,6 +182,7 @@
 {% endblock content %}
 
 {% block word-edit %}
+<div class="page-elem word-edit">
   <div class="flex-space-between word-list-standard">
     <div class="word-len">이 세트 단어(2)</div>
     <div class="word-list-standard-dropdown">내 통계 ⬇️</div>
@@ -219,10 +220,5 @@
         </a>
     </div>
   </div>
+</div>
 {% endblock word-edit %}
-
-{% block script %}
-  <script src="{% static 'word/flip.js' %}"></script>
-  <script src="{% static 'word/class-home.js' %}"></script>
-{% endblock script %}
-

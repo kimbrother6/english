@@ -40,7 +40,6 @@ def home_page_data(request):
     class_list = list(user_class_list(request))
     class_info = return_class_info(class_list, word)
 
-
     content = {
         'class_info': class_info,
         'user_class_list': class_list,
