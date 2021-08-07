@@ -201,19 +201,7 @@
   </div>
 
   <div class="word-card-list">
-    {% for word in words %}
-      <div class="word-card">
-        <div class="word-text" id="word-{{word.id}}">
-          <div class="EN_word">{{word.EN_word}}</div>
-          <div class="KO_word">{{word.KO_word}}</div>
-        </div>
-        <div class="word-btns">
-          <span class="star">별</span>
-          <span class="speak">스퍼커</span>
-          <button class="edit" id="{{word.id}}">수정</button>
-        </div>
-      </div>
-    {% endfor %}
+
     <div class="word-create-or-delete-container">
         <a href="#" class="word-create-or-delete-a">
           <span class="word-create-or-delete-btn">단어 추가 / 삭제</span>
