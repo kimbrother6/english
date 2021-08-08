@@ -156,9 +156,11 @@ body .body-top {
   justify-content: space-between;
 }
 
-.class-home-word-edit {
+.page-elem-bottom-background {
   background-color: rgb(21, 22, 30);
 }
+
+
 
 .flex-space-between {
   display: flex;

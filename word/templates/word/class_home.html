@@ -10,7 +10,7 @@
 {% endblock head %}
 
 {% block content %}
-
+<br>
   <div id="class-title-container">
     <h1 id="class-title">{{Class}}</h1>
   </div>
@@ -211,26 +211,29 @@
 
 {% endblock content %}
 
-{% block word-edit %}
-<div class="page-elem word-edit">
-  <div class="flex-space-between word-list-standard">
-    <div class="word-len">이 세트 단어(2)</div>
-    <div class="word-list-standard-dropdown">내 통계 ⬇️</div>
-  </div>
-
-  <div class="flex-space-between">
-    <div class="heading">
-      <h4>학습하지 않음 (2)</h4>
-      <div class="p">아직 이 단어들을 학습하지 않았어요!</div>
+{% block page-elem-bottom %}
+<div class="page-elem-bottom-background">
+  <div class="page-elem">
+    <div class="flex-space-between word-list-standard">
+      <div class="word-len">이 세트 단어(2)</div>
+      <div class="word-list-standard-dropdown">내 통계 ⬇️</div>
     </div>
 
-    <a href="#">
-      <span class="select-all">★ 2개 선택</span>
-    </a>
+    <div class="flex-space-between">
+      <div class="heading">
+        <h4>학습하지 않음 (2)</h4>
+        <div class="p">아직 이 단어들을 학습하지 않았어요!</div>
+      </div>
 
+      <a href="#">
+        <span class="select-all">★ 2개 선택</span>
+      </a>
+
+    </div>
+
+    <div class="word-card-list">
+    </div>
   </div>
 
-  <div class="word-card-list">
-  </div>
 </div>
-{% endblock word-edit %}
+{% endblock page-elem-bottom %}

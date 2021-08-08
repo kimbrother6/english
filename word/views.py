@@ -7,12 +7,15 @@ import pandas as pd
 from django.http import HttpResponse
 from .models import Word
 
-#홈페이지
+#페이지 로드
 def home_page(request):
     return render(request, 'word/home.html')
 
 def class_home(request, Class):
     return render(request, 'word/class_home.html')
+
+def class_update(request, Class):
+    return render(request, 'word/update.html')
 
 def create(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
@@ -25,8 +28,10 @@ def create(request):
         post_form.save()
 
         return redirect('word:home-page')
-    elif request.method == 'GET': 
+    elif request.method == 'GET':
         return render(request, 'word/forms.html')
+
+#데이터 로드
 
 def home_page_data(request):
     #상단에 사용자 이름을 나타내기위해 변수에 지정
@@ -50,7 +55,7 @@ def class_home_data(request, Class):
     word = Word.objects.filter(user=request.user.username)
 
     class_info = return_class_info(user_class_list(request), word)[Class]
-    
+
     content = {
         'words': serializers.serialize('json', words),
         'class_info': class_info,
@@ -77,7 +82,7 @@ def return_class_info(user_class_list, word):
         class_info[Class]['user'] = class_user
 
         class_info[Class]['word_len'] = len(class_data)
-    
+
     return class_info
 
 
@@ -139,15 +144,15 @@ def list_len(list, num):
 
 #특정 값을 특정 값으로 바꾸는 함수로 바꾸면 좋겠음.
 def underscore_to_space(value):
-    if value: 
+    if value:
         split_value = value.split('_')
         new_str = ''
-        
+
         for i in range(len(split_value)):
             new_str += split_value[i]
             if i < len(split_value) - 1:
                 new_str += ' '
 
         return new_str
-    else: 
+    else:
         return 'underscore_to_space error: vlaue is none'
