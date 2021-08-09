@@ -4,7 +4,7 @@
 {% block head %}
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'word/styles.css' %}">
-    
+    <script defer src="{% static 'accounts/js.js' %}"></script>
 {% endblock head %}
 
 {% block content %}
@@ -27,8 +27,4 @@
         </form>
         아직 회원가입을 하지 않으셨나요? <a href="{% url 'accounts:signup' %}">회원가입 하기</a><br>
     <a class="btn btn-outline-primary" href="{% url 'word:home-page' %}" role="button">취소</a>
-
-    
-
-    <script src="{% static 'accounts/js.js' %}"></script>
 {% endblock content %}

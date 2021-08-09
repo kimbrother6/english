@@ -109,8 +109,13 @@ def word_detail(request, Class, id):
         post_form = post_form.save(commit=False)
         post_form.user = request.user.username
         post_form.save()
-        print('return class home')
-        return redirect('word:class-home', Class=Class)
+
+        new_word = Word.objects.get(id=id)
+
+        content = {
+            "word": serializers.serialize('json', [new_word, ]),
+        }
+        return JsonResponse(content)
 
     elif request.method == 'DELETE':
         word = Word.objects.get(id=id)
@@ -120,7 +125,6 @@ def word_detail(request, Class, id):
     elif request.method == 'GET':
         word_all = Word.objects.all()
         word_all_json = serializers.serialize('json', word_all)
-        print('return json')
         return HttpResponse(word_all_json, content_type='application/json')
 
 
