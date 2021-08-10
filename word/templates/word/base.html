@@ -60,11 +60,13 @@
     </div>
     </nav>
 
-    <div class="body">
-      {% block page-elem-top %}{% endblock page-elem-top %}
-      <div class='page-elem'>
-          {% block content %}{% endblock content %}
-      </div>
-      {% block page-elem-bottom %}{% endblock page-elem-bottom %}
-    </div>
+    <main>
+        <div class="body">
+        {% block page-elem-top %}{% endblock page-elem-top %}
+        <section class='page-elem'>
+            {% block content %}{% endblock content %}
+        </section>
+        {% block page-elem-bottom %}{% endblock page-elem-bottom %}
+        </div>
+    </main>
 </body>

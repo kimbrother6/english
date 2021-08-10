@@ -7,16 +7,6 @@ import pandas as pd
 from django.http import HttpResponse
 from .models import Word
 
-#페이지 로드
-def home_page(request):
-    return render(request, 'word/home.html')
-
-def class_home(request, Class):
-    return render(request, 'word/class_home.html')
-
-def class_update(request, Class):
-    return render(request, 'word/update.html')
-
 def create(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
     if request.method == 'POST':
@@ -32,7 +22,6 @@ def create(request):
         return render(request, 'word/forms.html')
 
 #데이터 로드
-
 def home_page_data(request):
     #상단에 사용자 이름을 나타내기위해 변수에 지정
     user = request.user.username
@@ -54,53 +43,17 @@ def class_home_data(request, Class):
     words = Word.objects.filter(user=request.user.username).filter(Class = Class)
     word = Word.objects.filter(user=request.user.username)
 
+    print(return_class_info(user_class_list(request), word))
+
     class_info = return_class_info(user_class_list(request), word)[Class]
 
+    
     content = {
         'words': serializers.serialize('json', words),
         'class_info': class_info,
     }
 
     return JsonResponse(content)
-
-
-
-
-
-
-
-
-#모든 class_info를 리턴
-def return_class_info(user_class_list, word):
-    class_info = {}
-
-    for Class in user_class_list:
-        class_data = word.filter(Class = Class)
-        class_user = class_data[0].user
-
-        class_info[Class] = {}
-        class_info[Class]['user'] = class_user
-
-        class_info[Class]['word_len'] = len(class_data)
-
-    return class_info
-
-
-#db.sqlite3의 word_word테이블을 리턴하는 함수
-def user_class_list(request):
-    user = request.user.username
-
-    #클래스별로 단어를 나누기위해 db.sqlit3를 불러옴
-    #sqlite:////home/hjune/english/db.sqlite3
-    engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite3")
-
-    with engine.connect() as conn, conn.begin():
-        data = pd.read_sql_table("word_word", conn)
-    user_data = data[data['user'] == user]
-    user_class_list = user_data['Class'].unique()
-    return user_class_list
-
-
 
 def word_detail(request, Class, id):
     if request.method == 'POST':
@@ -132,19 +85,36 @@ def word_detail(request, Class, id):
 
 
 
+#모든 class_info를 리턴
+def return_class_info(user_class_list, word):
+    class_info = {}
+
+    for Class in user_class_list:
+        class_data = word.filter(Class = Class)
+        class_user = class_data[0].user
+
+        class_info[Class] = {}
+        class_info[Class]['user'] = class_user
+
+        class_info[Class]['word_len'] = len(class_data)
+
+    return class_info
 
 
 
-#range함수를 list로 형변환 하면 될거 같은데
-def list_len(list, num):
-    new_list = []
-    if num == 0:
-        for i in range(len(list)):
-            new_list.append(str(i))
-    else:
-        for i in range(1, len(list) + 1):
-            new_list.append(str(i))
-    return new_list
+#db.sqlite3의 word_word테이블을 리턴하는 함수
+def user_class_list(request):
+    user = request.user.username
+
+    #클래스별로 단어를 나누기위해 db.sqlit3를 불러옴
+    #sqlite:////home/hjune/english/db.sqlite3
+    engine = create_engine("sqlite:////Users/cubest_june/hj-django/english/db.sqlite3")
+
+    with engine.connect() as conn, conn.begin():
+        data = pd.read_sql_table("word_word", conn)
+    user_data = data[data['user'] == user]
+    user_class_list = user_data['Class'].unique()
+    return user_class_list
 
 #특정 값을 특정 값으로 바꾸는 함수로 바꾸면 좋겠음.
 def underscore_to_space(value):

@@ -40,9 +40,13 @@ function flip() {
   $(this).closest('.flip-container').toggleClass('hover');
   $(this).css('transform, rotateY(180deg)');
 }
+
+
+
 //수정 버튼을 누를시 수정할 수 있는 form을 표시
 function editInuptProduceAjax() {
   let id = $(this).attr('id');
+  let focusInInput = true;
   $.ajax({
     url: `/${nowClass}/${id}/`,
     dataType: 'json',
@@ -53,15 +57,29 @@ function editInuptProduceAjax() {
           const csrftoken = getCookie('csrftoken');
           $(`#word-${id}`).html(`
             <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
-            <input type="text" name="EN_word" class="EN_word_input" autocomplete="off" value="${data.fields.EN_word}">
-            <input type="text" name="KO_word" class="KO_word_input" autocomplete="off" value="${data.fields.KO_word}">
-            <input type="hidden" name="memorize" class="memorize" value="${data.fields.memorize}">
-            <input type="hidden" name="Class" class="Class" value="${data.fields.Class}">
+            <input type="text" name="EN_word" id="EN_word_input-${id}" autocomplete="off" value="${data.fields.EN_word}">
+            <input type="text" name="KO_word" id="KO_word_input-${id}" autocomplete="off" value="${data.fields.KO_word}">
+            <input type="hidden" name="memorize" id="memorize-${id}" value="${data.fields.memorize}">
+            <input type="hidden" name="Class" id="Class-${id}" value="${data.fields.Class}">
             <button class="word-edit-submit" id="${data.pk}">전송</button>
           `);
         }
       }
-      $('.word-edit-submit').on('click', saveEditWordData)
+      
+      if (focusInInput === true) {
+        $('html').click(function() { 
+          console.log(`#EN_word_input-${id}`)
+          
+          if(!$(`#EN_word_input-${id}`).hasClass("area")) {
+            console.log('영역 밖임')
+            saveEditWordData(id)
+            focusInInput = false;
+          } else {
+            console.log('asfjsjalkklsfjlasjsklfjk')
+          }
+        });
+      }
+      
     },
     error: function (request, status, error) {
       console.log('통신실패 error:' + error);
@@ -70,14 +88,13 @@ function editInuptProduceAjax() {
 }
 
 //수정한 단어 데이터를 저장하고 input형테의 카드 inner에서 일반 inner로 변경
-function saveEditWordData() {
-  let id = $(this).attr('id');
+function saveEditWordData(word_id) {
+  let id = word_id;
   const csrftoken = getCookie('csrftoken')
-  let EN_word = $('.EN_word_input').val()
-  let KO_word = $('.KO_word_input').val()
+  let EN_word = $(`#EN_word_input-${id}`).val()
+  let KO_word = $(`#KO_word_input-${id}`).val()
   let memorize = $('.memorize').val()
   let Class = $('.Class').val()
-
 
   $.ajaxSetup({
     beforeSend: function (xhr, settings) {
@@ -87,26 +104,33 @@ function saveEditWordData() {
     }
   });
 
-  $.ajax({
-    type: 'POST',
-    url: `/${nowClass}/${id}/`,
-    dataType: 'json',
-    data: {
-      EN_word: EN_word,
-      KO_word: KO_word,
-      memorize: memorize,
-      Class: Class,
+  if (EN_word) {
+    $.ajax({
+      type: 'POST',
+      url: `/${nowClass}/${id}/`,
+      dataType: 'json',
+      data: {
+        EN_word: EN_word,
+        KO_word: KO_word,
+        memorize: memorize,
+        Class: Class,
+      },
+      //통신 성공시 표시되어 있는 단어를 수정 할 수 있는 form으로 Change
+      success: function (data) {
+        let word = JSON.parse(data.word)[0]
+        changeDefaultEdit(word, id)
     },
-    //통신 성공시 표시되어 있는 단어를 수정 할 수 있는 form으로 Change
-    success: function (data) {
-      let word = JSON.parse(data.word)[0]
+      error: function (request, status, error) {
+        console.log('통신실패 error:' + error);
+      }
+    });
+  } else {
+    console.log('EN_word is defulte')
+  }
+}
 
-      $(`#word-${id}`).html(`<div class="EN_word">${word.fields.EN_word}</div><div class="KO_word">${word.fields.KO_word}</div>`)
-    },
-    error: function (request, status, error) {
-      console.log('통신실패 error:' + error);
-    }
-  });
+function changeDefaultEdit(model, word_id) {
+  $(`#word-${word_id}`).html(`<div class="EN_word">${model.fields.EN_word}</div><div class="KO_word">${model.fields.KO_word}</div>`)
 }
 
 function getCookie(name) {
