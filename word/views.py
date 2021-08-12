@@ -7,6 +7,8 @@ import pandas as pd
 from django.http import HttpResponse
 from .models import Word
 
+print('PYCHARM!!')
+
 def create(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
     if request.method == 'POST':
@@ -42,8 +44,6 @@ def home_page_data(request):
 def class_home_data(request, Class):
     words = Word.objects.filter(user=request.user.username).filter(Class = Class)
     word = Word.objects.filter(user=request.user.username)
-
-    print(return_class_info(user_class_list(request), word))
 
     class_info = return_class_info(user_class_list(request), word)[Class]
 
