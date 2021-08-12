@@ -7,7 +7,7 @@ import pandas as pd
 from django.http import HttpResponse
 from .models import Word
 
-print('PYCHARM!!')
+print('PYCHARM!!!!')
 
 def create(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
