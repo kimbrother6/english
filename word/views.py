@@ -6,8 +6,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 from django.http import HttpResponse
 from .models import Word
-
-print('PYCHARM!!!!')
+import json
 
 def create(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
@@ -50,7 +49,7 @@ def class_home_data(request, Class):
     
     content = {
         'words': serializers.serialize('json', words),
-        'class_info': class_info,
+        'class_info': json.dumps(class_info),
     }
 
     return JsonResponse(content)
