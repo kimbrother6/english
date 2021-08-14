@@ -11,7 +11,6 @@ function createWord(event) {
 fetch ('/data/')
   .then((response) => response.json())
   .then((result) => {
-    console.log(result)
     let classCardHtml = '';
     let html = '';
 

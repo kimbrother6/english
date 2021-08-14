@@ -45,6 +45,7 @@ def class_home_data(request, Class):
     word = Word.objects.filter(user=request.user.username)
 
     class_info = return_class_info(user_class_list(request), word)[Class]
+    # print(len(word))
 
     
     content = {
@@ -75,10 +76,12 @@ def word_detail(request, Class, id):
         return redirect('word:home-page')
 
     elif request.method == 'GET':
-        word_all = Word.objects.all()
-        word_all_json = serializers.serialize('json', word_all)
-        return HttpResponse(word_all_json, content_type='application/json')
-
+        word = Word.objects.get(id=id)
+        word_json = serializers.serialize('json', [word, ])
+        content = {
+            'word': word_json
+        }
+        return JsonResponse(content)
 
 
 
