@@ -5,7 +5,6 @@ loadClassWordsData()
 //TODO: 카러샐이 옆으로 넘어갈 때 모션이 자연스럽지 않다.
 //TODO: 모든 fetch로 받아오는 거에 에러 핸들링을 추가해야됨
 
-
 function loadClassWordsData() {
   fetch(`/${nowClass}/data/`)
       .then((response) => response.json())
@@ -20,7 +19,20 @@ function loadClassWordsData() {
 
         //flip을 구현하기 위해서
         $('.flip-container .flipper').click(flip);
-        $('.edit-btn').on('click', editInuptProduceAjax);
+        $('.edit-btn').on('click', loadWordData);
+      })
+}
+
+function loadWordData() {
+  let id = $(this).attr('id');
+  fetch(`/${nowClass}/${id}/`)
+      .then((response) => response.json())
+      .then((result) => {
+        //형변환 할때 iterable해야 하기 때문에 리스트형태로 만들었는데 데이터는 0번 인덱스에 있음
+        let word = JSON.parse(result.word)[0];
+        makeWordEditInput(word);
+
+        $('html').click(event => {inputClickEvent(word, event)});
       })
 }
 
@@ -54,56 +66,37 @@ function flip() {
   $(this).css('transform, rotateY(180deg)');
 }
 
-
-let canEditWord;
-// 수정 버튼을 누를시 수정할 수 있는 form을 표시
-function editInuptProduceAjax() {
-
-  canEditWord = true;
-  console.log('caneditword:  ' + canEditWord)
-
-  let id = $(this).attr('id');
-
-  fetch(`/${nowClass}/${id}/`)
-      .then((response) => response.json())
-      .then((result) => {
-        //형변환 할때 iterable해야 하기 때문에 리스트형태로 만들었는데 데이터는 0번 인덱스에 있음
-        let word = JSON.parse(result.word)[0]
-        makeWordEditInput(word)
-
-        //TODO: makeWordEditInput함수를 뭐 어떻게 promise로 만들어서 저게 끝나면 이밑에 todo를 해야될거 같음.
-        //비디오 판독 결과.... 2번째에 할때 input이 먼저 나온다음에 로그가 출력됨. 뭐지
-        //TODO: if input erea out click: 원래 html로 돌아가고 데이터를 저장
-
-        $('html').click(event => {inputClickEvent(word, event)})
-
-      })
+let defaultWordInfoCardHtml;
+function loadDefaultWordInfoCardHtml(word) {
+  let wordFields = word.fields;
+  defaultWordInfoCardHtml = `<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`
 }
 
 function inputClickEvent(word, event) {
   let id = word.pk;
   let isClickEN_wordInput = $(event.target).hasClass(`EN_word_input-${id}`);
   let isClickKO_wordInput = $(event.target).hasClass(`KO_word_input-${id}`);
-  let isClickInput = isClickEN_wordInput || isClickKO_wordInput;
+  let isNotClickInput = !(isClickEN_wordInput || isClickKO_wordInput);
+  let isNotDefaultWordInfoCard = !($(`#word-${id}`).html() === defaultWordInfoCardHtml)
+  console.log(isNotDefaultWordInfoCard)
 
-  if (canEditWord) {
-    if (isClickInput) {
-      console.log('영역 안')
-    } else {
-      console.log('영역 밖')
-      changeDefaultWordInfoCard(word)
-      canEditWord = false;
-    }
+  if (isNotClickInput && isNotDefaultWordInfoCard) {
+    saveEditWordData(id)
+        .then((response) => response.json())
+        .then((result) => {
+          let modifiedWord = JSON.parse(result.word)[0]
+          loadDefaultWordInfoCardHtml(modifiedWord)
+          changeDefaultWordInfoCard(modifiedWord)
+        })
   }
 }
 
-
 function changeDefaultWordInfoCard(word) {
-  console.log('changeDefaultWordInfoCard')
   const id = word.pk;
   let wordFields = word.fields;
+  let defaultWordInfoCardHtml = `<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`
 
-  $(`#word-${id}`).html(`<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`)
+  $(`#word-${id}`).html(defaultWordInfoCardHtml)
 }
 
 function makeWordEditInput(word) {
@@ -121,7 +114,7 @@ function makeWordEditInput(word) {
   `);
 }
 
-function saveEditWordData(word_id) {
+function saveEditWordData (word_id) {
   let id = word_id;
   const csrftoken = getCookie('csrftoken')
   let EN_word = $(`.EN_word_input-${id}`).val()
@@ -129,36 +122,22 @@ function saveEditWordData(word_id) {
   let memorize = $(`.memorize-${id}`).val()
   let Class = $(`.Class-${id}`).val()
 
-  if (EN_word) {
-    $.ajax({
-      type: 'POST',
-      url: `/${nowClass}/${id}/`,
-      dataType: 'json',
-      data: {
-        EN_word: EN_word,
-        KO_word: KO_word,
-        memorize: memorize,
-        Class: Class,
-      },
-      beforeSend: function (xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-      },
-      success: function (data) {
-        let word = JSON.parse(data.word)[0]
-        console.log('word save')
-      },
-      error: function (request, status, error) {
-        console.log('통신실패 error:' + error);
-      }
-    });
-  } else {
-    console.log('EN_word is defulte')
-  }
+  let requestBody = JSON.stringify({
+    EN_word: EN_word,
+    KO_word: KO_word,
+    memorize: memorize,
+    Class: Class,
+  })
+
+  return fetch(`/${nowClass}/${id}/`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken
+    },
+    body: requestBody
+  })
 }
-
-
 
 function getCookie(name) {
   let cookieValue = null;

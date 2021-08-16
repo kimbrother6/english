@@ -58,7 +58,7 @@ def class_home_data(request, Class):
 def word_detail(request, Class, id):
     if request.method == 'POST':
         word = Word.objects.get(id=id)
-        post_form = WordForm(request.POST, instance=word)
+        post_form = WordForm(json.loads(request.body), instance=word)
         post_form = post_form.save(commit=False)
         post_form.user = request.user.username
         post_form.save()
