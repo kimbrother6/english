@@ -270,8 +270,32 @@ body .body-top {
   border-bottom: 2px solid #ffcd1f;
 }
 
+.EN_word_input, .KO_word_input {
+  background-color:transparent;
+  border-style: none;
+  outline: none;
+  border-bottom: 2px solid #ffffff;
+  color: #ffffff;
+  padding: 0;
+}
+
+.EN_word_input:focus, .KO_word_input:focus {
+  border-bottom: 2px solid #ffcd1f;
+}
+
 .EN_word_input {
   width: 30%;
   padding: 0;
   border-right: 2px solid black;
+}
+
+.KO_word_input {
+  width: 60%;
+}
+
+.speaker_btn {
+  padding: 0;
+  background-color: #303545;
+  border-style: none;
+  color: white;
 }
