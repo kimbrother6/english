@@ -1,0 +1,32 @@
+.page, .site, body.splitNav {
+    background-color:  #ffffff;
+}
+
+.CreateSetDiagramUploader {
+    height: 146px;
+}
+
+.PMEditor.is-scaled-lang .ProseMirror[pm-placeholder], .PMEditor:not(.is-scaled-lang) {
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.444444444444444;
+}
+
+body, html {
+    color: #ffffff;
+    font-family: hurme_no2-webfont,-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size: 100%;
+    line-height: 1.625;
+}
+
+.notranslate .ProseMirror {
+    height: 26px;
+}
+
+.ProseMirror[contenteditable] {
+  white-space: nowrap;
+}
+
+.navbar-nav {
+     list-style: none;
+}
