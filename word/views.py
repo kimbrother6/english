@@ -8,6 +8,11 @@ from django.http import HttpResponse
 from .models import Word
 import json
 
+def render_create_training_set(request): 
+    content = {
+		    'range_5': [0, 1, 2, 3, 4]
+		    }
+    return render(request, 'word/create_training_set.html', content)
 def create(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
     if request.method == 'POST':
