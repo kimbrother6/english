@@ -23,7 +23,7 @@ fetch ('/data/')
     $('.class-card-row').html(html)
     
   })
-
+  .catch((err) => console.log('err: ', err));
 
 
 
