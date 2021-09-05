@@ -2,13 +2,13 @@ import './static/word/main-home.css'
 import {useEffect, useState} from 'react';
 function retrunHomeClassCard(result) {
     console.log(result)
-let html
+    let html = [];
     let Class;
     for (Class of result.user_class_list) {
         let class_user = result.class_info[Class].user
         let word_len = result.class_info[Class].word_len
 
-        html = <div class="card float-left class-card">
+        html.push(<div class="card float-left class-card">
           <a href="/{Class}/" class="class-url">
               <div class="card-body">
                   <div class="card-top">
@@ -23,7 +23,8 @@ let html
                   </div>
               </div>
           </a>
-        </div>
+        </div>)
+
 
     }
     console.log(typeof html)
@@ -32,7 +33,7 @@ let html
 }
 
 function MakeHomeClassCard() {
-    let [html, setHtml] = useState(<></>);
+    let [html, setHtml] = useState(<>fafsdfs</>);
 
     console.log('function')
     useEffect(() => {
