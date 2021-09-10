@@ -9,20 +9,20 @@ function retrunHomeClassCard(result) {
         let word_len = result.class_info[Class].word_len
 
         html.push(<div class="card float-left class-card">
-          <a href="/{Class}/" class="class-url">
-              <div class="card-body">
-                  <div class="card-top">
-                      <div class="card-title">
-                          {Class}</div>
-                      <div class="word-len" id="{space_to_underscore(Class)}-len">
-                          {word_len}단어</div>
-                  </div>
-                  <div class="word-user">
-                      <a href="#" id="{space_to_underscore(Class)}-user" class="class-user-url">
-                          {class_user}</a>
-                  </div>
-              </div>
-          </a>
+            <a href="/{Class}/" class="class-url">
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-title">
+                            {Class}</div>
+                        <div class="word-len" id="{space_to_underscore(Class)}-len">
+                            {word_len}단어</div>
+                    </div>
+                    <div class="word-user">
+                        <a href="#" id="{space_to_underscore(Class)}-user" class="class-user-url">
+                            {class_user}</a>
+                    </div>
+                </div>
+            </a>
         </div>)
 
 
@@ -50,16 +50,16 @@ function MakeHomeClassCard() {
 
 
 function space_to_underscore(value) {
-  let split_value = value.split(' ')
-  let new_str = ''
+    let split_value = value.split(' ')
+    let new_str = ''
 
-  for (let i = 0; i < split_value.length; i++) {
+    for (let i = 0; i < split_value.length; i++) {
     new_str += split_value[i]
     if (i < split_value.length - 1) {
-      new_str += '_'
+        new_str += '_'
     }
-  }
-  return new_str
+    }
+    return new_str
 }
 
 
