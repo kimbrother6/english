@@ -64,7 +64,7 @@ function space_to_underscore(value) {
 
 
 function Home_page() {
-    return <>
+    return <section class="page-elem">
                 <div className="recent-learn-container">
                     <div className="guide-row">
                         <h5>최근 학습함</h5>
@@ -76,7 +76,7 @@ function Home_page() {
                     </div>
 
                 </div>
-            </>
+            </section>
 }
 
 export default Home_page;
