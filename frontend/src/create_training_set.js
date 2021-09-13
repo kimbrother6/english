@@ -16,7 +16,7 @@ let TermRow =() => <>
                                                             <span class="UIIconButton">
                                                                 <button class="UIButton UIButton--borderless" tabindex="-1" type="button" disabled="">
                                                                     <span class="UIButton-wrapper">
-                                                                        <svg aria-label="drag" class="UIIcon UIIcon--drag" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                                        <svg aria-label="drag" class="UIIcon UIIcon--drag" role="img"><noscript></noscript><use xlinkHref="#drag"></use><noscript></noscript></svg>
                                                                     </span>
                                                                 </button>
                                                             </span>
@@ -27,7 +27,7 @@ let TermRow =() => <>
                                                             <span class="UIIconButton is-Popover is-Tooltip UIOverlayTrigger-target">
                                                                 <button aria-label="카드 삭제" class="UIButton UIButton--borderless" tabindex="-1" type="button">
                                                                     <span class="UIButton-wrapper">
-                                                                        <svg aria-label="delete" class="UIIcon UIIcon--garbage" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                                        <svg aria-label="delete" class="UIIcon UIIcon--garbage" role="img"><noscript></noscript><use xlinkHref="#garbage"></use><noscript></noscript></svg>
                                                                     </span>
                                                                 </button>
                                                             </span>
@@ -62,7 +62,7 @@ let TermRow =() => <>
                                                                                 <div data-testid="ImageUploadComponent-contextToggle">
                                                                                     <span class="ContextToggle">
                                                                                         <div class="ImageUploadProminentContextToggle" data-testid="ImageUploadProminentContextToggle">
-                                                                                            <svg aria-label="image" class="UIIcon UIIcon--image UIIcon--large" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                                                        <svg aria-label="image" class="UIIcon UIIcon--image UIIcon--large" role="img"><noscript></noscript><use xlinkHref="#image"></use><noscript></noscript></svg>
                                                                                             <div class="ImageUploadProminentContextToggle-IconExplanation">
                                                                                                 <span>이미지</span>
                                                                                             </div>
@@ -106,7 +106,7 @@ let TermRow =() => <>
                                         <span class="UIIconButton">
                                             <button class="UIButton" tabindex="-1" title="+ 카드 추가" type="button">
                                                 <span class="UIButton-wrapper">
-                                                    <svg aria-label="plus thin" class="UIIcon UIIcon--plus-thin" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                    <svg aria-label="plus thin" class="UIIcon UIIcon--plus-thin" role="img"><noscript></noscript><use xlinkHref="#plus-thin"></use><noscript></noscript></svg>
                                                 </span>
                                             </button>
                                         </span>
@@ -149,7 +149,7 @@ let AddRow =() =>
 																				<div data-testid="ImageUploadComponent-contextToggle">
 																					<span class="ContextToggle">
 																						<div class="ImageUploadProminentContextToggle" data-testid="ImageUploadProminentContextToggle">
-																							<svg aria-label="image" class="UIIcon UIIcon--image UIIcon--large" role="img"><noscript></noscript></svg>
+																							<svg aria-label="image" class="UIIcon UIIcon--image UIIcon--large" role="img"><noscript></noscript><use xlinkHref="#image"><use xlinkHref="#plus-thin"></use></use><noscript></noscript></svg>
 																							<div class="ImageUploadProminentContextToggle-IconExplanation">
 																								<span>이미지</span>
 																							</div>
@@ -258,7 +258,7 @@ let create_training_set = <div id="SetPageTarget">
                                                             <input autocomplete="off" aria-autocomplete="list" aria-controls="react-autowhatever-1" class="AssemblyInput-input AssemblyInput-placeholder" aria-label="학교 이름" placeholder="학교 이름" type="text" value=""/>
                                                             <div class="ionmch8">
                                                                 <button tabindex="-1" type="button" aria-label="info" class="AssemblyButtonBase AssemblyIconButton--subtle AssemblyIconButton--circle AssemblyButtonBase--medium is-Popover is-Tooltip UIOverlayTrigger-target">
-                                                                    <svg aria-label="info" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                                    <svg aria-label="info" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#x"></use><noscript></noscript></svg>
                                                                 </button>
                                                             </div>
                                                         </label>
@@ -275,7 +275,7 @@ let create_training_set = <div id="SetPageTarget">
                                     <input aria-label="코스" class="AssemblyInput-input AssemblyInput-placeholder" disabled="" placeholder="코스" type="text" value=""/>
                                     <div class="ionmch8">
                                         <button tabindex="-1" disabled="" type="button" aria-label="info" class="AssemblyButtonBase AssemblyIconButton--subtle AssemblyIconButton--circle AssemblyButtonBase--medium is-Popover is-Tooltip UIOverlayTrigger-target">
-                                            <svg aria-label="info" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><noscript></noscript></svg>
+                                            <svg aria-label="info" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#info"></use><noscript></noscript></svg>
                                         </button>
                                     </div>
                                 </label>
@@ -306,7 +306,7 @@ let create_training_set = <div id="SetPageTarget">
                                     <span class="UIIconButton">
                                         <button class="UIButton" disabled="" title="단어와 뜻의 위치 바꾸기" type="button">
                                             <span class="UIButton-wrapper">
-                                                <svg aria-label="switch" class="UIIcon UIIcon--switch" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                <svg aria-label="switch" class="UIIcon UIIcon--switch" role="img"><noscript></noscript><use xlinkHref="#switch"></use><noscript></noscript></svg>
                                             </span>
                                         </button>
                                     </span>
@@ -315,7 +315,7 @@ let create_training_set = <div id="SetPageTarget">
                                     <span class="UIIconButton">
                                         <button class="UIButton" title="단축키" type="button">
                                             <span class="UIButton-wrapper">
-                                                <svg aria-label="keyboard" class="UIIcon UIIcon--keyboard" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                <svg aria-label="keyboard" class="UIIcon UIIcon--keyboard" role="img"><noscript></noscript><use xlinkHref="#keyboard"></use><noscript></noscript></svg>
                                             </span>
                                         </button>
                                     </span>
@@ -344,7 +344,7 @@ let create_training_set = <div id="SetPageTarget">
                                                     <span class="UIIconButton">
                                                         <button class="UIButton UIButton--white" type="button">
                                                             <span class="UIButton-wrapper">
-                                                                <svg aria-label="info" class="UIIcon UIIcon--info-inverse" role="img"><noscript></noscript><noscript></noscript></svg>
+                                                                <svg aria-label="info" class="UIIcon UIIcon--info-inverse" role="img"><noscript></noscript><use xlinkHref="#info-inverse"></use><noscript></noscript></svg>
                                                             </span>
                                                         </button>
                                                     </span>

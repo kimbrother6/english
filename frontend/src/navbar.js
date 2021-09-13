@@ -748,7 +748,7 @@ let navbar = <>
                                                     <svg aria-label="chevron down" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#chevron-down"></use><noscript></noscript></svg>
                                                 </a>
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <li><Link to="/create_training_set"><button class="dropdown-item">학습세트</button></Link></li>
+                                                    <li><Link to="/create_training_set/"><button class="dropdown-item">학습세트</button></Link></li>
                                                     <li><a class="dropdown-item" href="#">폴더:준비중입니다.</a></li>
                                                     <li><a class="dropdown-item" href="#">클래스:준비중입니다.</a></li>
                                                 </ul>
@@ -776,7 +776,7 @@ let navbar = <>
                                                 <input aria-label="찾아보기" autocomplete="off" class="SiteHeaderSearchInput-input" placeholder="찾아보기" type="text" value=""/></div>
                                             <div class="SiteHeaderSearchInput-closeBox">
                                                 <div aria-label="닫기" aria-pressed="false" class="SiteHeaderSearchInput-closeButton" role="button" tabindex="0">
-                                                    <svg aria-label="x" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#x"></use><noscript></noscript></svg>
+                                                    <svg aria-label="x" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkref="#x"></use><noscript></noscript></svg>
                                                 </div>
                                             </div>
                                         </form>
