@@ -4,8 +4,7 @@ from django.views.generic import TemplateView
 
 app_name = 'word'
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="word/home.html"), name='home-page'),
-    path('data/', views.home_page_data, name='home-page-data'),
+    path('', views.home_page_data, name='home-page-data'),
     path('create_training_set/', views.render_create_training_set, name='create-training-set'),
     path('<str:Class>/', TemplateView.as_view(template_name="word/class_home.html"), name='class-home'),
     path('<str:Class>/update/', TemplateView.as_view(template_name="word/update.html"), name='class-update'),
