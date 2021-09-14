@@ -1,4 +1,9 @@
 import {Link} from 'react-router-dom';
+
+import jquery from 'jquery';
+import $ from 'jquery';
+
+
 let navbar = <>
 <div style={{'display': 'none', }}>
     <svg xmlns="http://www.w3.org/2000/svg" ><symbol fill="none" id="accents_underline" viewBox="0 0 65 23">
@@ -694,7 +699,7 @@ let navbar = <>
                             <div class="TopNavigationItem">
                                 <div class="SiteHeaderLogo">
                                     <div class="SiteHeaderLogo-full">
-                                        <a class="UILink UILink--inverted" data-testid="UILink-anchor" href="/">
+                                        <Link Class="UILink UILink--inverted" data-testid="UILink-anchor" to="/">
                                             <div aria-label="Quizlet" class="SiteLogo" role="img" title="Quizlet">
                                                 <svg fill="currentColor" viewBox="0 0 86 20" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M33.6222 6.16613H30.1458C30.0757 6.16613 30.0088 6.19385 29.9592 6.24402C29.9096 6.29352 29.8818 6.36085 29.8818 6.43148V13.777C29.8818 15.6035 28.7446 16.2431 27.4255 16.2431C26.1064 16.2431 24.9693 15.5586 24.9693 13.777V6.43082C24.9693 6.36085 24.9415 6.29286 24.8919 6.24336C24.8422 6.19385 24.7754 6.16547 24.7053 6.16547H21.2289C21.1588 6.16547 21.092 6.19319 21.0424 6.24336C20.9927 6.29286 20.965 6.36019 20.965 6.43082V14.1024C20.965 18.0287 24.0133 19.8545 27.4222 19.8545C30.8311 19.8545 33.8795 18.028 33.8795 14.1024V6.43082C33.8795 6.36151 33.8524 6.29484 33.8041 6.24534C33.7565 6.19583 33.691 6.16745 33.6222 6.16613Z"></path>
@@ -707,7 +712,7 @@ let navbar = <>
                                                     <path d="M69.4721 5.62565C68.3078 5.71476 67.1832 6.09102 66.1988 6.72207C65.2145 7.35311 64.4001 8.21916 63.8285 9.2423C63.257 10.2661 62.946 11.4153 62.9236 12.589C62.9011 13.7626 63.167 14.9231 63.6982 15.968C64.2294 17.0129 65.01 17.91 65.9693 18.5787C66.9292 19.2473 68.0379 19.6678 69.1982 19.8018C70.3586 19.9358 71.5335 19.78 72.619 19.3477C73.7046 18.9153 74.6672 18.2202 75.4207 17.3232C75.4438 17.2961 75.4617 17.2651 75.4729 17.2307C75.4842 17.1971 75.4881 17.1608 75.4848 17.1251C75.4815 17.0895 75.4716 17.0545 75.4551 17.0235C75.4385 16.9918 75.4154 16.9641 75.3876 16.9416L73.3302 15.2808C73.2773 15.2386 73.2098 15.2181 73.1423 15.2241C73.0748 15.23 73.012 15.2623 72.9677 15.3138C72.5231 15.8287 71.9535 16.2188 71.3145 16.4459C70.6755 16.673 69.9881 16.7291 69.3206 16.6089C68.6531 16.4888 68.028 16.1964 67.5067 15.7601C66.9854 15.3237 66.5858 14.7594 66.347 14.121H76.7457C76.8079 14.1224 76.8688 14.1006 76.9171 14.061C76.9654 14.0214 76.9978 13.9653 77.009 13.9039C77.0745 13.5164 77.1069 13.1236 77.1063 12.7302C77.1063 11.748 76.9038 10.777 76.5129 9.87731C76.1219 8.9776 75.5497 8.16899 74.8326 7.50164C74.1154 6.83428 73.2693 6.32337 72.3465 6.00058C71.425 5.67846 70.4459 5.5504 69.4721 5.62565ZM66.347 11.3355C66.6275 10.5856 67.1296 9.93936 67.7852 9.48323C68.4408 9.02711 69.2194 8.78288 70.0166 8.78288C70.8137 8.78288 71.5923 9.02711 72.2479 9.48323C72.9035 9.93936 73.405 10.5856 73.6861 11.3355H66.347Z"></path>
                                                 </svg>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div class="SiteHeaderLogo-mobile">
                                         <button class="UILink UILink--inverted" type="button">
@@ -730,9 +735,9 @@ let navbar = <>
                                     </button>
                                 </div>
                                 <div class="NavigationTabs">
-                                    <a class="NavigationTab r1k7ho1y e1kvq86p" data-testid="NavigationTab-anchor" href="/latest">
+                                    <Link Class="NavigationTab r1k7ho1y e1kvq86p" data-testid="NavigationTab-anchor" to="/">
                                         <span class="NavigationTab--span">홈</span>
-                                    </a>
+                                    </Link>
                                     <div aria-expanded="false" type="button" class="d17q9lq7">
                                         <button class="NavigationTab r1ep6ugx r1k7ho1y e1kvq86p" data-testid="NavigationTab-anchor">
                                             <span class="NavigationTab--span">라이브러리<svg aria-label="chevron down" class="AssemblyIcon AssemblyIcon--small" role="img"><noscript></noscript><use xlinkHref="#chevron-down"></use><noscript></noscript></svg></span>
@@ -748,7 +753,7 @@ let navbar = <>
                                                     <svg aria-label="chevron down" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#chevron-down"></use><noscript></noscript></svg>
                                                 </a>
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <li><Link to="/create_training_set/"><button class="dropdown-item">학습세트</button></Link></li>
+                                                    <li><Link to="/create_training_set/"><button class="dropdown-item" >학습세트</button></Link></li>
                                                     <li><a class="dropdown-item" href="#">폴더:준비중입니다.</a></li>
                                                     <li><a class="dropdown-item" href="#">클래스:준비중입니다.</a></li>
                                                 </ul>
@@ -793,9 +798,11 @@ let navbar = <>
                             </div>
                             <div class="SiteAvatar TopNavigationItem">
                                 <div>
-                                    <div tabindex="0" id="react-aria-4926408502-5" aria-haspopup="true" aria-expanded="false" type="button" aria-label="설정" role="button">
-                                        <img alt="프로필 사진" class="AssemblyAvatar" src="https://quizlet.com/fb-pic/graph.facebook.com/843569133188755/picture?type=large" style={{'background-image': 'url(&quot;https://quizlet.com/fb-pic/graph.facebook.com/843569133188755/picture?type=large&quot;)', 'height': '32px',  'width': '32px', }}/>
-                                    </div>
+                                    <Link to="/login/">
+                                        <div tabindex="0" id="react-aria-4926408502-5" aria-haspopup="true" aria-expanded="false" type="button" aria-label="설정" role="button" >
+                                            <img alt="프로필 사진" class="AssemblyAvatar" src="https://quizlet.com/fb-pic/graph.facebook.com/843569133188755/picture?type=large" style={{'background-image': 'url(&quot;https://quizlet.com/fb-pic/graph.facebook.com/843569133188755/picture?type=large&quot;)', 'height': '32px',  'width': '32px', }}/>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
