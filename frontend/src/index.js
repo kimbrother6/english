@@ -5,6 +5,7 @@ import Create_training_set_jsx from './create_training_set';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Navbar from './navbar.js';
 import Login from './account';
+import WordClass from './WordClass';
 import { useHistory } from 'react-router'
 
 
@@ -17,9 +18,10 @@ ReactDOM.render(
   <Router>
     <Navbar />
     <Switch>
-      <Route path="/create_training_set/"><Create_training_set_jsx /></Route>
-      <Route path="/login"><Login /></Route>
-      <Route path=""><Home_page /></Route>
+      <Route path="/create_training_set/" component={Create_training_set_jsx}/>
+      <Route path="/login" component={Login}/>
+      <Route path="/class/:WordClass/" component={WordClass}></Route>
+      <Route path="" component={Home_page}/>
 
       
     </Switch>

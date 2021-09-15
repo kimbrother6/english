@@ -1,5 +1,8 @@
 import './static/word/main-home.css'
 import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+
+
 function retrunHomeClassCard(result) {
     console.log(result)
     let html = [];
@@ -9,7 +12,7 @@ function retrunHomeClassCard(result) {
         let word_len = result.class_info[Class].word_len
 
         html.push(<div class="card float-left class-card">
-            <a href="/{Class}/" class="class-url">
+            <Link to={`/class/${Class}/`} class="class-url">
                 <div class="card-body">
                     <div class="card-top">
                         <div class="card-title">
@@ -22,7 +25,7 @@ function retrunHomeClassCard(result) {
                             {class_user}</a>
                     </div>
                 </div>
-            </a>
+            </Link>
         </div>)
 
 
