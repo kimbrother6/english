@@ -45,11 +45,7 @@ def home_page_data(request):
 def class_home_data(request, Class):
     words = Word.objects.filter(user=request.user.username).filter(Class = Class)
     word = Word.objects.filter(user=request.user.username)
-    print(Class, 'llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll Classssssssss')
-
     class_info = return_class_info(user_class_list(request), word)[Class]
-    # print(len(word))
-
     
     content = {
         'words': serializers.serialize('json', words),
@@ -102,7 +98,6 @@ def return_class_info(user_class_list, word):
         class_info[Class]['user'] = class_user
 
         class_info[Class]['word_len'] = len(class_data)
-    print(class_info, '//////////////////////////////////////////////////////////////////////////////////////////////////////class info')
     return class_info
 
 
