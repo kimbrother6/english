@@ -1,11 +1,16 @@
 import './static/word/class-home.css'
 import './static/word/flip.css'
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import jquery from 'jquery';
 import $ from 'jquery';
 
 let nowClass
-let WordClassJsx =<> 
+
+
+function WordClass(props) {
+  nowClass = props.match.params.WordClass
+  let ClassData = LoadClassWordsData()
+  return <> 
 <head><script src="{% static 'word/responsiveVoice.js' %}"></script><script defer src="{% static 'word/class-home.js' %}"></script></head>
 <section class="page-elem">
 <br/>
@@ -112,7 +117,6 @@ let WordClassJsx =<>
                       <div class='carousel-item active'>
                       {/* <div class={`carousel-item ${ifFirstActive(word, words)}`}> */}
                           {/* <div class='card-word'>
-
                             <div class="flip-container">
                               <div class="flipper">
                                   <div class="front">
@@ -227,32 +231,31 @@ let WordClassJsx =<>
 
     </div>
 
-    <div class="word-card-list">
+    <div class="word-card-list">  
+      <MakeWordInfoCard words={ClassData[0]} />
     </div>
   </div>
 
 </section>
 </main>
 </>
-
-function WordClass(props) {
-  nowClass = props.match.params.WordClass
-  LoadClassWordsData()
-  return  WordClassJsx
 }
 
 function LoadClassWordsData() {
-
-  fetch(`/data/${nowClass}/`)
+  const [words, setWords] = useState(['noData']);
+  useEffect(()=> {
+    fetch(`/data/${nowClass}/`)
     .then((response) => response.json())
     .then((result) => {
-      let classWordsData = JSON.parse(result.words);
-      let classInfo = JSON.parse(result.class_info)
       
-      $('.user').html(`${classInfo.user}`);
+      let classWordsData = JSON.parse(result.words)
+      let classInfo = JSON.parse(result.class_info)
+      setWords([classWordsData, classInfo])
+
+      $('.user').html(`${classInfo.user}`)
       $('.small-class-name').html(`${nowClass}`)
-      makeWordInfoCard(classWordsData);
-      makeFlipWordCard(classWordsData);
+      // MakeWordInfoCard(classWordsData)
+      makeFlipWordCard(classWordsData)
 
       //flip을 구현하기 위해서
       $('.flip-container .flipper').on('click', flip);
@@ -261,17 +264,10 @@ function LoadClassWordsData() {
       $('.edit-btn').on('click', {words: classWordsData}, LoadWordData)
       // $('.speaker_btn').on('click', Speaker_btn_event)
     })
+  
+  }, [])
+  return words
 }
-
-
-// function ifFirstActive(word, words) {
-//   return word == words[0] && 'active'
-// } 
-
-// LoadClassWordsData()
-
-
-
 // //TODO: 카러샐이 옆으로 넘어갈 때 모션이 자연스럽지 않다.
 // //TODO: 모든 fetch로 받아오는 거에 에러 핸들링을 추가해야됨
 
@@ -298,40 +294,39 @@ function LoadClassWordsData() {
 //   window.responsiveVoice.speak(`${wordFields.EN_word}`, 'US English Male', parameters)
 //   // responsiveVoice.speak(`${wordFields.KO_word}`, 'Korean Male')
 // }
-
+let isEditWordInputCard = false
 function LoadWordData(event) {
+  console.log('click edit button')
   event.stopPropagation();
   let id = $(this).attr('id');
   let words = event.data.words;
   let word
-  let worda = Object.values(words).map(v => {
+  Object.values(words).map(v => {
     if (v.pk == id ) {
       word = v
     }
   })
   
-  makeWordEditInput(word)
-  $('html').on('click', (event => {inputClickEvent(word, event)}))
+  changeWordEditInput(word)
+  $('html').off().on('click', {word: word}, inputClickEvent)
 }
-
-function inputClickEvent(word, event) {
-  
-  let id = word.pk;
+function inputClickEvent(event) {
+  let id = event.data.word.pk;
   let isClickEN_wordInput = $(event.target).hasClass(`EN_word_input-${id}`)
   let isClickKO_wordInput = $(event.target).hasClass(`KO_word_input-${id}`)
   let isNotClickInput = !(isClickEN_wordInput || isClickKO_wordInput);
-  let isNotDefaultWordInfoCard = !($(`#word-${id}`).html() === defaultWordInfoCardHtml)
+  // defaultWordInfoCardHtml = `<div class="EN_word">${word.fields.EN_word}</div><div class="KO_word">${word.fields.KO_word}</div>`
 
+  console.log('isNotClickInput: ', isNotClickInput)
+  console.log('isEditWordInputCard :  ', isEditWordInputCard)
 
-  console.log(isNotClickInput)
-  console.log(isNotDefaultWordInfoCard)
-  if (isNotClickInput && isNotDefaultWordInfoCard) {
-    
+  if (isNotClickInput && isEditWordInputCard) {
+    console.log('저장 간드아아')
     saveEditWordData(id)
         .then((response) => response.json())
         .then((result) => {
           let modifiedWord = JSON.parse(result.word)[0]
-          loadDefaultWordInfoCardHtml(modifiedWord)
+          // loadDefaultWordInfoCardHtml(modifiedWord)
           changeDefaultWordInfoCard(modifiedWord)
         })
   }
@@ -358,31 +353,37 @@ function makeFlipWordCard(words) {
   $('#carousel-inner').html(`${flipWordCardHtml}`)
 }
 
-function makeWordInfoCard(words) {
-  let WordInfoCardHtml = '';
+function MakeWordInfoCard({words}) {
+  let WordInfoCardHtml = [];
   let word
   let wordsLength = Object.keys(words).lengh
-  if (wordsLength === 1 ) {
-    WordInfoCardHtml += `<div class="word-card"><div class="word-text" id="word-${words.pk}"><div class="EN_word">${words.fields.EN_word}</div><div class="KO_word">${words.fields.KO_word}</div></div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id="${words.pk}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16"><path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id="${words.pk}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16"><path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>`
-  } else {
-    for (word of words) {
-      WordInfoCardHtml += `<div class="word-card"><div class="word-text" id="word-${word.pk}"><div class="EN_word">${word.fields.EN_word}</div><div class="KO_word">${word.fields.KO_word}</div></div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id="${word.pk}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16"><path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id="${word.pk}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16"><path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>`
-    }
-  }
-  WordInfoCardHtml += `<div class="word-create-or-delete-container"><a href="/${nowClass}/update" class="word-create-or-delete-a"><span class="word-create-or-delete-btn">단어 추가 / 삭제</span></a></div>`
-  $('.word-card-list').html(`${WordInfoCardHtml}`)
-}
+  
 
+  if (!(words === 'noData')) {
+    if (wordsLength === 1 ) {
+      WordInfoCardHtml.push(<div class="word-card"><div class="word-text" id={`word-${words.pk}`}><div class="EN_word">{words.fields.EN_word}</div><div class="KO_word">{words.fields.KO_word}</div></div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id={words.pk}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16"><path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id={words.pk}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16"><path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>)
+    } else {
+      for (word of words) {
+        WordInfoCardHtml.push(<div class="word-card"><div class="word-text" id={`word-${word.pk}`}><div class="EN_word">{word.fields.EN_word}</div><div class="KO_word">{word.fields.KO_word}</div></div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16"><path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16"><path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>)
+      }
+    }
+    WordInfoCardHtml.push(<div class="word-create-or-delete-container"><a href={`/${nowClass}/updat`} class="word-create-or-delete-a"><span class="word-create-or-delete-btn">단어 추가 / 삭제</span></a></div>)
+    return WordInfoCardHtml
+  } else {
+    return <></>
+  }
+  
+}
+ 
 function flip() {
   $(this).closest('.flip-container').toggleClass('hover');
   $(this).css('transform, rotateY(180deg)');
 }
 
-let defaultWordInfoCardHtml;
-function loadDefaultWordInfoCardHtml(word) {
-  let wordFields = word.fields;
-  defaultWordInfoCardHtml = `<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`
-}
+// function loadDefaultWordInfoCardHtml(word) {
+//   let wordFields = word.fields;
+//   let defaultWordInfoCardHtml = `<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`
+// }
 
 function changeDefaultWordInfoCard(word) {
   const id = word.pk;
@@ -390,12 +391,15 @@ function changeDefaultWordInfoCard(word) {
   let defaultWordInfoCardHtml = `<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`
 
   $(`#word-${id}`).html(defaultWordInfoCardHtml)
+  isEditWordInputCard = false
 }
 
-function makeWordEditInput(word) {
+function changeWordEditInput(word) {
+  console.log('make word edit input')
   const csrftoken = getCookie('csrftoken');
   const id = word.pk;
   let wordFields = word.fields;
+  // console.log(wordFields.EN_word)
 
   $(`#word-${id}`).html(`
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
@@ -404,10 +408,11 @@ function makeWordEditInput(word) {
     <input type="hidden" name="memorize" class="memorize-${id}" value="${wordFields.memorize}">
     <input type="hidden" name="Class" class="Class-${id}" value="${wordFields.Class}">
   `);
-  
+  isEditWordInputCard = true
 }
 
 function saveEditWordData (word_id) {
+  console.log('save id: ', word_id)
   let id = word_id;
   const csrftoken = getCookie('csrftoken')
   let EN_word = $(`.EN_word_input-${id}`).val()
@@ -415,12 +420,15 @@ function saveEditWordData (word_id) {
   let memorize = $(`.memorize-${id}`).val()
   let Class = $(`.Class-${id}`).val()
 
+
   let requestBody = JSON.stringify({
     EN_word: EN_word,
     KO_word: KO_word,
     memorize: memorize,
     Class: Class,
   })
+
+  console.log(requestBody)
 
 
   return fetch(`/data/${nowClass}/${id}/`, {
