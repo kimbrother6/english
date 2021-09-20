@@ -58,12 +58,11 @@ def word_detail(request, Class, id):
         post_form.user = request.user.username
         post_form.save()
 
-        new_word = Word.objects.get(id=id)
+        words = Word.objects.filter(Class=Class)
 
-        content = {
-            "word": serializers.serialize('json', [new_word, ]),
-        }
-        return JsonResponse(content)
+        content = serializers.serialize('json', words)
+        
+        return HttpResponse(content)
 
     elif request.method == 'DELETE':
         word = Word.objects.get(id=id)
