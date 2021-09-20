@@ -44,15 +44,11 @@ def home_page_data(request):
 
 def class_home_data(request, Class):
     words = Word.objects.filter(user=request.user.username).filter(Class = Class)
-    word = Word.objects.filter(user=request.user.username)
-    class_info = return_class_info(user_class_list(request), word)[Class]
     
-    content = {
-        'words': serializers.serialize('json', words),
-        'class_info': json.dumps(class_info),
-    }
+    content = serializers.serialize('json', words),
 
-    return JsonResponse(content)
+
+    return HttpResponse(content)
 
 def word_detail(request, Class, id):
     if request.method == 'POST':

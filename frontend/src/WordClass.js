@@ -8,7 +8,26 @@ let isEditWordInputCard = false
 
 function WordClass(props) {
   nowClass = props.match.params.WordClass
-  let ClassData = LoadClassWordsData()
+  const [classData, setclassData] = useState(['noData']);
+
+  useEffect(() => {
+    LoadClassWordsData()
+      .then((classWordsData) => {
+        setclassData(classWordsData)
+
+        // $('.user').html(`${classInfo.user}`)
+        $('.small-class-name').html(`${nowClass}`)
+        // makeFlipWordCard(classWordsData)
+
+        //flip을 구현하기 위해서
+        $('.flip-container .flipper').on('click', flip);
+
+        //버튼 클릭 이벤트
+        $('.edit-btn').on('click', {words: classWordsData}, LoadWordData)
+        // $('.speaker_btn').on('click', Speaker_btn_event트
+        })
+  }, [])
+  
   return <> 
 <head><script src="{% static 'word/responsiveVoice.js' %}"></script><script defer src="{% static 'word/class-home.js' %}"></script></head>
 <section class="page-elem">
@@ -112,8 +131,10 @@ function WordClass(props) {
           <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="false"> {/*data-bs-interval="false" 은 자동회전 안하게 하는 코드*/}
 
               <div class="carousel-inner" id="carousel-inner"> {/*한국어, 영어 카드 html*/}
+                <MakeFlipWordCard words={classData}/>
+              
 
-                      <div class='carousel-item active'>
+                      {/* <div class='carousel-item active'> */}
                       {/* <div class={`carousel-item ${ifFirstActive(word, words)}`}> */}
                           {/* <div class='card-word'>
                             <div class="flip-container">
@@ -129,7 +150,7 @@ function WordClass(props) {
                               </div>
                             </div>
                           </div>*/}
-                      </div>
+                      {/* </div> */}
 
               </div>
             </div>
@@ -231,7 +252,7 @@ function WordClass(props) {
     </div>
 
     <div class="word-card-list">  
-      <MakeWordInfoCard words={ClassData[0]} />
+      <MakeWordInfoCard words={classData} />
     </div>
   </div>
 
@@ -241,29 +262,8 @@ function WordClass(props) {
 }
 
 function LoadClassWordsData() {
-  const [classData, setclassData] = useState(['noData']);
-  useEffect(()=> {
-    fetch(`/data/${nowClass}/`)
+  return fetch(`/data/${nowClass}/`)
     .then((response) => response.json())
-    .then((result) => {
-      let classWordsData = JSON.parse(result.words)
-      let classInfo = JSON.parse(result.class_info)
-      setclassData([classWordsData, classInfo])
-
-      $('.user').html(`${classInfo.user}`)
-      $('.small-class-name').html(`${nowClass}`)
-      makeFlipWordCard(classWordsData)
-
-      //flip을 구현하기 위해서
-      $('.flip-container .flipper').on('click', flip);
-
-      //버튼 클릭 이벤트
-      $('.edit-btn').on('click', {words: classWordsData}, LoadWordData)
-      // $('.speaker_btn').on('click', Speaker_btn_event트
-    })
-  
-  }, [])
-  return classData
 }
 
 function LoadWordData(event) {
@@ -298,34 +298,37 @@ function inputClickEvent(event) {
   }
 }
 
-function makeFlipWordCard(words) {
-  let flipWordCardHtml = '';
+function MakeFlipWordCard({words}) {
+  let flipWordCardJsx = [];
   let word
   let wordsLength = Object.keys(words).length
-  if (wordsLength === 1 ) {
-    flipWordCardHtml = `<div class="carousel-item active"><div class="card-word"><div class="flip-container"><div class="flipper"><div class="front"><div class="helper"></div><div class="front-text">${words[0].fields.EN_word}</div></div><div class="back"><div class="helper"></div><div class="back-text">${words[0].fields.KO_word}</div></div></div></div></div></div>`
-  } else {
-    for (word of words) {
-      flipWordCardHtml += '<div class="carousel-item'
-
-      if (word === words[0]) {
-        flipWordCardHtml += ' active">';
-      } else {
-        flipWordCardHtml += '">';
+  let isData = !(words[0] === 'noData')
+  
+  if (isData) {
+    if (wordsLength === 1 ) {
+      flipWordCardJsx.push(<div class="carousel-item active"><div class="card-word"><div class="flip-container"><div class="flipper"><div class="front"><div class="helper"></div><div class="front-text">{words[0].fields.EN_word}</div></div><div class="back"><div class="helper"></div><div class="back-text">{words[0].fields.KO_word}</div></div></div></div></div></div>)
+    } else {
+      for (word of words) {
+        if (word === words[0]) {
+          flipWordCardJsx.push(<div class="carousel-item active"><div class='card-word'><div class="flip-container"><div class="flipper"><div class="front"><div class="helper"></div><div class="front-text">{word.fields.EN_word}</div></div><div class="back"><div class="helper"></div><div class="back-text">{word.fields.KO_word}</div></div></div></div></div></div>)
+        } else {
+          flipWordCardJsx.push(<div class="carousel-item"> <div class='card-word'><div class="flip-container"><div class="flipper"><div class="front"><div class="helper"></div><div class="front-text">{word.fields.EN_word}</div></div><div class="back"><div class="helper"></div><div class="back-text">{word.fields.KO_word}</div></div></div></div></div></div>)
+        }
       }
-      flipWordCardHtml += `<div class='card-word'><div class="flip-container"><div class="flipper"><div class="front"><div class="helper"></div><div class="front-text">${word.fields.EN_word}</div></div><div class="back"><div class="helper"></div><div class="back-text">${word.fields.KO_word}</div></div></div></div></div></div>`
     }
+    return flipWordCardJsx
+  } else {
+    //로딩중일때 페이지
+    return <>로딩중</>
   }
-  $('#carousel-inner').html(`${flipWordCardHtml}`)
 }
 
 function MakeWordInfoCard({words}) {
   let WordInfoCardHtml = [];
   let word
   let wordsLength = Object.keys(words).lengh
-  let isData = !(words === 'noData')
+  let isData = !(words[0] === 'noData')
   
-
   if (isData) {
     if (wordsLength === 1 ) {
       WordInfoCardHtml.push(<div class="word-card"><div class="word-text" id={`word-${words.pk}`}><div class="EN_word">{words.fields.EN_word}</div><div class="KO_word">{words.fields.KO_word}</div></div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id={words.pk}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16"><path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id={words.pk}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16"><path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>)
@@ -337,20 +340,16 @@ function MakeWordInfoCard({words}) {
     WordInfoCardHtml.push(<div class="word-create-or-delete-container"><a href={`/${nowClass}/updat`} class="word-create-or-delete-a"><span class="word-create-or-delete-btn">단어 추가 / 삭제</span></a></div>)
     return WordInfoCardHtml
   } else {
-    return <></>
+    //로딩중일떄 페이지
+    return <>로딩중</>
   }
   
 }
- 
+
 function flip() {
   $(this).closest('.flip-container').toggleClass('hover');
   $(this).css('transform, rotateY(180deg)');
 }
-
-// function loadDefaultWordInfoCardHtml(word) {
-//   let wordFields = word.fields;
-//   let defaultWordInfoCardHtml = `<div class="EN_word">${wordFields.EN_word}</div><div class="KO_word">${wordFields.KO_word}</div>`
-// }
 
 function changeDefaultWordInfoCard(word) {
   const id = word.pk;
