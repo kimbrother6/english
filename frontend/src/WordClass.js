@@ -15,20 +15,18 @@ function WordClass(props) {
     LoadClassWordsData()
       .then((classWordsData) => {
         setclassData(classWordsData)
-
-        // $('.user').html(`${classInfo.user}`)
-        $('.small-class-name').html(`${nowClass}`)
-        // makeFlipWordCard(classWordsData)
-
         //flip을 구현하기 위해서
         $('.flip-container .flipper').on('click', flip);
 
-        //버튼 클릭 이벤트
-        $('.edit-btn').on('click', {words: classWordsData, editInputId: editInputId, seteditInputId: seteditInputId, setclassData: setclassData}, LoadWordData)
+        let eventData = {
+          words: classWordsData,
+          seteditInputId: seteditInputId,
+          setclassData: setclassData
+        }
+        $('.edit-btn').on('click', eventData, LoadWordData)
         // $('.speaker_btn').on('click', Speaker_btn_event)
         })
   }, [])
-  
   return <> 
 <head><script src="{% static 'word/responsiveVoice.js' %}"></script><script defer src="{% static 'word/class-home.js' %}"></script></head>
 <section class="page-elem">
@@ -133,26 +131,6 @@ function WordClass(props) {
 
               <div class="carousel-inner" id="carousel-inner"> {/*한국어, 영어 카드 html*/}
                 <MakeFlipWordCard words={classData}/>
-              
-
-                      {/* <div class='carousel-item active'> */}
-                      {/* <div class={`carousel-item ${ifFirstActive(word, words)}`}> */}
-                          {/* <div class='card-word'>
-                            <div class="flip-container">
-                              <div class="flipper">
-                                  <div class="front">
-                                      <div class="helper"></div>
-                                      <div class="front-text">EN_word</div>
-                                  </div>
-                                  <div class="back">
-                                      <div class="helper"></div>
-                                      <div class="back-text">KO_word</div>{{word.KO_word}}
-                                  </div>
-                              </div>
-                            </div>
-                          </div>*/}
-                      {/* </div> */}
-
               </div>
             </div>
 
@@ -198,8 +176,8 @@ function WordClass(props) {
 
     <div class="profile">
       만든 이
-      <a href=""><div class="user"></div></a>
-      <div class="small-class-name"></div>
+      <a href=""><div class="user"><ClassUserName classData={classData}/></div></a>
+      <div class="small-class-name">{nowClass}</div>
     </div>
 
     <div class="word-btn">
@@ -261,6 +239,15 @@ function WordClass(props) {
 </main>
 </>
 }
+function ClassUserName({classData}) {
+  let isData = !(classData[0] === 'noData')
+  
+  if (isData) {
+    return <>{classData[0].fields.user}</>
+  } else {
+    return <>loading</>
+  }
+}
 
 function LoadClassWordsData() {
   return fetch(`/data/${nowClass}/`)
@@ -281,8 +268,12 @@ function LoadWordData(event) {
       word = v
     }
   })
-  
-  $('html').off().on('click', {word: word, editInputId: event.data.editInputId, seteditInputId: seteditInputId, setclassData: event.data.setclassData}, inputClickEvent)
+  let eventData = {
+    word: word, 
+    seteditInputId: seteditInputId, 
+    setclassData: event.data.setclassData
+  }
+  $('html').off().on('click', eventData, inputClickEvent)
 }
 function inputClickEvent(event) {
   let id = event.data.word.pk;
