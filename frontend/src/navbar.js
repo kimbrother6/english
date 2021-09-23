@@ -798,7 +798,7 @@ let navbar = <>
                             </div>
                             <div class="SiteAvatar TopNavigationItem">
                                 <div>
-                                    <Link to="/login/">
+                                    <Link to="/accounts/login/">
                                         <div tabindex="0" id="react-aria-4926408502-5" aria-haspopup="true" aria-expanded="false" type="button" aria-label="설정" role="button" >
                                             <img alt="프로필 사진" class="AssemblyAvatar" src="https://quizlet.com/fb-pic/graph.facebook.com/843569133188755/picture?type=large" style={{'background-image': 'url(&quot;https://quizlet.com/fb-pic/graph.facebook.com/843569133188755/picture?type=large&quot;)', 'height': '32px',  'width': '32px', }}/>
                                         </div>

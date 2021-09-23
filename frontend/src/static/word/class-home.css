@@ -287,13 +287,17 @@ body .body-top {
   width: 30%;
   padding: 0;
   border-right: 2px solid black;
+  font-size: 19px;
 }
 
 .KO_word_input {
   width: 60%;
+  font-size: 19px;
 }
 
 .speaker_btn {
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 0;
   background-color: #303545;
   border-style: none;

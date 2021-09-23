@@ -7,15 +7,19 @@ import json
 # Create your views here.
 def signup(request):
     if request.method == 'POST':
-        if request.POST['password1'] == request.POST['password2']:
-            print(request.POST['username'], request.POST['password1'])
+        data = json.loads(request.body)
+        username = data['username']
+        password1 = data['password1']
+        password2 = data['password2']
+        
+        if password1 == password2:
             user = User.objects.create_user(
-                username=request.POST['username'], password=request.POST['password1'])
+                username = username, password = password1)
             auth.login(request, user)
-            return redirect('word:home-page')
+            return JsonResponse({'state': 'success'})
         else: 
-            return render(request, 'accounts/signup.html', {'error': '비밀번호가 '})
-    return render(request, 'accounts/signup.html')
+            return JsonResponse({'state': 'error', 'error': '비밀번호를 확인해 주세요.'})
+    return JsonResponse({'state': 'error', 'error': '이 url로 요청을 보낼려면 method는 POST이여야 합니다.'}) 
 
 def login(request):
     if request.method == 'POST':
@@ -25,15 +29,12 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return JsonResponse({'code': '로그인 성공'})
+            return JsonResponse({'state': 'success'})
         else:
-            return JsonResponse({'error': '사용자 이름이나 비밀번호가 잘못되었습니다'})
+            return JsonResponse({'state': 'error', 'error': '사용자 이름이나 비밀번호를 확인해 주세요.'})
     else:
-        return render(request, 'accounts/login.html')
+        return JsonResponse({'state': 'error', 'error': '이 url로 요청을 보낼려면 method는 POST이여야 합니다.'}) 
 
 def logout(request):
     auth.logout(request)
-    return redirect('word:home-page')
-
-def account(request):
-    return render(request, 'accounts/account.html')
+    return JsonResponse({'state': 'success'}) 

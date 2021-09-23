@@ -227,7 +227,7 @@ let create_training_set = <div id="SetPageTarget">
                                     <div class="b1859v0f"></div>
                                 </div>
                                 <label class="AssemblyInput">
-                                    <input aria-label="제목" class="AssemblyInput-input AssemblyInput-placeholder" maxlength="255" placeholder="제목을 입력하세요, 예: 생물학 - 22장: 진화" type="text" value=""/>
+                                    <input aria-label="제목" class="AssemblyInput-input AssemblyInput-placeholder" maxlength="255" placeholder="제목을 입력하세요, 예: 생물학 - 22장: 진화" type="text" />
                                 </label>
                             </div>
                         </div>
@@ -255,7 +255,7 @@ let create_training_set = <div id="SetPageTarget">
                                                 <div class="UIAutosuggest">
                                                     <div role="combobox" aria-haspopup="listbox" aria-owns="react-autowhatever-1" aria-expanded="false" class="react-autosuggest__container">
                                                         <label class="AssemblyInput">
-                                                            <input autocomplete="off" aria-autocomplete="list" aria-controls="react-autowhatever-1" class="AssemblyInput-input AssemblyInput-placeholder" aria-label="학교 이름" placeholder="학교 이름" type="text" value=""/>
+                                                            <input autocomplete="off" aria-autocomplete="list" aria-controls="react-autowhatever-1" class="AssemblyInput-input AssemblyInput-placeholder" aria-label="학교 이름" placeholder="학교 이름" type="text" />
                                                             <div class="ionmch8">
                                                                 <button tabindex="-1" type="button" aria-label="info" class="AssemblyButtonBase AssemblyIconButton--subtle AssemblyIconButton--circle AssemblyButtonBase--medium is-Popover is-Tooltip UIOverlayTrigger-target">
                                                                     <svg aria-label="info" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#x"></use><noscript></noscript></svg>
@@ -272,7 +272,7 @@ let create_training_set = <div id="SetPageTarget">
                             </div>
                             <div class="cia7d2e h173eb8f">
                                 <label aria-disabled="true" class="AssemblyInput AssemblyInput--disabled">
-                                    <input aria-label="코스" class="AssemblyInput-input AssemblyInput-placeholder" disabled="" placeholder="코스" type="text" value=""/>
+                                    <input aria-label="코스" class="AssemblyInput-input AssemblyInput-placeholder" disabled="" placeholder="코스" type="text" />
                                     <div class="ionmch8">
                                         <button tabindex="-1" disabled="" type="button" aria-label="info" class="AssemblyButtonBase AssemblyIconButton--subtle AssemblyIconButton--circle AssemblyButtonBase--medium is-Popover is-Tooltip UIOverlayTrigger-target">
                                             <svg aria-label="info" class="AssemblyIcon AssemblyIcon--medium" role="img"><noscript></noscript><use xlinkHref="#info"></use><noscript></noscript></svg>
@@ -406,21 +406,21 @@ let create_training_set = <div id="SetPageTarget">
         <span>불러오기</span>
     </span></button></div><div class="ImportTerms-formGroupWrap"><div class="ImportTerms-formGroup"><label class="ImportTerms-formLabel"><span>단어 / 뜻 구분자</span>
                 </label><div class="UIDiv UIRadioGroup"><label class="UIRadio" for="ui-control-534818a8-053c-4179-b28a-bed13b90cb5e">
-                    <input class="UIRadio-input" id="ui-control-534818a8-053c-4179-b28a-bed13b90cb5e" type="radio" value="Delimiter.TAB" checked=""/>
+                    <input class="UIRadio-input" id="ui-control-534818a8-053c-4179-b28a-bed13b90cb5e" type="radio" defaultValue="Delimiter.TAB" checked=""/>
                     <span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span>↹</span></span></label>
                     <label class="UIRadio" for="ui-control-0a4af28c-05eb-4bdf-937f-b8d5eb74939f">
-                    <input class="UIRadio-input" id="ui-control-0a4af28c-05eb-4bdf-937f-b8d5eb74939f" type="radio" value="Delimiter.COMMA"/><span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span>반점(,)</span>
+                    <input class="UIRadio-input" id="ui-control-0a4af28c-05eb-4bdf-937f-b8d5eb74939f" type="radio" defaultValue="Delimiter.COMMA"/><span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span>반점(,)</span>
                 </span></label>
                 <label class="UIRadio" for="ui-control-78059866-ee92-47c9-ba72-7c4fe757000d"><input class="UIRadio-input" id="ui-control-78059866-ee92-47c9-ba72-7c4fe757000d" type="radio" value="Delimiter.CUSTOM"/>
                     <span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span class="ImportTerms-formCustomDelimiter"><label class="UIInput"><div class="UIInput-content">
-                        <input placeholder="-" class="UIInput-input" type="text" value=""/><span class="UIInput-border"></span></div><span class="UIInput-label"><span>사용자 지정</span></span></label>
+                        <input placeholder="-" class="UIInput-input" type="text" defaultValue=""/><span class="UIInput-border"></span></div><span class="UIInput-label"><span>사용자 지정</span></span></label>
                     </span></span></label></div></div><div class="ImportTerms-formGroup"><label class="ImportTerms-formLabel"><span>카드 구분</span></label><div class="UIDiv UIRadioGroup">
                     <label class="UIRadio" for="ui-control-f5e817a6-c01e-4193-97c1-99ef6162b5fa"><input class="UIRadio-input" id="ui-control-f5e817a6-c01e-4193-97c1-99ef6162b5fa" type="radio" value="Delimiter.NEWLINE" checked=""/>
                         <span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span>다음 줄</span></span></label><label class="UIRadio" for="ui-control-cf2fdb1a-e33a-4b0d-b2a5-0bf5f4835d26">
-                    <input class="UIRadio-input" id="ui-control-cf2fdb1a-e33a-4b0d-b2a5-0bf5f4835d26" type="radio" value="Delimiter.SEMICOLON"/><span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span>쌍반점 (;)</span></span>
+                    <input class="UIRadio-input" id="ui-control-cf2fdb1a-e33a-4b0d-b2a5-0bf5f4835d26" type="radio" defaultValue="Delimiter.SEMICOLON"/><span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span>쌍반점 (;)</span></span>
                 </label><label class="UIRadio" for="ui-control-d9f7970a-b229-4653-b6b2-ca9afb9639e9"><input class="UIRadio-input" id="ui-control-d9f7970a-b229-4653-b6b2-ca9afb9639e9" type="radio" value="Delimiter.CUSTOM"/>
                     <span class="UIRadio-fauxInput"></span><span class="UIRadio-label"><span class="ImportTerms-formCustomDelimiter"><label class="UIInput"><div class="UIInput-content">
-                        <input placeholder="\n\n" class="UIInput-input" type="text" value=""/><span class="UIInput-border"></span></div><span class="UIInput-label"><span>사용자 지정</span></span></label></span></span></label></div></div>
+                        <input placeholder="\n\n" class="UIInput-input" type="text" defaultValue=""/><span class="UIInput-border"></span></div><span class="UIInput-label"><span>사용자 지정</span></span></label></span></span></label></div></div>
                 </div>
                 </form>
             </div>

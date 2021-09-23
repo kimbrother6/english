@@ -24,7 +24,7 @@ function WordClass(props) {
           setclassData: setclassData
         }
         $('.edit-btn').on('click', eventData, LoadWordData)
-        // $('.speaker_btn').on('click', Speaker_btn_event)
+        $('.speaker_btn').on('click', {words: classWordsData}, Speaker_btn_event)
         })
   }, [])
   return <> 
@@ -239,6 +239,28 @@ function WordClass(props) {
 </main>
 </>
 }
+
+function Speaker_btn_event(event) {
+  let id = $(this).attr('id');
+
+  let words = event.data.words;
+  let word
+  words.map(v => {
+    if (v.pk == id) {
+      word = v
+    }
+  })
+  console.log(word)
+  // speakWord(word.fields)
+}
+
+// function speakWord(wordFields) {
+//   let parameters = {
+//     onend: () => { responsiveVoice.speak(`${wordFields.KO_word}`, 'Korean Male');}
+//   }
+//   responsiveVoice.speak(`${wordFields.EN_word}`, 'US English Male', parameters)
+// }
+
 function ClassUserName({classData}) {
   let isData = !(classData[0] === 'noData')
   
@@ -322,7 +344,6 @@ function MakeFlipWordCard({words}) {
 }
 
 function MakeWordInfoCard({words, editInputId}) {
-  
   let wordinfocardhtml = [];
   let word
   let wordslength = Object.keys(words).lengh
@@ -333,12 +354,12 @@ function MakeWordInfoCard({words, editInputId}) {
       let word = words
       wordinfocardhtml.push(<div class="word-card"><div class="word-text" id={`word-${word.pk}`}>
         <Input_or_Default_WordCard word={word} editInputId={editInputId}/>
-        </div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentcolor" class="bi bi-star-fill" viewbox="0 0 16 16"><path d="m3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73l.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696l7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592l8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentcolor" class="bi bi-volume-up-fill" viewbox="0 0 16 16"><path d="m11.536 14.01a8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707a7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="m10.121 12.596a6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707a5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="m8.707 11.182a4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182l8 5.525a3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zm6.717 3.55a.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39l3.825 10.5h1.5a.5.5 0 0 1 1 10v6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentcolor" class="bi bi-pencil-fill" viewbox="0 0 16 16"><path d="m12.854.146a.5.5 0 0 0-.707 0l10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061l9.793 2.5 3.293 9h3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468a.5.5 0 0 1 6 13.5v13h-.5a.5.5 0 0 1-.5-.5v12h-.5a.5.5 0 0 1-.5-.5v11h-.5a.5.5 0 0 1-.5-.5v10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>)
+        </div><div class="word-btns"><span class="star_btn"><svg aria-label="별표하기" class="UIIcon UIIcon--star" role="img"><noscript></noscript><use xlinkHref="#star"></use><noscript></noscript></svg></span><span class="speaker_btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentcolor" class="bi bi-volume-up-fill" viewbox="0 0 16 16"><path d="m11.536 14.01a8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707a7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="m10.121 12.596a6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707a5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="m8.707 11.182a4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182l8 5.525a3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zm6.717 3.55a.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39l3.825 10.5h1.5a.5.5 0 0 1 1 10v6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentcolor" class="bi bi-pencil-fill" viewbox="0 0 16 16"><path d="m12.854.146a.5.5 0 0 0-.707 0l10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061l9.793 2.5 3.293 9h3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468a.5.5 0 0 1 6 13.5v13h-.5a.5.5 0 0 1-.5-.5v12h-.5a.5.5 0 0 1-.5-.5v11h-.5a.5.5 0 0 1-.5-.5v10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>)
     } else {
       for (word of words) {
         wordinfocardhtml.push(<div class="word-card"><div class="word-text" id={`word-${word.pk}`}>
           <Input_or_Default_WordCard word={word} editInputId={editInputId}/>
-          </div><div class="word-btns"><span class="star_btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentcolor" class="bi bi-star-fill" viewbox="0 0 16 16"><path d="m3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73l.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696l7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592l8 13.187l-4.389 2.256z"/></svg></span><span class="speaker_btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentcolor" class="bi bi-volume-up-fill" viewbox="0 0 16 16"><path d="m11.536 14.01a8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707a7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="m10.121 12.596a6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707a5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="m8.707 11.182a4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182l8 5.525a3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zm6.717 3.55a.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39l3.825 10.5h1.5a.5.5 0 0 1 1 10v6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg></span><button class="edit-btn" id={word.pk}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentcolor" class="bi bi-pencil-fill" viewbox="0 0 16 16"><path d="m12.854.146a.5.5 0 0 0-.707 0l10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061l9.793 2.5 3.293 9h3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468a.5.5 0 0 1 6 13.5v13h-.5a.5.5 0 0 1-.5-.5v12h-.5a.5.5 0 0 1-.5-.5v11h-.5a.5.5 0 0 1-.5-.5v10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg></button></div></div>)
+          </div><div class="word-btns"><span class="star_btn"><svg aria-label="별표하기" class="UIIcon UIIcon--star" role="img"><noscript></noscript><use xlinkHref="#star"></use><noscript></noscript></svg></span><span class="speaker_btn" id={word.pk}><svg aria-label="오디오" class="UIIcon UIIcon--audio" role="img"><noscript></noscript><use xlinkHref="#audio"></use><noscript></noscript></svg></span><button class="edit-btn" id={word.pk}><svg aria-label="수정" class="UIIcon UIIcon--edit" role="img"><noscript></noscript><use xlinkHref="#edit"></use><noscript></noscript></svg></button></div></div>)
       }
     }
     wordinfocardhtml.push(<div class="word-create-or-delete-container"><a href={`/${nowClass}/update`} class="word-create-or-delete-a"><span class="word-create-or-delete-btn">단어 추가 / 삭제</span></a></div>)
@@ -438,26 +459,6 @@ function csrfSafeMethod(method) {
   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
-// function Speaker_btn_event(word) {
-//   let id = $(this).attr('id');
 
-//     fetch(`/${nowClass}/${id}/`)
-//       .then((response) => response.json())
-//       .then((result) => {
-//         let word = JSON.parse(result.word)[0];
-//         let wordFields = word.fields
-
-//         speakWord(wordFields)
-//       })
-
-// }
-
-// function speakWord(wordFields) {
-//   let parameters = {
-//     onend: () => { window.responsiveVoice.speak(`${wordFields.KO_word}`, 'Korean Male');}
-//   }
-//   window.responsiveVoice.speak(`${wordFields.EN_word}`, 'US English Male', parameters)
-//   // responsiveVoice.speak(`${wordFields.KO_word}`, 'Korean Male')
-// }
 
 export default WordClass

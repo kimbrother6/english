@@ -43,28 +43,20 @@ function MakeHomeClassCard() {
         fetch('/data/')
             .then((response) => response.json())
             .then((result) => {
-                setHtml(retrunHomeClassCard(result))
+                if (result.user_class_list[0]) {
+                    console.log(Boolean(result.user_class_list[0]))
+                    console.log(result.user_class_list[0])
+                    setHtml(retrunHomeClassCard(result))
+                } else {
+                    setHtml(<h1>데이터가 없습니다. 지금바로 만드세요!</h1>)
+                }
+                
             })
             .catch((err) => console.log('err: ', err));
     }, []);
     console.log(html)
     return html
 }
-
-
-function space_to_underscore(value) {
-    let split_value = value.split(' ')
-    let new_str = ''
-
-    for (let i = 0; i < split_value.length; i++) {
-    new_str += split_value[i]
-    if (i < split_value.length - 1) {
-        new_str += '_'
-    }
-    }
-    return new_str
-}
-
 
 function Home_page() {
     return <section class="page-elem">

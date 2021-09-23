@@ -45,7 +45,7 @@ def home_page_data(request):
 def class_home_data(request, Class):
     words = Word.objects.filter(user=request.user.username).filter(Class = Class)
     
-    content = serializers.serialize('json', words),
+    content = serializers.serialize('json', words)
 
 
     return HttpResponse(content)

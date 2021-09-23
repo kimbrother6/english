@@ -29,6 +29,7 @@ urlpatterns = [
     
     #react app
     path('', TemplateView.as_view(template_name='index.html')),
+    path('signup/', TemplateView.as_view(template_name='index.html')),
     path('login/', TemplateView.as_view(template_name='index.html')),
     path('create_training_set/', TemplateView.as_view(template_name='index.html')),
     path('class/<str:Clss>/', TemplateView.as_view(template_name='index.html')),
