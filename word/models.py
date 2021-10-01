@@ -16,6 +16,13 @@ class Word(models.Model):
     def __str__(self):
         return self.user
 
+class trainingSet(models.Model):
+    title = models.CharField(max_length = 100, null=True, blank=True)
+    explanation = models.CharField(max_length = 600, null=True, blank=True)
+    school = models.CharField(max_length = 600, null=True, blank=True)
+
+#학습세트 정보에 관한 모델 만들어야됨
+
 class WordForm(forms.ModelForm):
     class Meta:
         model = Word

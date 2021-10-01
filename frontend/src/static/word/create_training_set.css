@@ -30,3 +30,8 @@ body, html {
 .navbar-nav {
      list-style: none;
 }
+
+.in-br {
+    display: block;
+    
+}

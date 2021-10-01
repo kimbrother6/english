@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 
 
 function retrunHomeClassCard(result) {
-    console.log(result)
     let html = [];
     let Class;
     for (Class of result.user_class_list) {
@@ -30,31 +29,24 @@ function retrunHomeClassCard(result) {
 
 
     }
-    console.log(typeof html)
-    console.dir(html)
     return html
 }
 
 function MakeHomeClassCard() {
     let [html, setHtml] = useState(<>fafsdfs</>);
 
-    console.log('function')
     useEffect(() => {
         fetch('/data/')
             .then((response) => response.json())
             .then((result) => {
                 if (result.user_class_list[0]) {
-                    console.log(Boolean(result.user_class_list[0]))
-                    console.log(result.user_class_list[0])
                     setHtml(retrunHomeClassCard(result))
                 } else {
                     setHtml(<h1>데이터가 없습니다. 지금바로 만드세요!</h1>)
                 }
-                
             })
             .catch((err) => console.log('err: ', err));
     }, []);
-    console.log(html)
     return html
 }
 
