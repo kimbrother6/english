@@ -1,4 +1,4 @@
-import './static/word/create_training_set.css'
+import '../static/word/create_training_set.css'
 import { useHistory} from "react-router-dom";
 import { useState } from 'react';
 import $, { cssNumber } from 'jquery'
@@ -109,7 +109,9 @@ let TermRow =(id) => <>
                                 </div>
                                 </>
 
-let AddRow =({termRowsNum, pulseTermRowsNum}) =>
+//TODO: termRow의 입력 창과 입력창 추가 버튼 jsx를 분리하고, 마지막(addRow버튼과 row사이의 버튼) 일때는 추가버튼이 나오지 않게 하기.
+
+let AddRow =({pulseTermRowsNum}) =>
 								<div class="TermRows-termRowWrap" data-term-luid="term-5">
 									<div class="TermRow is-phantom">
 										<div class="TermRow-bareSide TermRow-bareSide--word TermText">&nbsp;</div>
@@ -190,16 +192,13 @@ let AddRow =({termRowsNum, pulseTermRowsNum}) =>
 
 function TermRows({termRowsNum}) {
     let newTermRows = [];
-    console.log(termRowsNum)
     for (let i = 1; i <= termRowsNum; i++) {
         newTermRows.push(TermRow(i))
-        console.log(newTermRows)
     }
-    console.log(newTermRows)
     return newTermRows
 }
 
-function Create_training_set_jsx() {
+function CreateTrainingSetJsx() {
     const [termRowsNum, setTermRowsNum] = useState(5);
 
     const pulseTermRowsNum = () => {
@@ -367,9 +366,8 @@ function Create_training_set_jsx() {
                         <div class="e1phsipe" id="editor-custom-distractor">객관식 문제 옵션</div>
                         <div class="TermRows">
                             <TermRows termRowsNum={termRowsNum}/>
-                            <AddRow termRowsNum={termRowsNum} pulseTermRowsNum={pulseTermRowsNum}/>
-
-                            <div>
+                            <AddRow pulseTermRowsNum={pulseTermRowsNum}/>
+                        <div>
 
             </div>
     <div class="VoiceRecordingPermissionsModal">
@@ -451,4 +449,4 @@ function trainingSetRequest() {
     console.log('wordKey: ', wordKey)
     console.log('wordValue: ', wordValue)
 }
-export default Create_training_set_jsx
+export default CreateTrainingSetJsx

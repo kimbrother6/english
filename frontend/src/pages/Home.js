@@ -1,11 +1,11 @@
-import './static/word/main-home.css'
-import {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import '../static/word/main-home.css'
+import {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 
 
 function retrunHomeClassCard(result) {
-    let html = [];
-    let Class;
+    let html = []
+    let Class
     for (Class of result.user_class_list) {
         let class_user = result.class_info[Class].user
         let word_len = result.class_info[Class].word_len
@@ -33,7 +33,7 @@ function retrunHomeClassCard(result) {
 }
 
 function MakeHomeClassCard() {
-    let [html, setHtml] = useState(<>fafsdfs</>);
+    let [html, setHtml] = useState(<>loading</>)
 
     useEffect(() => {
         fetch('/data/')
@@ -45,12 +45,12 @@ function MakeHomeClassCard() {
                     setHtml(<h1>데이터가 없습니다. 지금바로 만드세요!</h1>)
                 }
             })
-            .catch((err) => console.log('err: ', err));
-    }, []);
+            .catch((err) => console.log('err: ', err))
+    }, [])
     return html
 }
 
-function Home_page() {
+function Home() {
     return <section class="page-elem">
                 <div className="recent-learn-container">
                     <div className="guide-row">
@@ -66,4 +66,4 @@ function Home_page() {
             </section>
 }
 
-export default Home_page;
+export default Home

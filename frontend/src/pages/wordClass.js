@@ -1,29 +1,33 @@
-import './static/word/class-home.css'
-import './static/word/flip.css'
-import {useEffect, useState} from 'react';
-import $ from 'jquery';
+import '../static/word/class-home.css'
+import '../static/word/flip.css'
+
+import {useEffect, useState} from 'react'
+import { ClassWordsData, SaveEditWordData } from 'server'
+
+import getCookie from '../server/getCookie'
+import $ from 'jquery'
 
 let nowClass
 let isEditWordInputCard = false
 
 function WordClass(props) {
   nowClass = props.match.params.WordClass
-  const [classData, setclassData] = useState(['noData']);
-  const [editInputId, seteditInputId] = useState(null);
+  const [classData, setclassData] = useState(['noData'])
+  const [editInputId, seteditInputId] = useState(null)
 
   useEffect(() => {
-    LoadClassWordsData()
+    ClassWordsData()
       .then((classWordsData) => {
         setclassData(classWordsData)
         //flip을 구현하기 위해서
-        $('.flip-container .flipper').on('click', flip);
+        $('.flip-container .flipper').on('click', flip)
 
         let eventData = {
           words: classWordsData,
           seteditInputId: seteditInputId,
           setclassData: setclassData
         }
-        $('.edit-btn').on('click', eventData, LoadWordData)
+        $('.edit-btn').on('click', eventData, editBtnClickEvent)
         $('.speaker_btn').on('click', {words: classWordsData}, Speaker_btn_event)
         })
   }, [])
@@ -241,16 +245,15 @@ function WordClass(props) {
 }
 
 function Speaker_btn_event(event) {
-  let id = $(this).attr('id');
+  let id = $(this).attr('id')
 
-  let words = event.data.words;
+  let words = event.data.words
   let word
   words.map(v => {
     if (v.pk == id) {
       word = v
     }
   })
-  console.log(word)
   // speakWord(word.fields)
 }
 
@@ -271,15 +274,11 @@ function ClassUserName({classData}) {
   }
 }
 
-function LoadClassWordsData() {
-  return fetch(`/data/${nowClass}/`)
-    .then((response) => response.json())
-}
 
-function LoadWordData(event) {
-  event.stopPropagation();
-  let id = $(this).attr('id');
-  let words = event.data.words;
+function editBtnClickEvent(event) {
+  event.stopPropagation()
+  let id = $(this).attr('id')
+  let words = event.data.words
 
   let seteditInputId = event.data.seteditInputId
   seteditInputId(id)
@@ -298,10 +297,10 @@ function LoadWordData(event) {
   $('html').off().on('click', eventData, inputClickEvent)
 }
 function inputClickEvent(event) {
-  let id = event.data.word.pk;
+  let id = event.data.word.pk
   let isClickEN_wordInput = $(event.target).hasClass(`EN_word_input-${id}`)
   let isClickKO_wordInput = $(event.target).hasClass(`KO_word_input-${id}`)
-  let isNotClickInput = !(isClickEN_wordInput || isClickKO_wordInput);
+  let isNotClickInput = !(isClickEN_wordInput || isClickKO_wordInput)
 
   // defaultWordInfoCardHtml = `<div class="EN_word">${word.fields.EN_word}</div><div class="KO_word">${word.fields.KO_word}</div>`
 
@@ -314,13 +313,12 @@ function inputClickEvent(event) {
           seteditInputId(null)
           setclassData(modifiedWords)
 
-          console.log(modifiedWords)
         })
   }
 }
 
 function MakeFlipWordCard({words}) {
-  let flipWordCardJsx = [];
+  let flipWordCardJsx = []
   let word
   let wordsLength = Object.keys(words).length
   let isData = !(words[0] === 'noData')
@@ -344,7 +342,7 @@ function MakeFlipWordCard({words}) {
 }
 
 function MakeWordInfoCard({words, editInputId}) {
-  let wordinfocardhtml = [];
+  let wordinfocardhtml = []
   let word
   let wordslength = Object.keys(words).lengh
   let isdata = !(words[0] === 'noData')
@@ -374,10 +372,10 @@ function Input_or_Default_WordCard({word, editInputId}) {
   let isdata = !(word === 'noData')
   
   if (isdata) {
-    const id = word.pk;
-    let wordFields = word.fields;
+    const id = word.pk
+    let wordFields = word.fields
     let defaultInfoCardJsx = <><div class="EN_word">{wordFields.EN_word}</div><div class="KO_word">{wordFields.KO_word}</div></>
-    const csrftoken = getCookie('csrftoken');
+    const csrftoken = getCookie('csrftoken')
     let editInputCardJsx = <>
       <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken}/>
       <input type="text" name="EN_word" class={`EN_word_input-${id} EN_word_input`} autocomplete="off" defaultValue={wordFields.EN_word}/>
@@ -386,19 +384,14 @@ function Input_or_Default_WordCard({word, editInputId}) {
       <input type="hidden" name="Class" class={`Class-${id}`} value={wordFields.Class}/>
     </>
 
-    let cssBlueColor = 'color: blue'
-
     if (editInputId === null) {
-      console.log('%cdefault Card Jsx return', cssBlueColor)
       isEditWordInputCard = false
       return defaultInfoCardJsx
     } else {
       isEditWordInputCard = true
       if (editInputId == id) {
-        console.log('%cEditInput Card Jsx return', cssBlueColor)
         return editInputCardJsx
       } else {
-        console.log('%cisEditInputId default Card Jsx return', cssBlueColor)
         return defaultInfoCardJsx
       }
     }
@@ -408,57 +401,21 @@ function Input_or_Default_WordCard({word, editInputId}) {
 }
 
 function flip() {
-  $(this).closest('.flip-container').toggleClass('hover');
-  $(this).css('transform, rotateY(180deg)');
+  $(this).closest('.flip-container').toggleClass('hover')
+  $(this).css('transform, rotateY(180deg)')
 }
 
 function saveEditWordData (word_id) {
-  let id = word_id;
-  const csrftoken = getCookie('csrftoken')
+  let id = word_id
   let EN_word = $(`.EN_word_input-${id}`).val()
   let KO_word = $(`.KO_word_input-${id}`).val()
   let memorize = $(`.memorize-${id}`).val()
   let Class = $(`.Class-${id}`).val()
 
 
-  let requestBody = JSON.stringify({
-    EN_word: EN_word,
-    KO_word: KO_word,
-    memorize: memorize,
-    Class: Class,
-  })
+  let requestBody = JSON.stringify({ EN_word, KO_word, memorize, Class })
 
-  return fetch(`/data/${nowClass}/${id}/`, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': csrftoken
-    },
-    body: requestBody
-  })
-    .then((response) => response.json())
+  return SaveEditWordData(id, requestBody)
 }
-
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-
-function csrfSafeMethod(method) {
-  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-
 
 export default WordClass
