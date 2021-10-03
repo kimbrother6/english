@@ -305,7 +305,7 @@ function inputClickEvent(event) {
   // defaultWordInfoCardHtml = `<div class="EN_word">${word.fields.EN_word}</div><div class="KO_word">${word.fields.KO_word}</div>`
 
   if (isNotClickInput && isEditWordInputCard) {
-    saveEditWordData(id)
+    SaveEditWordData(id)
         .then((modifiedWords) => {
           let seteditInputId = event.data.seteditInputId
           let setclassData = event.data.setclassData
@@ -403,19 +403,6 @@ function Input_or_Default_WordCard({word, editInputId}) {
 function flip() {
   $(this).closest('.flip-container').toggleClass('hover')
   $(this).css('transform, rotateY(180deg)')
-}
-
-function saveEditWordData (word_id) {
-  let id = word_id
-  let EN_word = $(`.EN_word_input-${id}`).val()
-  let KO_word = $(`.KO_word_input-${id}`).val()
-  let memorize = $(`.memorize-${id}`).val()
-  let Class = $(`.Class-${id}`).val()
-
-
-  let requestBody = JSON.stringify({ EN_word, KO_word, memorize, Class })
-
-  return SaveEditWordData(id, requestBody)
 }
 
 export default WordClass

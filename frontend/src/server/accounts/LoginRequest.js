@@ -1,8 +1,12 @@
 import getCookie from "server/getCookie"
+import $ from 'jquery'
 
-function Login(LoginData) {
+function Login() {
   const csrftoken = getCookie('csrftoken')
-  console.log(LoginData)
+  let username = $('#login-username').val()
+  let password = $('#login-password').val()
+
+  let LoginData = JSON.stringify({ "username": username, "password": password })
 
   fetch('/accounts/login/', {
     method: 'POST',
