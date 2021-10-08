@@ -1,34 +1,32 @@
 import '../static/word/class-home.css'
 import '../static/word/flip.css'
-
-import {useEffect, useState} from 'react'
-import { ClassWordsData, SaveEditWordData } from 'server'
-import { FlipWordCard, WordInfoCard, isEditWordInputCard } from 'components'
-
-import getCookie from '../server/getCookie'
 import $ from 'jquery'
 
-let nowClass
+import {useEffect, useState} from 'react'
+import { ClassWordsData } from 'server'
+import { FlipWordCard, WordInfoCard, isEditWordInputCard } from 'components'
+import { SpeakerBtnEvent, editBtnClickEvent, flip } from 'event'
 
 function WordClass(props) {
-  nowClass = props.match.params.WordClass
-  const [classData, setclassData] = useState(['noData'])
+  console.log('wordClass 함수 호출됨.')
+  let nowClass = props.match.params.WordClass
+  const [classData, setclassData] = useState(['noData', {fields: {user: 'loading'}}])
+  
+  console.log(classData)
   const [editInputId, seteditInputId] = useState(null)
 
   useEffect(() => {
     ClassWordsData()
-      .then((classWordsData) => {
-        setclassData(classWordsData)
+      .then((words) => {
+        setclassData(words)
+        console.log('response.')
+        console.log(classData[1].fields.user)
         //flip을 구현하기 위해서
-        $('.flip-container .flipper').on('click', flip)
+        // $('.flip-container .flipper').on('click', flip)
 
-        let eventData = {
-          words: classWordsData,
-          seteditInputId: seteditInputId,
-          setclassData: setclassData
-        }
-        $('.edit-btn').on('click', eventData, editBtnClickEvent)
-        $('.speaker_btn').on('click', {words: classWordsData}, Speaker_btn_event)
+        // let eventData = {words, seteditInputId, setclassData, isEditWordInputCard}
+        // $('.edit-btn').on('click', eventData, editBtnClickEvent)
+        // $('.speaker_btn').on('click', {words}, SpeakerBtnEvent)
         })
   }, [])
   return <> 
@@ -180,7 +178,7 @@ function WordClass(props) {
 
     <div class="profile">
       만든 이
-      <a href=""><div class="user"><ClassUserName classData={classData}/></div></a>
+      <a href=""><div class="user">{classData[1].fields.user}</div></a>
       <div class="small-class-name">{nowClass}</div>
     </div>
 
@@ -244,86 +242,14 @@ function WordClass(props) {
 </>
 }
 
-function Speaker_btn_event(event) {
-  let id = $(this).attr('id')
-
-  let words = event.data.words
-  let word
-  words.map(v => {
-    if (v.pk == id) {
-      word = v
-    }
-  })
-  // speakWord(word.fields)
-}
-
-// function speakWord(wordFields) {
-//   let parameters = {
-//     onend: () => { responsiveVoice.speak(`${wordFields.KO_word}`, 'Korean Male');}
-//   }
-//   responsiveVoice.speak(`${wordFields.EN_word}`, 'US English Male', parameters)
-// }
-
 function ClassUserName({classData}) {
-  let isData = !(classData[0] === 'noData')
+  let isData = classData[0] !== undefined && classData[0] !== 'noData'
   
   if (isData) {
     return <>{classData[0].fields.user}</>
   } else {
     return <>loading</>
   }
-}
-
-function editBtnClickEvent(event) {
-  event.stopPropagation()
-  let id = $(this).attr('id')
-  let words = event.data.words
-
-  let seteditInputId = event.data.seteditInputId
-  seteditInputId(id)
-
-  let word
-  Object.values(words).map(v => {
-    if (v.pk == id ) {
-      word = v
-    }
-  })
-  let eventData = {
-    word: word, 
-    seteditInputId: seteditInputId, 
-    setclassData: event.data.setclassData
-  }
-  $('html').off().on('click', eventData, inputClickEvent)
-}
-
-function inputClickEvent(event) {
-  console.log('어딘가 클릭')
-  let id = event.data.word.pk
-  let isClickEN_wordInput = $(event.target).hasClass(`EN_word_input-${id}`)
-  let isClickKO_wordInput = $(event.target).hasClass(`KO_word_input-${id}`)
-  let isNotClickInput = !(isClickEN_wordInput || isClickKO_wordInput)
-
-  // defaultWordInfoCardHtml = `<div class="EN_word">${word.fields.EN_word}</div><div class="KO_word">${word.fields.KO_word}</div>`
-  console.log('isNotCLick Input: ', isNotClickInput)
-  console.log('isNotCLick Input: ', isEditWordInputCard)
-  if (isNotClickInput && isEditWordInputCard) {
-    console.log('out of area')
-    SaveEditWordData(id)
-        .then((modifiedWords) => {
-          console.log('saved')
-          let seteditInputId = event.data.seteditInputId
-          let setclassData = event.data.setclassData
-          
-          seteditInputId(null)
-          setclassData(modifiedWords)
-
-        })
-  }
-}
-
-function flip() {
-  $(this).closest('.flip-container').toggleClass('hover')
-  $(this).css('transform, rotateY(180deg)')
 }
 
 export default WordClass

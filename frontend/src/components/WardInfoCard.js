@@ -6,7 +6,7 @@ function WordInfoCard({words, editInputId}) {
   let wordinfocardhtml = []
   let word
   let wordslength = Object.keys(words).lengh
-  let isdata = !(words[0] === 'noData')
+  let isdata = words[0] !== 'noData'
   
   if (isdata) {
     if (wordslength === 1 ) {

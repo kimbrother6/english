@@ -3,8 +3,7 @@ import { useHistory} from "react-router-dom";
 import { useState } from 'react';
 import $, { cssNumber } from 'jquery'
 
-let TermRow =(id) => <>
-                                <div class="TermRows-termRowWrap" data-term-luid="term-0">
+let TermRow =(id) =>            <div class="TermRows-termRowWrap" data-term-luid="term-0">
                                     <div class="TermRow">
                                         <div class="TermRow-bareSide TermRow-bareSide--word TermText">&nbsp;</div>
                                         <div class="TermRow-bareSide TermRow-bareSide--definition TermText">&nbsp;</div>
@@ -96,23 +95,22 @@ let TermRow =(id) => <>
                                     </div>
                                 </div>
 
-                                <div class="TermRowSeparator" data-term-luid="term-0">
-                                    <span class="TermRowSeparator-addRowBetweenButton">
-                                        <span class="UIIconButton">
-                                            <button class="UIButton" tabindex="-1" title="+ 카드 추가" type="button">
-                                                <span class="UIButton-wrapper">
-                                                    <svg aria-label="plus thin" class="UIIcon UIIcon--plus-thin" role="img"><noscript></noscript><use xlinkHref="#plus-thin"></use><noscript></noscript></svg>
-                                                </span>
-                                            </button>
-                                        </span>
-                                    </span>
-                                </div>
-                                </>
+let TermRowSeparator = <div class="TermRowSeparator" data-term-luid="term-0">
+<span class="TermRowSeparator-addRowBetweenButton">
+    <span class="UIIconButton">
+        <button class="UIButton" tabindex="-1" title="+ 카드 추가" type="button">
+            <span class="UIButton-wrapper">
+                <svg aria-label="plus thin" class="UIIcon UIIcon--plus-thin" role="img"><noscript></noscript><use xlinkHref="#plus-thin"></use><noscript></noscript></svg>
+            </span>
+        </button>
+    </span>
+</span>
+</div>
 
 //TODO: termRow의 입력 창과 입력창 추가 버튼 jsx를 분리하고, 마지막(addRow버튼과 row사이의 버튼) 일때는 추가버튼이 나오지 않게 하기.
 
 let AddRow =({pulseTermRowsNum}) =>
-								<div class="TermRows-termRowWrap" data-term-luid="term-5">
+								<div class="TermRows-termRowWrap AddRow " data-term-luid="term-5">
 									<div class="TermRow is-phantom">
 										<div class="TermRow-bareSide TermRow-bareSide--word TermText">&nbsp;</div>
 										<div class="TermRow-bareSide TermRow-bareSide--definition TermText">&nbsp;</div>
@@ -193,12 +191,18 @@ let AddRow =({pulseTermRowsNum}) =>
 function TermRows({termRowsNum}) {
     let newTermRows = [];
     for (let i = 1; i <= termRowsNum; i++) {
-        newTermRows.push(TermRow(i))
+        if (i == termRowsNum) {
+            newTermRows.push(TermRow(i))
+        } else {
+            newTermRows.push(TermRow(i))
+            newTermRows.push(TermRowSeparator)
+        }
     }
     return newTermRows
 }
 
 function CreateTrainingSetJsx() {
+    console.log('createtrainingseJsx 호출됨')
     const [termRowsNum, setTermRowsNum] = useState(5);
 
     const pulseTermRowsNum = () => {
