@@ -200,17 +200,9 @@ function TermRows({termRowsNum}) {
 }
 
 function CreateTrainingSetJsx() {
-    console.log('createtrainingseJsx 호출됨')
     const [termRowsNum, setTermRowsNum] = useState(5);
 
-    const pulseTermRowsNum = () => {
-        setTermRowsNum(termRowsNum + 1)
-    }
-
-    useEffect(() => {
-        console.log('useEffct')
-        $('.trainingSetRequestBtn').on('click', trainingSetRequest)
-    }, [])
+    const pulseTermRowsNum = () => {setTermRowsNum(termRowsNum + 1)}
 
     return  <div id="SetPageTarget">
     <div class="CreateSetPage">
@@ -230,7 +222,7 @@ function CreateTrainingSetJsx() {
                                 </div>
                             </div>
                             <div class="CreateSetHeader-infoButtonWrap">
-                                <button class="UIButton trainingSetRequestBtn" type="button" >
+                                <button class="UIButton" type="button" onClick={() => trainingSetRequest(5)} >
                                     <span class="UIButton-wrapper"><span>만들기</span></span>
                                 </button>
                             </div>
@@ -388,7 +380,7 @@ function CreateTrainingSetJsx() {
         </div>
         <div class="CreateSetPage-footer">
             <div class="CreateSetPage-publishButton">
-                <button class="UIButton UIButton--hero trainingSetRequestBtn" type="button" >
+                <button class="UIButton UIButton--hero" type="button" onClick={() => trainingSetRequest(5)}>
                     <span class="UIButton-wrapper"><span>만들기</span></span>
                 </button>
             </div>

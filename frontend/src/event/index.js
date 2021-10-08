@@ -1,1 +1,1 @@
-export { default as wordClass_EventHandle } from './wordClass_EventHandle'
+export { default as ClassHome_EventHandle } from './ClassHome_EventHandle'

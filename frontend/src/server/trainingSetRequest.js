@@ -1,11 +1,24 @@
 import $ from 'jquery'
 
-function trainingSetRequest() {
+function trainingSetRequest(termRowsNum) {
+    console.log(termRowsNum)
+
     let trainingSetTitle = $('#trainingSetTitle').val()
     let trainingSetExplanation = $('#trainingSetExplanation').val()
 
+    let newWord = {
+        key: {
+
+        },
+        value: {
+
+        }
+    }
+
     let wordKey = $('#wordKey1').val()
-    let wordValue= $('#wordValue1').val() 
+    let wordValue= $('#wordValue1').val()
+
+
 
     console.log('trainingSetTitle: ', trainingSetTitle)
     console.log('trainingSetExplanation: ', trainingSetExplanation)

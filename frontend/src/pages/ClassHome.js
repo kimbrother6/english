@@ -1,14 +1,13 @@
-import '../static/word/class-home.css'
-import '../static/word/flip.css'
+import 'static/word/class-home.css'
+import 'static/word/flip.css'
 
 import {useEffect, useState} from 'react'
 import { ClassWordsData } from 'server'
 import { FlipWordCard, WordInfoCard } from 'components'
-import { wordClass_EventHandle } from 'event'
+import { ClassHome_EventHandle } from 'event'
 
-function WordClass(props) {
-  console.log('wordClass 함수 호출됨.')
-  let nowClass = props.match.params.WordClass
+function ClassHome(props) {
+  let nowClass = props.match.params.ClassHome
   const [classData, setclassData] = useState(['noData', {fields: {user: 'loading'}}])
   
   console.log(classData)
@@ -18,10 +17,7 @@ function WordClass(props) {
     ClassWordsData()
       .then((words) => {
         setclassData(words)
-        console.log('response.')
-        console.log(classData[1].fields.user)
-
-        wordClass_EventHandle(words, seteditInputId, setclassData)
+        ClassHome_EventHandle(words, seteditInputId, setclassData)
         })
   }, [])
   return <> 
@@ -237,4 +233,4 @@ function WordClass(props) {
 </>
 }
 
-export default WordClass
+export default ClassHome

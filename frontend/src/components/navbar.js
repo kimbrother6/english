@@ -1,9 +1,5 @@
 import {Link} from 'react-router-dom';
 
-import jquery from 'jquery';
-import $ from 'jquery';
-
-
 let navbar = <>
 <div style={{'display': 'none', }}>
     <svg xmlns="http://www.w3.org/2000/svg" ><symbol fill="none" id="accents_underline" viewBox="0 0 65 23">
