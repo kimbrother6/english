@@ -1,7 +1,7 @@
 import '../static/word/create_training_set.css'
-import { useHistory} from "react-router-dom";
-import { useState } from 'react';
-import $, { cssNumber } from 'jquery'
+import $ from 'jquery'
+import { useState, useEffect } from 'react';
+import { trainingSetRequest } from 'server'
 
 let TermRow =(id) =>            <div class="TermRows-termRowWrap" data-term-luid="term-0">
                                     <div class="TermRow">
@@ -107,10 +107,8 @@ let TermRowSeparator = <div class="TermRowSeparator" data-term-luid="term-0">
 </span>
 </div>
 
-//TODO: termRow의 입력 창과 입력창 추가 버튼 jsx를 분리하고, 마지막(addRow버튼과 row사이의 버튼) 일때는 추가버튼이 나오지 않게 하기.
-
 let AddRow =({pulseTermRowsNum}) =>
-								<div class="TermRows-termRowWrap AddRow " data-term-luid="term-5">
+								<div class="TermRows-termRowWrap AddRow" data-term-luid="term-5">
 									<div class="TermRow is-phantom">
 										<div class="TermRow-bareSide TermRow-bareSide--word TermText">&nbsp;</div>
 										<div class="TermRow-bareSide TermRow-bareSide--definition TermText">&nbsp;</div>
@@ -209,6 +207,11 @@ function CreateTrainingSetJsx() {
         setTermRowsNum(termRowsNum + 1)
     }
 
+    useEffect(() => {
+        console.log('useEffct')
+        $('.trainingSetRequestBtn').on('click', trainingSetRequest)
+    }, [])
+
     return  <div id="SetPageTarget">
     <div class="CreateSetPage">
     <div class="CreateSetHeader has-adz">
@@ -227,7 +230,7 @@ function CreateTrainingSetJsx() {
                                 </div>
                             </div>
                             <div class="CreateSetHeader-infoButtonWrap">
-                                <button class="UIButton" type="button" onClick={trainingSetRequest}>
+                                <button class="UIButton trainingSetRequestBtn" type="button" >
                                     <span class="UIButton-wrapper"><span>만들기</span></span>
                                 </button>
                             </div>
@@ -385,7 +388,7 @@ function CreateTrainingSetJsx() {
         </div>
         <div class="CreateSetPage-footer">
             <div class="CreateSetPage-publishButton">
-                <button class="UIButton UIButton--hero" type="button" onClick={trainingSetRequest}>
+                <button class="UIButton UIButton--hero trainingSetRequestBtn" type="button" >
                     <span class="UIButton-wrapper"><span>만들기</span></span>
                 </button>
             </div>
@@ -440,17 +443,6 @@ function CreateTrainingSetJsx() {
         <div class="SetPermissions"></div>
     </div>
 </div>
-
 }
 
-function trainingSetRequest() {
-    let trainingSetTitle = $('#trainingSetTitle').val()
-    let trainingSetExplanation = $('#trainingSetExplanation').val()
-
-    let wordKey = $('#wordKey1').val()
-    let wordValue= $('#wordValue1').val() 
-
-    console.log('wordKey: ', wordKey)
-    console.log('wordValue: ', wordValue)
-}
 export default CreateTrainingSetJsx

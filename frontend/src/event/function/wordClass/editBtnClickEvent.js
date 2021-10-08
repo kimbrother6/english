@@ -5,9 +5,10 @@ import { SaveEditWordData } from 'server'
 function editBtnClickEvent(event) {
   event.stopPropagation()
   let id = $(this).attr('id')
-  let words = event.data.words
 
+  let words = event.data.words
   let seteditInputId = event.data.seteditInputId
+  
   seteditInputId(id)
 
   let word

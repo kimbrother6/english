@@ -1,11 +1,10 @@
 import '../static/word/class-home.css'
 import '../static/word/flip.css'
-import $ from 'jquery'
 
 import {useEffect, useState} from 'react'
 import { ClassWordsData } from 'server'
-import { FlipWordCard, WordInfoCard, isEditWordInputCard } from 'components'
-import { SpeakerBtnEvent, editBtnClickEvent, flip } from 'event'
+import { FlipWordCard, WordInfoCard } from 'components'
+import { wordClass_EventHandle } from 'event'
 
 function WordClass(props) {
   console.log('wordClass 함수 호출됨.')
@@ -21,12 +20,8 @@ function WordClass(props) {
         setclassData(words)
         console.log('response.')
         console.log(classData[1].fields.user)
-        //flip을 구현하기 위해서
-        // $('.flip-container .flipper').on('click', flip)
 
-        // let eventData = {words, seteditInputId, setclassData, isEditWordInputCard}
-        // $('.edit-btn').on('click', eventData, editBtnClickEvent)
-        // $('.speaker_btn').on('click', {words}, SpeakerBtnEvent)
+        wordClass_EventHandle(words, seteditInputId, setclassData)
         })
   }, [])
   return <> 
@@ -240,16 +235,6 @@ function WordClass(props) {
 </section>
 </main>
 </>
-}
-
-function ClassUserName({classData}) {
-  let isData = classData[0] !== undefined && classData[0] !== 'noData'
-  
-  if (isData) {
-    return <>{classData[0].fields.user}</>
-  } else {
-    return <>loading</>
-  }
 }
 
 export default WordClass
