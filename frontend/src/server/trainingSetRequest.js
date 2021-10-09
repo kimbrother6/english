@@ -1,29 +1,38 @@
 import $ from 'jquery'
 
 function trainingSetRequest(termRowsNum) {
-    console.log(termRowsNum)
-
     let trainingSetTitle = $('#trainingSetTitle').val()
     let trainingSetExplanation = $('#trainingSetExplanation').val()
 
-    let newWord = {
-        key: {
-
-        },
-        value: {
-
-        }
-    }
-
-    let wordKey = $('#wordKey1').val()
-    let wordValue= $('#wordValue1').val()
-
-
-
+    let newWords = []
     console.log('trainingSetTitle: ', trainingSetTitle)
     console.log('trainingSetExplanation: ', trainingSetExplanation)
-    console.log('wordKey: ', wordKey)
-    console.log('wordValue: ', wordValue)
+
+    for (let num = 1; num <= termRowsNum; num++) {
+        let wordKey = $(`#wordKey${num}`).val() 
+        let wordValue = $(`#wordValue${num}`).val()
+
+        let wordKeyIsNull = wordKey === ''
+        let wordValueIsNull = wordValue === ''
+
+        if ( wordKeyIsNull && wordValueIsNull) {
+            console.log(`${num}는 빈칸입니다.`)
+        } 
+        else if (wordKeyIsNull || wordValueIsNull) {
+            wordKey = wordKey === '' ? '...' : wordKey
+            wordValue = wordValue === '' ? '...' : wordValue
+
+            newWords.push({key: wordKey, value: wordValue})
+
+            console.log(`${num}둘중 하나가 빈칸 입니다.`)
+        } 
+        else  {
+            newWords.push({key: wordKey, value: wordValue})
+            console.log(`wordKey${num}:`, wordKey)
+            console.log(`wordValue${num}:`, wordValue)
+        }
+        console.log(newWords)
+    }
 }
 
 export default trainingSetRequest
