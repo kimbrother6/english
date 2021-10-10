@@ -8,22 +8,26 @@ from django.http import HttpResponse
 from .models import Word
 import json
 
-def render_create_training_set(request): 
-    content = {
-		    'range_5': [0, 1, 2, 3, 4]
-		    }
-    return render(request, 'word/create_training_set.html', content)
-def create(request):
+
+def create_training_set(request):
     #만약 method가 POST라면 request로 넘어온 값들을 데이터베이스에 저장
     if request.method == 'POST':
         #form에서 넘어온 값의 저장을 보류하고, memorize와 user를 추가한 후 저장한다.
-        post_form = WordForm(request.POST)
-        post_form = post_form.save(commit=False)
-        post_form.memorize = '0'
-        post_form.user = request.user.username
-        post_form.save()
+        data = json.loads(request.body)
+        trainingSetTitle = data['trainingSetTitle']
+        trainingSetExplanation = data['trainingSetExplanation']
+        words = data['words']
 
-        return redirect('word:home-page')
+        print(trainingSetTitle)
+        print(trainingSetExplanation)
+        print(words)
+        # post_form = WordForm(request.POST)
+        # post_form = post_form.save(commit=False)
+        # post_form.memorize = '0'
+        # post_form.user = request.user.username
+        # post_form.save()
+
+        return JsonResponse({'state': 'success'})
 
 #데이터 로드
 def home_page_data(request):
