@@ -5,7 +5,7 @@ from .models import Word, WordForm
 from sqlalchemy import create_engine
 import pandas as pd
 from django.http import HttpResponse
-from .models import Word
+from .models import Word, trainingSet
 import json
 
 
@@ -18,11 +18,24 @@ def create_training_set(request):
         trainingSetExplanation = data['trainingSetExplanation']
         words = data['words']
 
-        print(trainingSetTitle)
-        print(trainingSetExplanation)
-        print(words)
+        create_trainingSet = trainingSet(
+            title = trainingSetTitle,
+            explanation = trainingSetExplanation,
+            user = request.user.username
+        )
+        create_trainingSet.save()
+
+        created_trainingSet_id = create_trainingSet.id
+        print(created_trainingSet_id)
+
+        for word in words: 
+            Word(
+                key = word['key'],
+                value = word['value'],
+                trainingSet_id = created_trainingSet_id
+            ).save()
+
         # post_form = WordForm(request.POST)
-        # post_form = post_form.save(commit=False)
         # post_form.memorize = '0'
         # post_form.user = request.user.username
         # post_form.save()
