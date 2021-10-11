@@ -15,9 +15,10 @@ class Word(models.Model):
         return self.key
 
 class trainingSet(models.Model):
-    user = models.CharField(max_length=99999999999999, null=True, blank=True)
+    user_id = models.IntegerField(null=True, blank=True)
     title = models.CharField(max_length = 100, null=True, blank=True)
     explanation = models.CharField(max_length = 600, null=True, blank=True)
+    words_length = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title

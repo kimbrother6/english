@@ -6,9 +6,9 @@ import {Link} from 'react-router-dom'
 function retrunHomeClassCard(result) {
     let html = []
     let Class
-    for (Class of result.user_class_list) {
-        let class_user = result.class_info[Class].user
-        let word_len = result.class_info[Class].word_len
+    for (Class of Object.keys(result)) {
+        let class_user = result[Class].user
+        let words_length = result[Class].words_length
 
         html.push(<div class="card float-left class-card">
             <Link to={`/class/${Class}/`} class="class-url">
@@ -17,7 +17,7 @@ function retrunHomeClassCard(result) {
                         <div class="card-title">
                             {Class}</div>
                         <div class="word-len" id="{space_to_underscore(Class)}-len">
-                            {word_len}단어</div>
+                            {words_length}단어</div>
                     </div>
                     <div class="word-user">
                         <a href="#" id="{space_to_underscore(Class)}-user" class="class-user-url">
@@ -39,7 +39,8 @@ function MakeHomeClassCard() {
         fetch('/data/')
             .then((response) => response.json())
             .then((result) => {
-                if (result.user_class_list[0]) {
+                if (result !== {}) {
+                    // setHtml(<>어떻게든 데이터가 있네요!!:::</>)
                     setHtml(retrunHomeClassCard(result))
                 } else {
                     setHtml(<h1>데이터가 없습니다. 지금바로 만드세요!</h1>)

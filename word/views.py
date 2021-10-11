@@ -19,14 +19,13 @@ def create_training_set(request):
         words = data['words']
 
         create_trainingSet = trainingSet(
+            user_id = request.user.id,
             title = trainingSetTitle,
             explanation = trainingSetExplanation,
-            user = request.user.username
+            words_length = len(words)
         )
         create_trainingSet.save()
-
         created_trainingSet_id = create_trainingSet.id
-        print(created_trainingSet_id)
 
         for word in words: 
             Word(
@@ -45,19 +44,22 @@ def create_training_set(request):
 #데이터 로드
 def home_page_data(request):
     #상단에 사용자 이름을 나타내기위해 변수에 지정
-    user = request.user.username
+    user_id = request.user.id
     #유저의 단어를 변수에 지정
-    word = Word.objects.filter(user=user)
+    # word = Word.objects.filter(user=user)
+    user_trainingSet_list = trainingSet.objects.filter(user_id=user_id)
+    print('user_trainingSet_list', user_trainingSet_list)
+    print(len(user_trainingSet_list))
 
-    class_list = list(user_class_list(request))
-    class_info = return_class_info(class_list, word)
+    class_info = {}
+    for i in range(len(user_trainingSet_list)):
+        class_info[user_trainingSet_list[i].title] = {
+            'user': request.user.username,
+            'words_length': user_trainingSet_list[i].words_length
+        }
+    print(class_info)
 
-    content = {
-        'class_info': class_info,
-        'user_class_list': class_list,
-    }
-
-    return JsonResponse(content)
+    return JsonResponse(class_info)
 
 def class_home_data(request, Class):
     words = Word.objects.filter(user=request.user.username).filter(Class = Class)
