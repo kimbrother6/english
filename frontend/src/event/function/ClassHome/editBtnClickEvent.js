@@ -25,13 +25,15 @@ function editBtnClickEvent(event) {
   $('html').off().on('click', eventData, inputClickEvent)
 }
 function inputClickEvent(event) {
-  let id = event.data.word.pk
-  let isClickEN_wordInput = $(event.target).hasClass(`EN_word_input-${id}`)
-  let isClickKO_wordInput = $(event.target).hasClass(`KO_word_input-${id}`)
-  let isNotClickInput = !(isClickEN_wordInput || isClickKO_wordInput)
+  let word = event.data.word
+
+  let isClickEN_wordInput = $(event.target).hasClass(`EN_word_input-${word.pk}`)
+  let isClickvalueInput = $(event.target).hasClass(`value_input-${word.pk }`)
+  
+  let isNotClickInput = !(isClickEN_wordInput || isClickvalueInput)
 
   if (isNotClickInput && isEditWordInputCard) {
-    SaveEditWordData(id)
+    SaveEditWordData(word.pk, word)
         .then((modifiedWords) => {
           let seteditInputId = event.data.seteditInputId
           let setclassData = event.data.setclassData

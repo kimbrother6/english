@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             name='Word',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('EN_word', models.TextField(blank=True, null=True)),
-                ('KO_word', models.TextField(blank=True, null=True)),
+                ('key', models.TextField(blank=True, null=True)),
+                ('value', models.TextField(blank=True, null=True)),
                 ('memorize', models.CharField(blank=True, max_length=50, null=True)),
                 ('Class', models.CharField(blank=True, max_length=30, null=True)),
             ],

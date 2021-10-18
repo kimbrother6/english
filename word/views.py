@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from .models import Word, WordForm
 from sqlalchemy import create_engine
 import pandas as pd
-from django.http import HttpResponse
 from .models import Word, trainingSet
 import json
 
@@ -34,11 +33,6 @@ def create_training_set(request):
                 trainingSet_id = created_trainingSet_id
             ).save()
 
-        # post_form = WordForm(request.POST)
-        # post_form.memorize = '0'
-        # post_form.user = request.user.username
-        # post_form.save()
-
         return JsonResponse({'state': 'success'})
 
 #데이터 로드
@@ -60,35 +54,27 @@ def home_page_data(request):
     return JsonResponse(class_info)
 
 def class_home_data(request, title):
-    user_id = request.user.id
     class_trainingSet = trainingSet.objects.filter(title = title)
     class_trainingSet_id = class_trainingSet.values()[0]['id']
 
     words = Word.objects.filter(trainingSet_id=class_trainingSet_id)
-    
     content = serializers.serialize('json', words)
-
 
     return HttpResponse(content)
 
 def word_detail(request, Class, id):
-    if request.method == 'POST':
+    if request.method == 'PUT':
         word = Word.objects.get(id=id)
         post_form = WordForm(json.loads(request.body), instance=word)
         post_form = post_form.save(commit=False)
         post_form.user = request.user.username
         post_form.save()
 
-        words = Word.objects.filter(Class=Class)
+        words = Word.objects.filter(trainingSet_id=json.loads(request.body)['trainingSet_id'])
 
         content = serializers.serialize('json', words)
-        
-        return HttpResponse(content)
 
-    elif request.method == 'DELETE':
-        word = Word.objects.get(id=id)
-        word.delete()
-        return redirect('word:home-page')
+        return HttpResponse(content)
 
     elif request.method == 'GET':
         word = Word.objects.get(id=id)

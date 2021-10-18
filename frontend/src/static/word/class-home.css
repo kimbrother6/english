@@ -215,7 +215,7 @@ body .body-top {
   font-size: 19px;
 }
 
-.EN_word {
+.key {
   width: 30%;
   border-right: 2px solid black;
   display: inline-block;
@@ -226,7 +226,7 @@ body .body-top {
   margin-top: 15px;
 }
 
-.KO_word {
+.value {
   padding-left: 10px;
   display: inline-block;
 }
@@ -257,7 +257,7 @@ body .body-top {
   text-align: center;
 }
 
-.EN_word_input, .KO_word_input {
+.key_input, .value_input {
   background-color:transparent;
   border-style: none;
   outline: none;
@@ -266,11 +266,11 @@ body .body-top {
   padding: 0;
 }
 
-.EN_word_input:focus, .KO_word_input:focus {
+.key_input:focus, .value_input:focus {
   border-bottom: 2px solid #ffcd1f;
 }
 
-.EN_word_input, .KO_word_input {
+.key_input, .value_input {
   background-color:transparent;
   border-style: none;
   outline: none;
@@ -279,18 +279,18 @@ body .body-top {
   padding: 0;
 }
 
-.EN_word_input:focus, .KO_word_input:focus {
+.key_input:focus, .value_input:focus {
   border-bottom: 2px solid #ffcd1f;
 }
 
-.EN_word_input {
+.key_input {
   width: 30%;
   padding: 0;
   border-right: 2px solid black;
   font-size: 19px;
 }
 
-.KO_word_input {
+.value_input {
   width: 60%;
   font-size: 19px;
 }

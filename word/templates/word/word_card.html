@@ -31,14 +31,14 @@
                                 <div class="flip-card-front">
                                     <div class='helper'></div>
                                     <div class='word-card-text'>
-                                        {{word.EN_word|linebreaks}}
+                                        {{word.key|linebreaks}}
                                     </div>
                                     <a href="{% url 'word:update' word.id %}"><div class='button edit-btn'>수정</div></a>
                                 </div>
                                 <div class="flip-card-back">
                                     <div class='helper'></div>
                                     <div class='word-card-text'>
-                                        {{word.KO_word|linebreaks}}
+                                        {{word.value|linebreaks}}
                                     </div>
                                     <a href="{% url 'word:update' word.id %}"><div class='button edit-btn'>수정</div></a>
                                 </div>

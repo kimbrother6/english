@@ -15,9 +15,9 @@ function SpeakerBtnEvent(event) {
 
 // function speakWord(wordFields) {
 //   let parameters = {
-//     onend: () => { responsiveVoice.speak(`${wordFields.KO_word}`, 'Korean Male');}
+//     onend: () => { responsiveVoice.speak(`${wordFields.value}`, 'Korean Male');}
 //   }]]
-//   responsiveVoice.speak(`${wordFields.EN_word}`, 'US English Male', parameters)
+//   responsiveVoice.speak(`${wordFields.key}`, 'US English Male', parameters)
 // }
 
 export default SpeakerBtnEvent

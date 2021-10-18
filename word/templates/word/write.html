@@ -8,13 +8,13 @@
 
 {% block content %}
     {% if request.method == "POST" %}
-        {% if request.POST.EN_answer == EN_word %}
-            <form method="GET" action="{% url 'word:write' Class None %}"> <!--EN_word가 필요하지않으니 None을 넘겨줌-->
+        {% if request.POST.EN_answer == key %}
+            <form method="GET" action="{% url 'word:write' Class None %}"> <!--key가 필요하지않으니 None을 넘겨줌-->
                 정답입니다.
                 <input type='submit' value='확인'>
             </form>
         {% else %}
-            <form method="GET" action="{% url 'word:write' Class None %}"><!--EN_word가 필요하지않으니 None을 넘겨줌-->
+            <form method="GET" action="{% url 'word:write' Class None %}"><!--key가 필요하지않으니 None을 넘겨줌-->
                 틀렸습니다.
                 <input type='submit' value='확인'>
             </form>
@@ -33,8 +33,8 @@
                     <div class="carousel-item {% if word == words.0 %}active{% endif %}">
                         <div class='card-word'>
                             {{CLass}}
-                            <form method="post" autocomplete="off" action="{% url 'word:write' Class word.EN_word %}">{% csrf_token %}
-                                {{word.KO_word}}
+                            <form method="post" autocomplete="off" action="{% url 'word:write' Class word.key %}">{% csrf_token %}
+                                {{word.value}}
                                 <input type="text" id="EN_answer" name="EN_answer" placeholder='영어로 정답을 입력하세요.'><br>
 
                                 <input type='submit' value='정답'>
