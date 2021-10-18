@@ -26,8 +26,6 @@ function retrunHomeClassCard(result) {
                 </div>
             </Link>
         </div>)
-
-
     }
     return html
 }
@@ -40,7 +38,6 @@ function MakeHomeClassCard() {
             .then((response) => response.json())
             .then((result) => {
                 if (result !== {}) {
-                    // setHtml(<>어떻게든 데이터가 있네요!!:::</>)
                     setHtml(retrunHomeClassCard(result))
                 } else {
                     setHtml(<h1>데이터가 없습니다. 지금바로 만드세요!</h1>)

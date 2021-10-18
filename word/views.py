@@ -48,8 +48,6 @@ def home_page_data(request):
     #유저의 단어를 변수에 지정
     # word = Word.objects.filter(user=user)
     user_trainingSet_list = trainingSet.objects.filter(user_id=user_id)
-    print('user_trainingSet_list', user_trainingSet_list)
-    print(len(user_trainingSet_list))
 
     class_info = {}
     for i in range(len(user_trainingSet_list)):
@@ -61,8 +59,12 @@ def home_page_data(request):
 
     return JsonResponse(class_info)
 
-def class_home_data(request, Class):
-    words = Word.objects.filter(user=request.user.username).filter(Class = Class)
+def class_home_data(request, title):
+    user_id = request.user.id
+    class_trainingSet = trainingSet.objects.filter(title = title)
+    class_trainingSet_id = class_trainingSet.values()[0]['id']
+
+    words = Word.objects.filter(trainingSet_id=class_trainingSet_id)
     
     content = serializers.serialize('json', words)
 

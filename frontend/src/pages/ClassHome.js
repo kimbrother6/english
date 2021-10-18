@@ -169,7 +169,7 @@ function ClassHome(props) {
 
     <div class="profile">
       만든 이
-      <a href=""><div class="user">{classData[1].fields.user}</div></a>
+      <a href=""><div class="user"></div></a>
       <div class="small-class-name">{nowClass}</div>
     </div>
 
